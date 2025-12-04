@@ -1,0 +1,20 @@
+:root {
+    --sf-font-family: Arial, sans-serif;
+
+    /* spacing scale */
+    --sf-space-xs: 4px;
+    --sf-space-sm: 8px;
+    --sf-space-md: 16px;
+    --sf-space-lg: 24px;
+
+    /* colors */
+    --sf-color-text: #222;
+    --sf-color-muted: #555;
+    --sf-color-border: #ddd;
+    --sf-color-bg: #fff;
+    --sf-color-primary: #0793d1;
+
+    /* shadows */
+    --sf-shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+    --sf-shadow-hover: 0 2px 6px rgba(0,0,0,0.12);
+}
