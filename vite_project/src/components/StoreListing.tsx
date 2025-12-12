@@ -39,8 +39,6 @@ export const StoreFinder = () => {
     const [currentCenter, setCurrentCenter] = useState<Center>(center);
 
     const handleSearch = async (postcode: string, distanceMiles: number) => {
-        console.log("Searching...", postcode, distanceMiles);
-
         const userLocation = await mapSearch.geocodePostcode(postcode);
 
         if (!userLocation) {
@@ -63,7 +61,6 @@ export const StoreFinder = () => {
             .filter(store => store.distanceKm <= maxDistanceKm)
             .sort((a, b) => a.distanceKm - b.distanceKm);
 
-        console.log("filteredStores...", filteredStores);
         setListedStores(filteredStores)
         setCurrentCenter(userLocation)
     }
