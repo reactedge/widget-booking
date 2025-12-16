@@ -5,7 +5,7 @@ export interface Store {
     hours: string
 }
 
-export type StoreWithDistance = Store & { distanceKm: number };
+export type StoreWithDistance = Store & { distanceKm: number | null };
 
 export interface Center {
     lat: number,

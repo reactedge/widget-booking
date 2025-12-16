@@ -1,14 +1,13 @@
 import { useState } from "react";
-import {DISTANCE_OPTIONS} from "../Types.ts";
+import { DISTANCE_OPTIONS } from "../../domain/store.types";
 
 interface SearchFormProps {
-    onSearch: (postcode: string, distanceMiles: number) => void;
+    readonly onSearch: (postcode: string, distanceMiles: number) => void;
 }
 
 export function StoreSearchForm({ onSearch }: SearchFormProps) {
     const [postcode, setPostcode] = useState("");
     const [distance, setDistance] = useState(DISTANCE_OPTIONS[0].miles);
-
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -17,37 +16,20 @@ export function StoreSearchForm({ onSearch }: SearchFormProps) {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            style={{
-                display: "flex",
-                gap: "10px",
-                marginBottom: "20px",
-                alignItems: "center"
-            }}
-        >
-            {/* Postcode input */}
+        <form className="storeSearchForm" onSubmit={handleSubmit}>
             <input
                 type="text"
                 placeholder="Enter postcode"
                 value={postcode}
                 onChange={(e) => setPostcode(e.target.value)}
                 required
-                style={{
-                    padding: "8px",
-                    fontSize: "14px",
-                    width: "140px"
-                }}
+                className="storeSearchForm__input"
             />
 
-            {/* Distance select */}
             <select
                 value={distance}
                 onChange={(e) => setDistance(Number(e.target.value))}
-                style={{
-                    padding: "8px",
-                    fontSize: "14px"
-                }}
+                className="storeSearchForm__select"
             >
                 {DISTANCE_OPTIONS.map(option => (
                     <option key={option.miles} value={option.miles}>
@@ -56,15 +38,7 @@ export function StoreSearchForm({ onSearch }: SearchFormProps) {
                 ))}
             </select>
 
-            {/* Submit button */}
-            <button
-                type="submit"
-                style={{
-                    padding: "8px 14px",
-                    fontSize: "14px",
-                    cursor: "pointer"
-                }}
-            >
+            <button type="submit" className="storeSearchForm__button">
                 Search
             </button>
         </form>

@@ -1,47 +1,48 @@
-import type { Store } from "../Types";
+import type {StoreWithDistance} from "../../domain/store.types.ts";
 
-interface Props {
-    stores: (Store & { distanceKm?: number })[];
+interface StoreResultsTableProps {
+    readonly stores: readonly StoreWithDistance[];
 }
 
-export const StoreResultsTable: React.FC<Props> = ({ stores }) => {
+export function StoreResultsTable({ stores }: StoreResultsTableProps) {
     if (stores.length === 0) {
-        return <p>No stores found within the selected distance.</p>;
+        return (
+            <p className="storeTable__empty">
+                No stores found within the selected distance.
+            </p>
+        );
     }
 
     return (
-        <div style={{ marginTop: "20px" }}>
-            <h3>Stores Found ({stores.length})</h3>
+        <div className="storeTable">
+            <h3 className="storeTable__title">
+                Stores Found ({stores.length})
+            </h3>
 
-            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
+            <table className="storeTable__table">
                 <thead>
-                <tr style={{background: "#f4f4f4"}}>
-                    <th style={thStyle}>Name</th>
-                    <th style={thStyle}>Opening Hours</th>
-                    <th style={thStyle}>Distance</th>
+                <tr className="storeTable__headRow">
+                    <th className="storeTable__th">Name</th>
+                    <th className="storeTable__th">Opening Hours</th>
+                    <th className="storeTable__th">Distance</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                {stores.map((store, index) => (
-                    <tr key={index} style={{borderBottom: "1px solid #ddd"}}>
-                        <td style={tdStyle}>{store.name}</td>
-                        <td style={tdStyle}>{store.hours}</td>
-                        <td style={tdStyle}>{store.distanceKm?.toFixed(1)} km</td>
+                {stores.map(store => (
+                    <tr
+                        key={`${store.lat},${store.lng}`}
+                        className="storeTable__row"
+                    >
+                        <td className="storeTable__td">{store.name}</td>
+                        <td className="storeTable__td">{store.hours}</td>
+                        <td className="storeTable__td">
+                            {store.distanceKm?.toFixed(1)} km
+                        </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
         </div>
     );
-};
-
-const thStyle = {
-    padding: "10px",
-    textAlign: "left" as const,
-    borderBottom: "2px solid #ccc"
-};
-
-const tdStyle = {
-    padding: "10px"
-};
+}

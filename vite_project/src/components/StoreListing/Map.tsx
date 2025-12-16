@@ -1,42 +1,40 @@
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import React, {useState} from "react";
-import type {Center, Store} from "../Types.ts";
-
-const containerStyle = {
-    width: '100%',
-    height: '400px'
-};
+import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
+import { useState } from "react";
+import type {Center, Store} from "../../domain/store.types.ts";
 
 interface StoreMapProps {
-    stores: Store[]
-    currentCenter: Center
+    readonly stores: readonly Store[];
+    readonly currentCenter: Center;
 }
 
-export const StoreMap: React.FC<StoreMapProps> = ({stores, currentCenter}: StoreMapProps) => {
+export function StoreMap({ stores, currentCenter }: StoreMapProps) {
     const [selected, setSelected] = useState<Store | null>(null);
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
     return (
         <LoadScript googleMapsApiKey={apiKey}>
-            <div style={mapWrapperStyle}>
-                <div style={titleStyle}>
+            <div className="storeMap">
+                <div className="storeMap__title">
                     {stores.length} store{stores.length !== 1 ? "s" : ""} found
                 </div>
-                <GoogleMap key={stores.length}
-                           mapContainerStyle={containerStyle}
-                           center={currentCenter}
-                           zoom={6}>
-                    {stores.map((store, index) => (
+
+                <GoogleMap
+                    key={stores.length}
+                    mapContainerStyle={{ width: "100%", height: "400px" }}
+                    center={currentCenter}
+                    zoom={6}
+                >
+                    {stores.map(store => (
                         <Marker
-                            key={index}
-                            position={{lat: store.lat, lng: store.lng}}
+                            key={`${store.lat},${store.lng}`}
+                            position={{ lat: store.lat, lng: store.lng }}
                             onClick={() => setSelected(store)}
                         />
                     ))}
 
                     {selected && (
                         <InfoWindow
-                            position={{lat: selected.lat, lng: selected.lng}}
+                            position={{ lat: selected.lat, lng: selected.lng }}
                             onCloseClick={() => setSelected(null)}
                         >
                             <div>
@@ -48,23 +46,5 @@ export const StoreMap: React.FC<StoreMapProps> = ({stores, currentCenter}: Store
                 </GoogleMap>
             </div>
         </LoadScript>
-)};
-
-const mapWrapperStyle: React.CSSProperties = {
-    position: "relative"
-};
-
-const titleStyle: React.CSSProperties = {
-    position: "absolute",
-    top: "100px",
-    left: "12px",
-    background: "white",
-    padding: "6px 12px",
-    borderRadius: "2px",
-    fontSize: "13px",
-    fontWeight: 600,
-    color: "var(--sf-color-text)",
-    boxShadow: "var(--sf-shadow-card)",
-    zIndex: 5,
-    pointerEvents: "none"
-};
+    );
+}

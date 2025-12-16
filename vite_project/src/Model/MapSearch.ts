@@ -1,4 +1,4 @@
-import type {Store} from "../components/Types.ts";
+import type {Store} from "../domain/store.types.ts";
 
 export class MapSearch {
     async geocodePostcode(postcode: string): Promise<{ lat: number; lng: number } | null> {
