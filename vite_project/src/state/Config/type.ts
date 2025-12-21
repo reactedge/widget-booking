@@ -1,13 +1,15 @@
-import type {EventHostIds, EventTypeGroup, Venue} from "../../types/domain/types.ts";
+import type {EventTypeGroup, Venue} from "../../types/domain/types.ts";
+import type {EventHost} from "../../types/domain/event.type.ts";
 
 export interface ConfigInfoState {
     venue: Venue | undefined;
-    eventHosts: EventHostIds;
+    eventHosts: EventHost[];
     eventTypeGroups: EventTypeGroup[];
 }
 
 export interface ConfigState {
     config: ConfigInfoState;
     setVenue: (value: Venue) => void;
-    setEventHosts: (value: EventHostIds) => void;
+    setEventHosts: (value: EventHost[]) => void;
+    getEventHostIds: () => string[];
 }

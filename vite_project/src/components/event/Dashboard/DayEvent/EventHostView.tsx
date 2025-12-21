@@ -11,8 +11,6 @@ interface ListingProps {
 export const EventHostView: React.FC<ListingProps> = ({ eventGroup }) => {
     const {config} = useConfigState();
 
-    console.log('config', config)
-
     const getKey = (startTime: string, eventHost: string) => {
         const date = new Date(startTime).getTime();
         return `${date}-${eventHost}`;

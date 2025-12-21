@@ -13,7 +13,7 @@ export function BookingSystemWidget() {
     const venueId = venue?.id;
 
     const {
-        eventHostIds,
+        eventHosts,
         hostsError,
     } = useEventHosts(venueId);
 
@@ -26,13 +26,13 @@ export function BookingSystemWidget() {
         return <ErrorState />;
     }
 
-    if (!venue || !eventHostIds || !groups) {
+    if (!venue || !eventHosts || !groups) {
         return <Spinner />;
     }
 
     const config: ConfigInfoState = {
         venue,
-        eventHosts: eventHostIds,
+        eventHosts,
         eventTypeGroups: groups,
     };
 

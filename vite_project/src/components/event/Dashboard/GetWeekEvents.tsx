@@ -5,15 +5,19 @@ import {useEvents} from "../../../hooks/domain/useEvents.ts";
 import {NoEvent} from "./NoEvent.tsx";
 import {WeekEvents} from "./WeekEvents.tsx";
 import {useConfigState} from "../../../state/Config/useConfigState.ts";
+import {useMemo} from "react";
 
 export function GetWeekEvents() {
     const { visitIntent } = useVisitIntentState();
-    const { config } = useConfigState();
+    const { config, getEventHostIds } = useConfigState();
 
     const ready =
         visitIntent.eventTypeId !== null &&
         visitIntent.weekIntent !== null;
-    //const hostsIds = config.eventHosts.map(host => host.id)
+    const hostsIds = useMemo(
+        () => getEventHostIds(),
+        [getEventHostIds]
+    );
 
     const {
         events,
@@ -24,8 +28,8 @@ export function GetWeekEvents() {
             ? {
                 eventTypeId: visitIntent.eventTypeId,
                 weekStart: visitIntent.weekIntent,
-                venue: config.venue.id,
-                eventHostIds: config.eventHosts,
+                venue: config?.venue?.id,
+                eventHostIds: hostsIds,
             }
             : undefined
     );
