@@ -1,7 +1,7 @@
 import {type ReactNode, useCallback, useEffect, useRef} from "react";
 import { useImmer } from "use-immer";
 import type {EventTypeGroup} from "../../types/domain/types.ts";
-import {LocalVisitIntentStateContext, readUserIntent} from "./VisitIntentState.tsx";
+import {LocalVisitIntentStateContext, readVisitIntent} from "./VisitIntentState.tsx";
 import type {VisitIntentInfoState} from "./type.ts";
 
 const LocalStateProvider = LocalVisitIntentStateContext.Provider;
@@ -13,7 +13,7 @@ interface VisitIntentStateProviderProps {
 
 export const VisitIntentStateProvider: React.FC<VisitIntentStateProviderProps> = ({ children, eventTypeGroups }) => {
     const [state, setState] = useImmer<{ visitIntent: VisitIntentInfoState }>({
-        visitIntent: readUserIntent(),
+        visitIntent: readVisitIntent(),
     });
 
     const initialized = useRef(false);

@@ -1,7 +1,7 @@
 import type {EventHostIds, EventTypeGroup, Venue} from "../../types/domain/types.ts";
 
 export interface ConfigInfoState {
-    venue: Venue;
+    venue: Venue | undefined;
     eventHosts: EventHostIds;
     eventTypeGroups: EventTypeGroup[];
 }

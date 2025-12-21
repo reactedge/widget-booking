@@ -1,10 +1,17 @@
 // domain/types/Event.ts
+
+import type {EventType} from "./types.ts";
+import type {OrderItemEventRef} from "../keystone/types.ts";
+
 export interface IntentEvent {
     id: string;
     day: string;
     start: string;   // ISO
     end: string;     // ISO
-    label: string;
+    status: EventStatus
+    venueName: string
+    host: Pick<EventHost, 'id' | 'name'>
+    orderItem: OrderItemEventRef
 }
 
 export type ISODateString = string;
@@ -31,9 +38,26 @@ export type KeystoneEventFilter = {
     };
 };
 
-export type EventStatus = "ACTIVE" | "CANCELLED" | "DRAFT";
+//export type EventStatus = "ACTIVE" | "CANCELLED" | "DRAFT" ;
+export type EventStatus = 'open' | 'pastevent' | 'walkin' | 'wasordered' | (string & {})
+
+export const WALKIN = 'walkin'
+
+export const BUSY = 'unavailable'
 
 export const AVAILABLE = 'open'
+
+export const PAST_EVENT = 'pastevent'
+export const WALKIN_EVENT = 'walkin'
+
+export const UNAVAILABLE_EVENT= 'unavailable'
+
+export const BOOKED_EVENT = 'incart'
+
+export const PREFERENCE_RESET = 'reset'
+
+export const PURCHASED_EVENT = 'wasordered'
+
 
 export interface EventHostIndex {
     id: string;          // eventHost id
@@ -49,3 +73,15 @@ export type EventFilterKey =
     | "eventHost";
 
 export type EventFilterState = Partial<Record<EventFilterKey, unknown>>;
+
+export interface EventHost {
+    id: string
+    name: string
+    eventTypes?: EventType[]
+}
+
+export interface EventsQueryKey {
+    venueId: string;
+    weekStart: string;
+    hostIds: string[];
+}

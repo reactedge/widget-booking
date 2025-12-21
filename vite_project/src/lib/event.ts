@@ -5,11 +5,12 @@ export function mapKeystoneEvent(event: KeystoneEvent): IntentEvent {
     return {
         id: event.id,
         day: event.day,
-        startTime: event.startTime,
-        endTime: event.endTime,
+        start: event.startTime,
+        end: event.endTime,
         status: event.status as EventStatus,
         venueName: event.venue.name,
-        hostName: event.eventHost.name,
-        eventTypeId: event.orderItem.event.id,
+        host: event.eventHost,
+        orderItem: event.orderItem
+        //eventTypeId: event.orderItem.event.id,
     };
 }

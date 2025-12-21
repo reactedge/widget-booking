@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import type {KeystoneVenue} from "../../types/keystone/types.ts";
+import {getError} from "../../lib/error.ts";
 
 const QUERY = `
   query Venues($where: VenueWhereInput!) {
@@ -35,8 +36,8 @@ export function useKeystoneVenue(venueCode: string) {
             }
 
             setData(result.venues[0]);
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            setError(getError(err));
         } finally {
             setLoading(false);
         }

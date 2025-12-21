@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import type {KeystoneEventType} from "../../types/keystone/types.ts";
+import {getError} from "../../lib/error.ts";
 
 const QUERY = `
   query EventType($where: EventTypeWhereUniqueInput!) {
@@ -29,8 +30,8 @@ export function useKeystoneEventType(eventTypeId?: string) {
             }>(QUERY, { where: { id: eventTypeId } });
 
             setData(result.eventType);
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            setError(getError(err));
         } finally {
             setLoading(false);
         }

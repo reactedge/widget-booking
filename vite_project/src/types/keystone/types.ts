@@ -33,10 +33,12 @@ export interface KeystoneEvent {
         id: string;
         name: string;
     };
-    orderItem: {
-        event: {
-            id: string;
-        };
+    orderItem: OrderItemEventRef;
+}
+
+export interface OrderItemEventRef {
+    event: {
+        id: string;
     };
 }
 
@@ -47,4 +49,29 @@ export interface KeystoneVenue{
 
 export interface VenueEventTypeGroupsQueryResult {
     venueEventTypeGroups: KeystoneEventTypeGroup[];
+}
+
+export interface KeystoneUser {
+    id: string
+    email: string
+    name: string
+    eventType?: KeystoneEventType
+    eventHost?: Pick<KeystoneEventHost, 'id'>
+    weekPreference: string
+    cartItems: KeystoneCartItem[]
+    eventTypeGroup: KeystoneEventTypeGroup
+    role: {
+        isEventHost: boolean
+    }
+}
+
+export interface KeystoneCartItem {
+    id: string
+    quantity: number
+    price: number
+    eventType: {
+        name: string
+    }
+    shampoo: boolean
+    event: KeystoneEvent
 }

@@ -1,7 +1,7 @@
 import {createContext} from "react";
 import type {VisitIntentInfoState, VisitIntentState} from "./type.ts";
 
-export const readUserIntent = (): VisitIntentInfoState => {
+export const readVisitIntent = (): VisitIntentInfoState => {
     if (typeof window === "undefined") {
         return { weekIntent: "", eventTypeId: "", eventTypeGroupId: "" };
     }

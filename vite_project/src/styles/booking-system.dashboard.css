@@ -33,3 +33,10 @@
         display: none;
     }
 }
+
+.week-event-list {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 days */
+    gap: 16px;
+    padding: 16px;
+}

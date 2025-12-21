@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import type {KeystoneEventTypeGroup} from "../../types/keystone/types.ts";
+import {getError} from "../../lib/error.ts";
 
 const QUERY = `
   query VenueEventTypeGroups($venueId: ID!) {
@@ -29,8 +30,8 @@ export function useKeystoneEventTypeGroups(venueId?: string) {
             }>(QUERY, { venueId });
 
             setData(result.venueEventTypeGroups);
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            setError(getError(err));
         } finally {
             setLoading(false);
         }

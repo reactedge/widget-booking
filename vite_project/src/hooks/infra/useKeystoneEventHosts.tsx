@@ -2,44 +2,58 @@
 import { useEffect, useState } from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import type {KeystoneEventHost} from "../../types/keystone/types.ts";
+import {getError} from "../../lib/error.ts";
 
 const QUERY = `
-    query EventHosts {
-      eventHosts {
-        id
-        name
-        eventTypes {
+    query Query($where: EventHostWhereInput!) {
+        eventHosts(where: $where) {
             id
+            name
+            eventTypes {
+                id
+            }
         }
-      }
-    }
+    }   
 `;
 
-export function useKeystoneEventHosts() {
+export function useKeystoneEventHosts(venueId?: string) {
     const [data, setData] = useState<KeystoneEventHost[]>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
-    const load = async () => {
+    const load = async (venueId?: string) => {
+        if (!venueId) {
+            setData(undefined);
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
         try {
             const result = await graphqlRequest<{
                 eventHosts: KeystoneEventHost[];
-            }>(QUERY, {});
+            }>(
+                QUERY,
+                { where: { venue: { id: { equals: venueId } } } }
+            );
 
             setData(result.eventHosts);
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            setError(getError(err));
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        load();
-    }, []);
+        load(venueId);
+    }, [venueId]);
 
-    return { keystoneEventHosts: data, loading, error, refetch: load };
+    return {
+        keystoneEventHosts: data,
+        loading,
+        error,
+        refetch: load,
+    };
 }

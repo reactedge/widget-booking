@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import {BookingSystemWidget} from "./BookingSystemWidget.tsx";
 import {injectStyles} from "./lib/style.ts";
-import {bookingSystemStyles} from "./components/styles/booking-system.styles.ts";
+import {bookingSystemStyles} from "./styles/booking-system.styles.ts";
 
 export function mountWidget(hostElement: HTMLElement) {
     // Create shadow DOM

@@ -13,6 +13,7 @@ export function GetWeekEvents() {
     const ready =
         visitIntent.eventTypeId !== null &&
         visitIntent.weekIntent !== null;
+    //const hostsIds = config.eventHosts.map(host => host.id)
 
     const {
         events,

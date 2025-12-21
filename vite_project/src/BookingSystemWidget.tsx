@@ -10,9 +10,12 @@ import type {ConfigInfoState} from "./state/Config/type.ts";
 
 export function BookingSystemWidget() {
     const { venue, venueError: venueError } = useVenue();
-    const { eventHostIds, hostsError: hostsError } = useEventHosts();
-
     const venueId = venue?.id;
+
+    const {
+        eventHostIds,
+        hostsError,
+    } = useEventHosts(venueId);
 
     const {
         groups,
