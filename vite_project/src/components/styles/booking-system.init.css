@@ -1,0 +1,49 @@
+.booking-init {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.booking-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.booking-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.booking-label {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.booking-options {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.booking-option {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+}
+
+.booking-option.is-active {
+    border-color: #333;
+    background: #f5f5f5;
+}
+
+.booking-option-label {
+    font-weight: 500;
+}
+
+.booking-option-desc {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+}

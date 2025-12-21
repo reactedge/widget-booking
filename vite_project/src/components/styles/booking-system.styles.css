@@ -1,0 +1,7 @@
+import tokens from "./widget-tokens.css?inline"
+import init from "./booking-system.init.css?inline"
+
+export const bookingSystemStyles = [
+    tokens,   // MUST be first
+    init
+];

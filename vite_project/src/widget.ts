@@ -1,10 +1,10 @@
 import { mountWidget } from "./mountWidget";
 
-class StoreFinderWidget extends HTMLElement {
+class BookingSystemWidget extends HTMLElement {
     connectedCallback() {
         console.log('mounted')
         mountWidget(this);
     }
 }
 
-customElements.define("storefinder-widget", StoreFinderWidget);
+customElements.define("bookingsystem-widget", BookingSystemWidget);

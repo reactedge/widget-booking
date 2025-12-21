@@ -11,14 +11,14 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: "src/widget.ts",
-      name: "WidgetStoreFinder",
-      fileName: "widget-store-finder",
+      name: "WidgetBookingSystem",
+      fileName: "widget-booking-sytem",
       formats: ["iife"],
     },
     rollupOptions: {
       output: {
         inlineDynamicImports: true,
-        assetFileNames: "widget-store-finder.[ext]",
+        assetFileNames: "widget-booking-sytem.[ext]",
       },
     }
   }

@@ -1,10 +1,10 @@
 services:
   nginx:
     image: nginx:1.27-alpine
-    container_name: nginx_storefinder_widget
+    container_name: nginx_bookingsystem_widget
     ports:
-      - "8083:80"
-      - "8445:443"
+      - "8088:80"
+      - "8449:443"
     volumes:
       - ./docker/nginx_vite/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./docker/nginx_vite/ssl:/etc/nginx/ssl:ro

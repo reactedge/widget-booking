@@ -1,0 +1,58 @@
+// infra/keystone/useKeystoneEventTypeGroups.ts
+import { useEffect, useState } from "react";
+import {graphqlRequest} from "../../lib/graphql.ts";
+import type {KeystoneEvent} from "../../types/keystone/types.ts";
+import type {EventFilterState} from "../../types/domain/event.type.ts";
+
+const QUERY = `
+  query Events($orderBy: [EventOrderByInput!]!, $where: EventWhereInput!, $skip: Int = 0, $take: Int) {
+      events(orderBy: $orderBy, where: $where, skip: $skip, take: $take) {
+        id      
+        startTime
+        venue {
+          name
+        }
+        status
+        endTime       
+        eventHost {
+          id
+          name
+        }
+        day
+        orderItem {
+          event {
+            id
+          }
+        }
+      }
+    }
+`;
+
+export function useKeystoneEvents(filter: EventFilterState) {
+    const [data, setData] = useState<KeystoneEvent[]>();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<Error | null>(null);
+
+    const load = async (filter: EventFilterState) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const result = await graphqlRequest<{
+                events: KeystoneEvent[];
+            }>(QUERY, { where: filter, orderBy: [{ startTime: "asc" }] });
+
+            setData(result.events);
+        } catch (err: any) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        load(filter);
+    }, [filter]);
+
+    return { keystoneEvents: data, loading, error, refetch: load };
+}

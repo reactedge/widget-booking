@@ -1,18 +1,18 @@
 import { createRoot } from "react-dom/client";
-import StoreFinderWidget from "./StoreFinderWidget.tsx";
-import { storeFinderStyles } from "./components/styles/store-finder.styles";
+import {BookingSystemWidget} from "./BookingSystemWidget.tsx";
 import {injectStyles} from "./lib/style.ts";
+import {bookingSystemStyles} from "./components/styles/booking-system.styles.ts";
 
 export function mountWidget(hostElement: HTMLElement) {
     // Create shadow DOM
     const shadow =
         hostElement.shadowRoot || hostElement.attachShadow({ mode: "open" });
 
-    for (const css of storeFinderStyles) {
+    for (const css of bookingSystemStyles) {
         injectStyles(shadow, css);
     }
 
     // Create React root inside shadow
     const root = createRoot(shadow);
-    root.render(<StoreFinderWidget />);
+    root.render(<BookingSystemWidget />);
 }

@@ -1,0 +1,36 @@
+.booking-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.booking-filter-label {
+    font-weight: 600;
+}
+
+.booking-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.booking-option {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+.booking-option.is-active {
+    border-color: #c00;
+    background: #fff;
+}
+
+.booking-summary {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.booking-reset {
+    margin-top: 0.5rem;
+}
