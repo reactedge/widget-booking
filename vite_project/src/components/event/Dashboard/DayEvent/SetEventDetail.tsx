@@ -2,8 +2,8 @@ import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {useEventState} from "../../../../state/Event/useEventState.ts";
 import {AVAILABLE, IN_CART_EVENT, PAST_EVENT, PURCHASED_EVENT} from "../../../../types/domain/event.type.ts";
 import {getTime} from "../../../../lib/date.ts";
-import {groupEventStatus} from "../../../../lib/group-event.ts";
 import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
+import {groupEventStatus} from "../../../../domain/event/getGroupEventStatus.ts";
 
 interface EventProps {
     eventGroup: DayGroupEvent;

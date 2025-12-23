@@ -2,8 +2,8 @@ import {WeekPreference} from "./WeekPreference.tsx";
 import {EventTypeGroupPreference} from "./EventTypeGroupPreference.tsx";
 import {EventTypePreference} from "./EventTypePreference.tsx";
 import {useVisitIntentState} from "../state/Intent/useVisitIntentState.ts";
-import {getVisitIntentStep} from "../lib/visit-intent.ts";
 import {useConfigState} from "../state/Config/useConfigState.ts";
+import {getVisitIntentStep} from "../domain/intent/getVisitIntentStep.ts";
 
 export function InitFilter() {
     const { config } = useConfigState();

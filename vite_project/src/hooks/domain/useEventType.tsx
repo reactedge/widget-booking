@@ -13,7 +13,8 @@ export function useEventType(eventTypeId: string) {
         ? {
             id: keystoneEventType.id,
             label: keystoneEventType.name,
-            description: keystoneEventType.description || ''
+            description: keystoneEventType.description || '',
+            duration: keystoneEventType.duration
         }
         : undefined;
 

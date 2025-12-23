@@ -3,6 +3,7 @@ export interface KeystoneEventType {
     id: string;
     name: string;
     description?: string | null;
+    duration: number
 }
 
 // keystoneEventTypeGroup.types.ts

@@ -12,7 +12,8 @@ export function useEventTypes(groupId: string) {
     const eventTypes = keystoneEventTypes? keystoneEventTypes.map((eventType) => ({
         id: eventType.id,
         label: eventType.name,
-        description: eventType?.description || ''
+        description: eventType?.description || '',
+        duration: eventType.duration
     })): undefined;
 
     return {

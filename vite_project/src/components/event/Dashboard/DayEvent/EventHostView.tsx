@@ -1,8 +1,8 @@
 import React from "react";
 import {useConfigState} from "../../../../state/Config/useConfigState.ts";
-import {getEventHostDetail} from "../../../../lib/event-hosts.ts";
 import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {capitalise} from "../../../../lib/string.ts";
+import {getEventHostDetail} from "../../../../domain/eventHost/eventHosts.ts";
 
 interface ListingProps {
     eventGroup: DayGroupEvent

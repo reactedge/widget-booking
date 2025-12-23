@@ -1,8 +1,8 @@
 import {type ReactNode} from "react";
 import {LocalUserStateContext} from "./UserState.tsx";
 import {useKeystoneAuthenticatedUser} from "../../hooks/infra/useKeystoneAuthenticatedUser.tsx";
-import {mapKeystoneUser} from "../../lib/user.ts";
 import type {AuthenticatedUser} from "../../types/domain/user.type.ts";
+import {mapKeystoneUser} from "../../hooks/infra/mappers/mapKeystoneUser.ts";
 
 const LocalStateProvider = LocalUserStateContext.Provider;
 

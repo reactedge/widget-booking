@@ -1,6 +1,6 @@
 // domain/mapKeystoneUser.ts
-import type {KeystoneAuthenticatedUser} from "../types/infra/keystone/types.ts";
-import type {AuthenticatedUser} from "../types/domain/user.type.ts";
+import type {KeystoneAuthenticatedUser} from "../../../types/infra/keystone";
+import type {AuthenticatedUser} from "../../../types/domain/user.type.ts";
 
 /**
  * Maps a Keystone user into the widget’s domain user.

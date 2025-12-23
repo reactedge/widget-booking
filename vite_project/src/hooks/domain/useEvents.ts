@@ -4,7 +4,7 @@ import type {IntentEvent, KeystoneEventFilter} from "../../types/domain/event.ty
 import type {FilterParams} from "../../types/domain/types.ts";
 import {useFilter} from "./useFilter.tsx";
 import {useKeystoneEvents} from "../infra/useKeystoneEvents.tsx";
-import {mapKeystoneEvent} from "../../lib/event.ts";
+import {mapKeystoneEvent} from "../infra/mappers/mapKeystoneEvent.ts";
 
 interface UseEventsResult {
     events: IntentEvent[] | undefined;

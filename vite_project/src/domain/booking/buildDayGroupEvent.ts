@@ -2,7 +2,7 @@ import type {DayGroupEvent} from "../../types/domain/dashboard.type.tsx";
 import type {IntentEvent} from "../../types/domain/event.type.ts";
 import type {AuthenticatedUser} from "../../types/domain/user.type.ts";
 import {getTime} from "../../lib/date.ts";
-import {isEventInCart} from "../../lib/cart.ts";
+import {isEventInCart} from "../cart/cart.ts";
 
 function createEmptyDayGroupEvent(startTime: string): DayGroupEvent {
     return {

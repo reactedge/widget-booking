@@ -1,5 +1,4 @@
-import type {DaySchedule} from "../types/domain/dashboard.types.tsx";
-import {getDays} from "./date.ts";
+import type {DaySchedule} from "../../types/domain/dashboard.type.tsx";
 
 export function buildWeekSchedule(
     events: Event[],

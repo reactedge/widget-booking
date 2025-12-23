@@ -5,10 +5,10 @@ import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
 import {Spinner} from "../../../global/Spinner.tsx";
 import {getGroupEvent} from "../../../../domain/booking/getGroupEvent.ts";
 import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
-import {getEventTitle} from "../../../../lib/group-event.ts";
 import {EventHostSelect} from "../DayEvent/EventHostSelect.tsx";
 import {EventEndTime} from "../DayEvent/EventEndTime.tsx";
 import {AddToCart} from "../DayEvent/AddToCart.tsx";
+import {getEventTitle} from "../../../../domain/formatters/getEventTitle.ts";
 
 interface ViewGroupEventProps {
     eventIds: string[]

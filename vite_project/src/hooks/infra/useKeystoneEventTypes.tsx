@@ -9,6 +9,8 @@ const QUERY = `
       eventTypes(where: $where, orderBy: $orderBy) {
         id
         name
+        description
+        duration
       }
     }
 `;

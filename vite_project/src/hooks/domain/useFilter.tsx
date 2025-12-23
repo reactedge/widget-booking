@@ -1,6 +1,6 @@
 import {useMemo} from "react";
-import {buildEventFilter} from "../../lib/buildEventFilter.ts";
 import type {FilterParams} from "../../types/domain/types.ts";
+import {buildEventFilter} from "../infra/filters/buildEventFilter.ts";
 
 export const useFilter = (params: FilterParams | undefined) => {
     return useMemo(() => {

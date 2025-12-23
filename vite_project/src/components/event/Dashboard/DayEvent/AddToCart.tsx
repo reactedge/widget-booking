@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {getEventCartQty} from "../../../../lib/cart.ts";
+import {getEventCartQty} from "../../../../domain/cart/cart.ts";
 import {ErrorState} from "../../../global/ErrorState.tsx";
 import {SignInOrRegister} from "../../../user-authentication/SignInOrRegister.tsx";
 import {useUserState} from "../../../../state/User/useUserState.ts";

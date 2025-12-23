@@ -1,4 +1,4 @@
-import {KeystoneCartItem} from "@/components/event/types/event";
+import type {KeystoneCartItem} from "../../types/infra/keystone";
 
 export const getEventCartQty = (cart: KeystoneCartItem[], eventIds: string[]): number => {
     const cartItem = cart?.filter((item: KeystoneCartItem) => eventIds.indexOf(item.event.id)>-1)
