@@ -1,6 +1,7 @@
 // infra/keystone/types.ts
 
 import type {ISODateString} from "../domain/event.type.ts";
+import type {EventHostRef, EventTypeGroupRef, EventTypeRef, UserCartItem, UserRole} from "../../state/User/type.ts";
 
 export interface KeystoneEventTypeGroup {
     id: string;
@@ -65,6 +66,22 @@ export interface KeystoneUser {
     }
 }
 
+export interface KeystoneAuthenticatedUser {
+    id: string;
+    email: string;
+    name: string;
+
+    eventHost?: EventHostRef | null;
+    eventType?: EventTypeRef | null;
+    eventTypeGroup?: EventTypeGroupRef | null;
+
+    weekPreference?: number | null;
+
+    cartItems: UserCartItem[];
+
+    role: UserRole;
+}
+
 export interface KeystoneCartItem {
     id: string
     quantity: number
@@ -74,4 +91,15 @@ export interface KeystoneCartItem {
     }
     shampoo: boolean
     event: KeystoneEvent
+}
+
+export interface KeystoneEventCalculationParams {
+    eventId?: string;
+    eventTypeId?: string;
+    shampoo?: 0 | 1;
+}
+
+export interface KeystoneAuthenticationParams {
+    email?: string;
+    password?: string;
 }

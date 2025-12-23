@@ -3,11 +3,13 @@ import init from "./booking-system.init.css?inline";
 import styles from "./booking-system.styles.css?inline";
 import dashboard from "./booking-system.dashboard.css?inline";
 import filter from "./booking-system.filter.css?inline";
+import drawer from "./booking-system.drawer.css?inline";
 
 export const bookingSystemStyles = [
     tokens,   // MUST be first
     init,
     styles,
     dashboard,
-    filter
+    filter,
+    drawer
 ];

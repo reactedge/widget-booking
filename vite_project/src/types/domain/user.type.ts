@@ -1,5 +1,5 @@
-export interface UserIdentity {
-    id: string
-    name: string
-    cartItems: any;
+import type {KeystoneAuthenticatedUser} from "../keystone/types.ts";
+
+export interface UserIdentity extends KeystoneAuthenticatedUser {
+
 }

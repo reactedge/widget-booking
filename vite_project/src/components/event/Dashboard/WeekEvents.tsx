@@ -6,13 +6,18 @@ import type {DayGroupEvent} from "../../../types/domain/dashboard.type.tsx";
 import {DayEventGroup} from "./DayEvent/DayEventGroup.tsx";
 import {NoDayEventList} from "./DayEvent/NoDayEventList.tsx";
 import {DayEventHandler} from "../../../models/DayEvent.ts";
+import {BookingDrawer} from "../../BookingDrawer.tsx";
+import {ViewGroupEvent} from "./WeekEvents/ViewGroupEvent.tsx";
+import {useState} from "react";
+import {useUserState} from "../../../state/User/useUserState.ts";
 
 interface WeekEventProps {
     events: IntentEvent[]
 }
 
 export function WeekEvents({events}: WeekEventProps) {
-    const {user} = useUser()
+    const {user} = useUserState()
+    const [viewedEventIds, setViewedEventIds] = useState<string[] | null>(null);
 
     return (
         <div className="week-event-list">
@@ -36,6 +41,7 @@ export function WeekEvents({events}: WeekEventProps) {
                                         <DayEventGroup
                                             key={index}
                                             eventGroup={eventGroup}
+                                            onView={(eventIds) => setViewedEventIds(eventIds)}
                                         />
                                     )
                                 )}
@@ -48,6 +54,14 @@ export function WeekEvents({events}: WeekEventProps) {
                     </div>
                 );
             })}
+            <BookingDrawer
+                open={!!viewedEventIds}
+                onClose={() => setViewedEventIds(null)}
+            >
+                {viewedEventIds && (
+                    <ViewGroupEvent eventIds={viewedEventIds} />
+                )}
+            </BookingDrawer>
         </div>
     );
 }

@@ -6,10 +6,11 @@ import {EventHostView} from "./EventHostView.tsx";
 import {SetEventDetail} from "./SetEventDetail.tsx";
 
 interface ListingProps {
-    eventGroup: DayGroupEvent
+    eventGroup: DayGroupEvent;
+    onView: (eventIds: string[]) => void;
 }
 
-export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup }) => {
+export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) => {
     return (
         <EventStateProvider eventGroup={eventGroup}>
             <div
@@ -25,7 +26,7 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup }) => {
                 </div>
 
                 <div className="day-event-group-details">
-                    <SetEventDetail eventGroup={eventGroup} />
+                    <SetEventDetail eventGroup={eventGroup} onView={onView}/>
                 </div>
             </div>
         </EventStateProvider>

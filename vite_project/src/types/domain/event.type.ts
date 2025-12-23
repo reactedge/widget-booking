@@ -52,7 +52,7 @@ export const WALKIN_EVENT = 'walkin'
 
 export const UNAVAILABLE_EVENT= 'unavailable'
 
-export const BOOKED_EVENT = 'incart'
+export const IN_CART_EVENT = 'incart'
 
 export const PREFERENCE_RESET = 'reset'
 

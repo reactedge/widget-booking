@@ -1,21 +1,23 @@
-import {DayGroupEvent, EventType, KeystoneEvent} from "@/components/event/types/event";
-import {getTime} from "@/lib/date";
-import {UserPreferenceInfoState} from "@/state/UserPreference";
+import type {IntentEvent} from "../types/domain/event.type.ts";
+import type {DayGroupEvent} from "../types/domain/dashboard.type.tsx";
+import type {VisitIntentInfoState} from "../state/Intent/type.ts";
+import type {EventType} from "../types/domain/types.ts";
+import {getTime} from "../lib/date.ts";
 
 export class GroupEventHandler {
     private groupEvent: DayGroupEvent
 
-    private userPreference: UserPreferenceInfoState | undefined
+    private visitIntent: VisitIntentInfoState | undefined
 
     private eventType: EventType
 
-    constructor(userPreference: UserPreferenceInfoState | undefined, eventType: EventType) {
-        this.userPreference = userPreference
+    constructor(visitIntent: VisitIntentInfoState | undefined, eventType: EventType) {
+        this.visitIntent = visitIntent
         this.eventType = eventType
         this.groupEvent = {
             name: '',
             day: '',
-            venue: { name: ''},
+            venueName: '',
             status: '',
             startTime: '',
             eventHosts: [],
@@ -25,7 +27,7 @@ export class GroupEventHandler {
         }
     }
 
-    getGroupEvent = (events: KeystoneEvent[]) => {
+    getGroupEvent = (events: IntentEvent[]) => {
         for (let i=0;i<events?.length;i++) {
             this.addEvent(events[i])
         }
@@ -33,21 +35,21 @@ export class GroupEventHandler {
         return this.groupEvent
     }
 
-    addEvent = (event: KeystoneEvent) => {
-        if (this.userPreference === undefined) {
+    addEvent = (event: IntentEvent) => {
+        if (this.visitIntent === undefined) {
             console.warn('The user is not defined in class GroupEventHandler')
             return
         }
 
         this.groupEvent.day = event.day
-        this.groupEvent.name = `${event.day} ${getTime(event.startTime)}`
-        this.groupEvent.venue = event.venue
-        this.groupEvent.startTime = event.startTime
+        this.groupEvent.name = `${event.day} ${getTime(event.start)}`
+        this.groupEvent.venueName = event.venueName
+        this.groupEvent.startTime = event.start
 
-        this.groupEvent.eventType = this.eventType?.name
+        this.groupEvent.eventType = this.eventType?.label
 
         this.groupEvent.eventHosts.push({
-            eventHostId: event.eventHost.id,
+            eventHostId: event.host.id,
             eventId: event.id
         })
     }

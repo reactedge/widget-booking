@@ -7,6 +7,7 @@ import {useVenue} from "./hooks/domain/useVenue.tsx";
 import {useEventHosts} from "./hooks/domain/useEventHosts.tsx";
 import {ConfigStateProvider} from "./state/Config/ConfigStateProvider.tsx";
 import type {ConfigInfoState} from "./state/Config/type.ts";
+import {UserStateProvider} from "./state/User/UserStateProvider.tsx";
 
 export function BookingSystemWidget() {
     const { venue, venueError: venueError } = useVenue();
@@ -39,7 +40,9 @@ export function BookingSystemWidget() {
     return (
         <ConfigStateProvider config={config}>
             <VisitIntentStateProvider eventTypeGroups={config.eventTypeGroups}>
-                <BookingSystem />
+                <UserStateProvider>
+                    <BookingSystem />
+                </UserStateProvider>
             </VisitIntentStateProvider>
         </ConfigStateProvider>
     );

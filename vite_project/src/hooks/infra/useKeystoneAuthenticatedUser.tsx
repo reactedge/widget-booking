@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import type {KeystoneUser} from "../../types/keystone/types.ts";
+import type {KeystoneAuthenticatedUser} from "../../types/keystone/types.ts";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import {getError} from "../../lib/error.ts";
 
@@ -49,8 +49,8 @@ const QUERY = `
   }
 `;
 
-export function useKeystoneUser() {
-    const [data, setData] = useState<KeystoneUser>();
+export function useKeystoneAuthenticatedUser() {
+    const [data, setData] = useState<KeystoneAuthenticatedUser>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
@@ -60,7 +60,7 @@ export function useKeystoneUser() {
 
         try {
             const result = await graphqlRequest<{
-                authenticatedItem: KeystoneUser;
+                authenticatedItem: KeystoneAuthenticatedUser;
             }>(QUERY);
 
             setData(result.authenticatedItem);

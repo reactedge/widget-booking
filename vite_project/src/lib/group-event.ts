@@ -3,12 +3,13 @@ import {getDate, getTime} from "./date.ts";
 import type {DayGroupEvent} from "../types/domain/dashboard.type.tsx";
 import {
     AVAILABLE,
-    BOOKED_EVENT,
+    IN_CART_EVENT,
     type EventStatus,
     PAST_EVENT,
     PURCHASED_EVENT,
-    WALKIN
+    WALKIN, type IntentEvent
 } from "../types/domain/event.type.ts";
+import type {KeystoneEvent} from "../types/keystone/types.ts";
 
 export const getEventTitle = (event: DayGroupEvent) => {
     return `${capitalise(event.day)} ${getDate(event.startTime)} for ${capitalise(event.eventType)} at ${getTime(event.startTime)}`
@@ -26,7 +27,7 @@ export const groupEventStatus = (eventGroup: DayGroupEvent): EventStatus => {
     }
 
     if (eventGroup?.cartEvent !== null) {
-        return BOOKED_EVENT
+        return IN_CART_EVENT
     }
 
     if (eventGroup?.orderedEventId !== null) {
@@ -38,4 +39,18 @@ export const groupEventStatus = (eventGroup: DayGroupEvent): EventStatus => {
     }
 
     return AVAILABLE
+}
+
+export function mapKeystoneGroupEvent(event: KeystoneEvent): IntentEvent {
+    return {
+        id: event.id,
+        day: event.day,
+        start: event.startTime,
+        end: event.endTime,
+        status: event.status as EventStatus,
+        venueName: event.venue.name,
+        host: event.eventHost,
+        orderItem: event.orderItem
+        //eventTypeId: event.orderItem.event.id,
+    };
 }

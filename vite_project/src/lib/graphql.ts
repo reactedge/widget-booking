@@ -7,6 +7,7 @@ export async function graphqlRequest<T>(
 ): Promise<T> {
     const res = await fetch(GRAPHQL_ENDPOINT, {
         method: "POST",
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json",
         },
