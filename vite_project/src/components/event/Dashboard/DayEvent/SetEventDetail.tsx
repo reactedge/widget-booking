@@ -46,9 +46,7 @@ export const SetEventDetail: React.FC<EventProps> = ({ eventGroup, onView }) => 
             {status === PURCHASED_EVENT && (
                 <>
                     <div className="event-detail-state event-detail-state--ordered">
-                        <p>Purchased!</p>
-                        <span className="event-detail-timestamp">Finishing at {getTime(eventGroup.cartEvent?.end || "")}
-                        </span>
+                        <p>Busy</p>
                     </div>
                 </>
             )}

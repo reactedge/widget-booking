@@ -1,0 +1,16 @@
+.day-event-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+}
+
+.day-event-group__time {
+    font-weight: 500;
+}
+
+.day-event-group__action button {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+}
