@@ -9,6 +9,8 @@ const QUERY = `
       eventType(where: $where) {
         id
         name
+        description
+        duration
       }
     }
 `;

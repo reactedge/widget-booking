@@ -40,3 +40,8 @@
     gap: 16px;
     padding: 16px;
 }
+
+.booking-context__value strong, .booking-context__range  {
+    font-weight: 600;
+}
+

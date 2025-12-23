@@ -88,3 +88,48 @@ export const getDate = (time: string) => {
     const date = new Date(time)
     return date.toLocaleDateString('en-GB', { year:"numeric", month:"short", day:"numeric"})
 }
+
+export function getWeekRangeLabel(
+    weekStart: string
+): string {
+    const start = new Date(weekStart);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 7 - 1);
+
+    const weekNumber = getISOWeekNumber(start);
+
+    const format = (d: Date) =>
+        d.toLocaleDateString(undefined, { day: "2-digit", month: "short" });
+
+    return `Week ${weekNumber} (${format(start)} – ${format(end)})`;
+}
+
+function getISOWeekNumber(date: Date): number {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+}
+
+export function getWeekRangeInfo(
+    weekStart: string,
+    spanInWeeks = 1
+) {
+    const start = new Date(weekStart);
+    const end = new Date(start);
+    end.setDate(start.getDate() + spanInWeeks * 7 - 1);
+
+    return {
+        weekNumber: getISOWeekNumber(start),
+        startDate: start,
+        endDate: end,
+    };
+}
+
+export function formatShortDate(d: Date) {
+    const format = (d: Date) =>
+        d.toLocaleDateString(undefined, { day: "2-digit", month: "short" });
+
+    return format(d);
+}

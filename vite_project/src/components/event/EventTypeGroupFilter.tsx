@@ -3,9 +3,9 @@ import {useVisitIntentState} from "../../state/Intent/useVisitIntentState.ts";
 
 export function EventTypeGroupFilter() {
     const { visitIntent, setEventTypeGroup } = useVisitIntentState();
-    const { groups, loading } = useEventTypeGroups();
+    const { groups, eventTypeGrouploading } = useEventTypeGroups();
 
-    if (loading) return null;
+    if (eventTypeGrouploading) return null;
 
     return (
         <div className="booking-filter booking-filter--group">
