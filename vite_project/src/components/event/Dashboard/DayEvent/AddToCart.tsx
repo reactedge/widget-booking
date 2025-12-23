@@ -59,17 +59,17 @@ export const AddToCart: React.FC = () => {
                     <p>You&apos;re in!</p>
                 </div>
             )}
-
-            <button
-                className="add-to-cart"
-                type="button"
-                disabled={!canAttemptAdd}
-                onClick={handleAdd}
+            <button className="drawer-primary"
+                    disabled={!canAttemptAdd}
+                    onClick={handleAdd}
             >
-                Book{loadingAddToCart && 'ing'} 🛒
+                Book{loadingAddToCart && 'ing'} appointment
             </button>
-
-            {!user && showAuth && <SignInOrRegister />}
+            {showAuth && !user && (
+                <div className="drawer-auth">
+                    <SignInOrRegister />
+                </div>
+            )}
         </div>
     );
 };

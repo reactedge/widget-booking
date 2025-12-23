@@ -3,11 +3,10 @@ import {useState} from "react";
 import {Spinner} from "../global/Spinner.tsx";
 import {useUserState} from "../../state/User/useUserState.ts";
 
-export const Sign: React.FC = () => {
+export const Sign: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [submitting, setSubmitting] = useState(false);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const {refreshUser} = useUserState()
 
@@ -24,10 +23,10 @@ export const Sign: React.FC = () => {
                 return;
             }
 
-            setSuccessMessage(`Welcome ${res.name}!`);
             refreshUser();
+            onSuccess?.();
         } catch {
-            setErrorMessage('Login failed');
+            setErrorMessage('Incorrect email or password');
         } finally {
             setSubmitting(false);
         }
@@ -38,10 +37,9 @@ export const Sign: React.FC = () => {
     if (loadingSignin) return <Spinner />
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Sign in</h2>
+        <form className="drawer-auth-form" onSubmit={handleSubmit}>
+            <h4>Sign in to confirm your appointment</h4>
 
-            {successMessage && <p className="form-success">{successMessage}</p>}
             {errorMessage && <p className="form-error">{errorMessage}</p>}
 
             <label>
@@ -65,7 +63,7 @@ export const Sign: React.FC = () => {
             </label>
 
             <button type="submit" disabled={submitting}>
-                {submitting ? 'Signing in…' : 'Sign in'}
+                {submitting ? 'Signing in…' : 'Sign in & continue'}
             </button>
         </form>
 

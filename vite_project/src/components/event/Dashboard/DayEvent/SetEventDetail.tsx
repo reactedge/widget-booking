@@ -1,17 +1,17 @@
 import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {useEventState} from "../../../../state/Event/useEventState.ts";
-import {AVAILABLE, IN_CART_EVENT, PAST_EVENT, PURCHASED_EVENT} from "../../../../types/domain/event.type.ts";
+import {AVAILABLE, IN_CART_EVENT} from "../../../../types/domain/event.type.ts";
 import {getTime} from "../../../../lib/date.ts";
 import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
-import {groupEventStatus} from "../../../../domain/event/getGroupEventStatus.ts";
+import {groupEventStatus, groupEventStatusLabel} from "../../../../domain/event/getGroupEventStatus.ts";
 
 interface EventProps {
     eventGroup: DayGroupEvent;
     onView: (eventIds: string[]) => void;
 }
 
-export const SetEventDetail: React.FC<EventProps> = ({ eventGroup, onView }) => {
-    const { resetActiveEvent } = useEventState();
+export const SetEventDetail: React.FC<EventProps> = ({eventGroup, onView}) => {
+    const {resetActiveEvent} = useEventState();
     const t = useVenueTranslation();
 
     const status = groupEventStatus(eventGroup);
@@ -23,10 +23,20 @@ export const SetEventDetail: React.FC<EventProps> = ({ eventGroup, onView }) => 
     };
 
     return (
-        <div className={`event-detail event-detail--${status}`}>
-            {status === PAST_EVENT && (
-                <div className="event-detail-state event-detail-state--past">
-                    <p>Done!</p>
+        <>
+            {status === AVAILABLE && (
+                <button
+                    className="event-card__action"
+                    aria-label="View details"
+                    onClick={viewDetail}
+                >
+                    👁
+                </button>
+            )}
+
+            {status !== AVAILABLE && (
+                <div className={`event-card__status event-card__status--${status}`}>
+                    {groupEventStatusLabel(eventGroup)}
                 </div>
             )}
 
@@ -42,25 +52,7 @@ export const SetEventDetail: React.FC<EventProps> = ({ eventGroup, onView }) => 
                     </div>
                 </>
             )}
-
-            {status === PURCHASED_EVENT && (
-                <>
-                    <div className="event-detail-state event-detail-state--ordered">
-                        <p>Busy</p>
-                    </div>
-                </>
-            )}
-
-            {status === AVAILABLE && (
-                <button
-                    type="button"
-                    className="event-detail-action event-detail-action--view"
-                    onClick={viewDetail}
-                >
-                    View
-                </button>
-            )}
-        </div>
+        </>
     );
 };
 

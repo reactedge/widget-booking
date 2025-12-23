@@ -5,6 +5,9 @@ import dashboard from "./booking-system.dashboard.css?inline";
 import filter from "./booking-system.filter.css?inline";
 import drawer from "./booking-system.drawer.css?inline";
 import eventgroup from "./booking-system.eventgroup.css?inline";
+import eventcard from "./booking-system.eventcard.css?inline";
+import eventstatus from "./booking-system.eventstatus.css?inline";
+import signin from "./booking-system.signin.css?inline";
 
 export const bookingSystemStyles = [
     tokens,   // MUST be first
@@ -13,5 +16,8 @@ export const bookingSystemStyles = [
     dashboard,
     filter,
     drawer,
-    eventgroup
+    eventgroup,
+    eventcard,
+    eventstatus,
+    signin
 ];

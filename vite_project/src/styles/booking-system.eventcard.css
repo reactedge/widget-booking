@@ -1,0 +1,42 @@
+.event-card {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    background: #fff;
+}
+
+.event-card {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    background: #fff;
+}
+
+.event-card {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    background: #fff;
+}
+
+.event-card__host {
+    color: #555;
+}
+
+.event-card__action {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.75;
+}
+
+.event-card__action:hover {
+    opacity: 1;
+}

@@ -8,7 +8,7 @@ import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx
 import {EventHostSelect} from "../DayEvent/EventHostSelect.tsx";
 import {EventEndTime} from "../DayEvent/EventEndTime.tsx";
 import {AddToCart} from "../DayEvent/AddToCart.tsx";
-import {getEventTitle} from "../../../../domain/formatters/getEventTitle.ts";
+import {getEventDateTime, getEventType} from "../../../../domain/formatters/getEventType.ts";
 
 interface ViewGroupEventProps {
     eventIds: string[]
@@ -26,37 +26,19 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
 
     return (
         <EventStateProvider eventGroup={groupEvent}>
-            <div className="view-group-event">
-                <h5 className="view-group-event__title">
-                    {t("Let's set your appointment details")}
-                </h5>
-
-                <div className="view-group-event__row">
-                  <span className="view-group-event__label">
-                    {t("Appointment")}
-                  </span>
-                    <p className="view-group-event__value">
-                        {getEventTitle(groupEvent)}
-                    </p>
+            <div className="drawer-section">
+                <div className="drawer-summary">
+                    <strong>{getEventType(groupEvent)}</strong>
+                    <p>{getEventDateTime(groupEvent)}</p>
                 </div>
+            </div>
 
-                <div className="view-group-event__row">
-                  <span className="view-group-event__label">
-                    {t("EventType")}
-                  </span>
-                    <span className="view-group-event__value">
-                        {groupEvent.eventType}
-                      </span>
-                </div>
+            <div className="drawer-section">
+                <label className="drawer-label">{t("Event host")}</label>
+                <EventHostSelect eventGroup={groupEvent}/>
+            </div>
 
-                <div className="view-group-event__row">
-                  <span className="view-group-event__label">
-                    {t("EventHost")}
-                  </span>
-                    <EventHostSelect eventGroup={groupEvent}/>
-                </div>
-
-                {/*{config.offerShampoo && (
+            {/*{config.offerShampoo && (
                     <div className="view-group-event__row">
                         <span className="view-group-event__label">
                           {t("Shampoo")}
@@ -65,26 +47,24 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
                     </div>
                 )}*/}
 
-                <div className="view-group-event__row">
-                  <span className="view-group-event__label">
-                    {t("End Time")}
-                  </span>
-                    <EventEndTime />
-                </div>
+            <div className="drawer-section drawer-outcome">
+                <span className="drawer-label">{t("End at")}</span>
+                <strong><EventEndTime/></strong>
+            </div>
 
-                {/*{config.showPrice && (*/}
-                {/*    <div className="view-group-event__row">*/}
-                {/*        <span className="view-group-event__label">*/}
-                {/*          {t("Price")}*/}
-                {/*        </span>*/}
-                {/*        <EventPrice/>*/}
-                {/*    </div>*/}
-                {/*)}*/}
+            {/*{config.showPrice && (*/}
+            {/*    <div className="view-group-event__row">*/}
+            {/*        <span className="view-group-event__label">*/}
+            {/*          {t("Price")}*/}
+            {/*        </span>*/}
+            {/*        <EventPrice/>*/}
+            {/*    </div>*/}
+            {/*)}*/}
 
-                <div className="view-group-event__actions">
-                    <AddToCart />
-                </div>
+            <div className="drawer-actions">
+                <AddToCart/>
             </div>
         </EventStateProvider>
-    );
+    )
+        ;
 }

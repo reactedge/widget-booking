@@ -28,3 +28,23 @@ export const groupEventStatus = (eventGroup: DayGroupEvent): EventStatus => {
 
     return AVAILABLE
 }
+
+export const groupEventStatusLabel = (eventGroup: DayGroupEvent): string => {
+    if (isPastEvent(eventGroup)) {
+        return 'Too late'
+    }
+
+    if (eventGroup?.cartEvent !== null) {
+        return 'In cart'
+    }
+
+    if (eventGroup?.orderedEventId !== null) {
+        return 'Was booked'
+    }
+
+    if (eventGroup.status === WALKIN) {
+        return 'Walk-In'
+    }
+
+    return 'Available'
+}

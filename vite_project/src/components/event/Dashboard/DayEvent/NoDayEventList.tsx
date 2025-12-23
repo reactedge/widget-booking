@@ -4,8 +4,8 @@ export const NoDayEventList: React.FC = () => {
     const t = useVenueTranslation();
 
     return (
-        <div>
-            <>{t('Not a working day')}</>
+        <div className="day-unavailable">
+            {t('Not a working day')}
         </div>
     )
 }

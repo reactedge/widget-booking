@@ -17,12 +17,13 @@ export const BookingDrawer: React.FC<BookingDrawerProps> = ({
                 className="booking-drawer"
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    className="booking-drawer-close"
-                    onClick={onClose}
-                >
-                    ×
-                </button>
+                <div className="drawer-header">
+                    <h3>Set your appointment</h3>
+                    <button className="drawer-close"
+                            aria-label="Close"
+                            onClick={onClose
+                    }>×</button>
+                </div>
                 {children}
             </div>
         </div>

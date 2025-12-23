@@ -12,19 +12,16 @@ interface ListingProps {
 export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) => {
     return (
         <EventStateProvider eventGroup={eventGroup}>
-            <div
-                /*status={eventGroup.status}*/
-                className="day-event-group"
-            >
-                <p className="day-event-group-time">
+            <div className="event-card">
+                <div className="event-card__time">
                     {getTime(eventGroup.startTime)}
-                </p>
-
-                <div className="day-event-group-hosts">
-                    <EventHostView eventGroup={eventGroup} />
                 </div>
 
-                <div className="day-event-group-details">
+                <div className="event-card__body">
+                    <div className="event-card__host">
+                        <EventHostView eventGroup={eventGroup}/>
+                    </div>
+
                     <SetEventDetail eventGroup={eventGroup} onView={onView}/>
                 </div>
             </div>
