@@ -1,6 +1,6 @@
 import {useCallback, useState} from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
-import type {KeystoneEventCalculationParams} from "../../types/keystone/types.ts";
+import type {KeystoneEventCalculationParams} from "../../types/infra/keystone";
 
 const MUTATION = `
     mutation AddToCart($eventId: ID!, $eventTypeId: ID!, $shampoo: Int) {

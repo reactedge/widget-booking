@@ -1,4 +1,8 @@
-export const tr = (text: string, venue: string) => {
+export const tr = (text: string, venue: string | undefined) => {
+    if (venue === undefined) {
+        return text
+    }
+
     switch (venue) {
         case 'date-mate':
             if (text === 'What eventType type do you need?') text = 'What date type do you fancy?'

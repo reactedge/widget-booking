@@ -1,8 +1,8 @@
 // infra/keystone/useKeystoneEventTypeGroups.ts
 import { useEffect, useState } from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
-import type {KeystoneVenue} from "../../types/keystone/types.ts";
 import {getError} from "../../lib/error.ts";
+import type {KeystoneVenue} from "../../types/infra/keystone";
 
 const QUERY = `
   query Venues($where: VenueWhereInput!) {

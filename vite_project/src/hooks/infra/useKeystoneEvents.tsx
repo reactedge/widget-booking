@@ -1,9 +1,9 @@
 // infra/keystone/useKeystoneEventTypeGroups.ts
 import { useEffect, useState } from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
-import type {KeystoneEvent} from "../../types/keystone/types.ts";
 import type {EventFilterState} from "../../types/domain/event.type.ts";
 import {getError} from "../../lib/error.ts";
+import type {KeystoneEvent} from "../../types/infra/keystone";
 
 const QUERY = `
   query Events($orderBy: [EventOrderByInput!]!, $where: EventWhereInput!, $skip: Int = 0, $take: Int) {

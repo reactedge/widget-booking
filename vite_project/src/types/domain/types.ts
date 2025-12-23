@@ -1,7 +1,7 @@
 // domain/types.ts
 
 import type {EventStatus, ISODateString} from "./event.type.ts";
-import type {KeystoneEventHost} from "../keystone/types.ts";
+import type {KeystoneEventHost} from "../infra/keystone";
 
 export interface EventTypeGroup {
     id: string;

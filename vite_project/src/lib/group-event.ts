@@ -9,7 +9,7 @@ import {
     PURCHASED_EVENT,
     WALKIN, type IntentEvent
 } from "../types/domain/event.type.ts";
-import type {KeystoneEvent} from "../types/keystone/types.ts";
+import type {KeystoneEvent} from "../types/infra/keystone/types.ts";
 
 export const getEventTitle = (event: DayGroupEvent) => {
     return `${capitalise(event.day)} ${getDate(event.startTime)} for ${capitalise(event.eventType)} at ${getTime(event.startTime)}`

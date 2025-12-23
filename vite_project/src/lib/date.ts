@@ -1,4 +1,4 @@
-import type {DaysType, WeeksType} from "../types/domain/bookingsystem.types.ts";
+import type {DaysType, WeeksType} from "@/types/domain/bookingsystem.type.ts";
 
 export const getDays = (): DaysType[] => {
     const current = new Date()

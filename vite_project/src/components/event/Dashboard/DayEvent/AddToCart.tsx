@@ -1,19 +1,13 @@
-import {IN_CART_EVENT} from "../../../../types/domain/event.type.ts";
-import {useUser} from "../../../../hooks/domain/useUser.tsx";
-import {useEventState} from "../../../../state/Event/useEventState.ts";
+import React, {useState} from "react";
 import {getEventCartQty} from "../../../../lib/cart.ts";
-import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
-import {useAddToCart} from "../../../../hooks/domain/useAddToCart.tsx";
 import {ErrorState} from "../../../global/ErrorState.tsx";
-import {useState} from "react";
 import {SignInOrRegister} from "../../../user-authentication/SignInOrRegister.tsx";
 import {useUserState} from "../../../../state/User/useUserState.ts";
+import {useEventState} from "../../../../state/Event/useEventState.ts";
+import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
+import {useAddToCart} from "../../../../hooks/domain/useAddToCart.tsx";
 
-interface AddToCartProps {
-    children: React.ReactNode
-}
-
-export const AddToCart: React.FC<AddToCartProps> = () => {
+export const AddToCart: React.FC = () => {
     const { user } = useUserState();
     const { eventState } = useEventState();
     const { visitIntent } = useVisitIntentState();
@@ -59,7 +53,7 @@ export const AddToCart: React.FC<AddToCartProps> = () => {
     if (errorAddToCart) return <ErrorState />
 
     return (
-        <div status={eventAlreadyInCart ? IN_CART_EVENT : undefined}>
+        <div>
             {eventAlreadyInCart && (
                 <div className="in-cart">
                     <p>You&apos;re in!</p>

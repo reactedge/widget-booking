@@ -2,14 +2,14 @@ import {useKeystoneEventDuration} from "../infra/useKeystoneEventDuration.tsx";
 
 export const useEventDuration = (
      eventTypeId: string,
-     eventId?: string,
-     shampoo = false) => {
+     eventId?: string
+) => {
     const {
         duration,
         loadingDuration,
         errorDuration,
         refetch,
-    } = useKeystoneEventDuration({eventId, eventTypeId, shampoo});
+    } = useKeystoneEventDuration({eventId, eventTypeId});
 
     return {
         duration,

@@ -1,4 +1,4 @@
-import type {KeystoneEvent} from "../types/keystone/types.ts";
+import type {KeystoneEvent} from "../types/infra/keystone/types.ts";
 import type {EventStatus, IntentEvent} from "../types/domain/event.type.ts";
 
 export function mapKeystoneEvent(event: KeystoneEvent): IntentEvent {

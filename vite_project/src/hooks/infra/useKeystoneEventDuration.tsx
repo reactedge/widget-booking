@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import {getError} from "../../lib/error.ts";
-import type {KeystoneEventCalculationParams} from "../../types/keystone/types.ts";
+import type {KeystoneEventCalculationParams} from "../../types/infra/keystone";
 
 const QUERY = `
     query CalculateEventDuration($eventTypeId: ID!, $eventId: ID!, $shampoo: Int) {
@@ -11,8 +11,7 @@ const QUERY = `
 
 export const useKeystoneEventDuration = ({
      eventId,
-     eventTypeId,
-     shampoo = false,
+     eventTypeId
  }: KeystoneEventCalculationParams) => {
     const ready = !!eventId && !!eventTypeId;
 
@@ -32,7 +31,7 @@ export const useKeystoneEventDuration = ({
             }>(QUERY, {
                 eventId,
                 eventTypeId,
-                shampoo: shampoo ? 1 : 0,
+                shampoo: 0,
             });
 
             setData(result.calculateEventDuration);
@@ -41,7 +40,7 @@ export const useKeystoneEventDuration = ({
         } finally {
             setLoading(false);
         }
-    }, [ready, eventId, eventTypeId, shampoo]);
+    }, [ready, eventId, eventTypeId]);
 
     useEffect(() => {
         load();

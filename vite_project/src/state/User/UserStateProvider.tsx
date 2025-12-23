@@ -2,6 +2,7 @@ import {type ReactNode} from "react";
 import {LocalUserStateContext} from "./UserState.tsx";
 import {useKeystoneAuthenticatedUser} from "../../hooks/infra/useKeystoneAuthenticatedUser.tsx";
 import {mapKeystoneUser} from "../../lib/user.ts";
+import type {AuthenticatedUser} from "../../types/domain/user.type.ts";
 
 const LocalStateProvider = LocalUserStateContext.Provider;
 
@@ -17,7 +18,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children }
         refetch,
     } = useKeystoneAuthenticatedUser();
 
-    const user = keystoneAuthenticatedUser ? mapKeystoneUser(keystoneAuthenticatedUser): null;
+    const user: AuthenticatedUser | undefined = keystoneAuthenticatedUser ? mapKeystoneUser(keystoneAuthenticatedUser): undefined;
 
     return (
         <LocalStateProvider

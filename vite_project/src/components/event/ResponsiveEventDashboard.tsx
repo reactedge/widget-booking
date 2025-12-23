@@ -1,4 +1,4 @@
-import {useMediaQuery} from "../../hooks/domain/useMediaQuery.tsx";
+import {useMediaQuery} from "../../hooks/ui/useMediaQuery.tsx";
 import {GetWeekEvents} from "./Dashboard/GetWeekEvents.tsx";
 import {GetWeekEventsForMobile} from "./Dashboard/GetWeekEventsForMobile.tsx";
 

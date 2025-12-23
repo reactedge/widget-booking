@@ -1,10 +1,9 @@
-import {useConfigState} from "../../../../state/Config/useConfigState.ts";
 import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {useEventState} from "../../../../state/Event/useEventState.ts";
 import {AVAILABLE, IN_CART_EVENT, PAST_EVENT, PURCHASED_EVENT} from "../../../../types/domain/event.type.ts";
 import {getTime} from "../../../../lib/date.ts";
 import {groupEventStatus} from "../../../../lib/group-event.ts";
-import {tr} from "../../../../lib/translate.ts";
+import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
 
 interface EventProps {
     eventGroup: DayGroupEvent;
@@ -13,7 +12,7 @@ interface EventProps {
 
 export const SetEventDetail: React.FC<EventProps> = ({ eventGroup, onView }) => {
     const { resetActiveEvent } = useEventState();
-    const { config } = useConfigState();
+    const t = useVenueTranslation();
 
     const status = groupEventStatus(eventGroup);
 
@@ -34,7 +33,7 @@ export const SetEventDetail: React.FC<EventProps> = ({ eventGroup, onView }) => 
             {status === IN_CART_EVENT && (
                 <>
                     <div className="event-detail-state event-detail-state--in-cart">
-                        <p>{tr("In Cart!", config?.venue?.id)}</p>
+                        <p>{t("In Cart!")}</p>
                     </div>
                     <div className="event-detail-state event-detail-state--ordered">
                         <p>Booked!</p>

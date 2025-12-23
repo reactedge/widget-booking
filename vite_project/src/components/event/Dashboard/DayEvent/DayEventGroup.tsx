@@ -1,9 +1,8 @@
-import React from "react";
+import {EventHostView} from "./EventHostView.tsx";
+import {SetEventDetail} from "./SetEventDetail.tsx";
 import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
 import {getTime} from "../../../../lib/date.ts";
-import {EventHostView} from "./EventHostView.tsx";
-import {SetEventDetail} from "./SetEventDetail.tsx";
 
 interface ListingProps {
     eventGroup: DayGroupEvent;

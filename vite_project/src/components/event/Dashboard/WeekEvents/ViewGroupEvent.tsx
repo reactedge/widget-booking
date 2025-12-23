@@ -1,13 +1,12 @@
-import {useConfigState} from "../../../../state/Config/useConfigState.ts";
-import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
-import {Spinner} from "../../../global/Spinner.tsx";
-import {GroupEventHandler} from "../../../../models/GroupEvent.ts";
-import {tr} from "../../../../lib/translate.ts";
-import {getEventTitle} from "../../../../lib/group-event.ts";
 import {useEventGroup} from "../../../../hooks/domain/useEventGroup.ts";
+import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
 import {useEventType} from "../../../../hooks/domain/useEventType.tsx";
-import {EventHostSelect} from "../DayEvent/EventHostSelect.tsx";
+import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
+import {Spinner} from "../../../global/Spinner.tsx";
+import {getGroupEvent} from "../../../../domain/booking/getGroupEvent.ts";
 import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
+import {getEventTitle} from "../../../../lib/group-event.ts";
+import {EventHostSelect} from "../DayEvent/EventHostSelect.tsx";
 import {EventEndTime} from "../DayEvent/EventEndTime.tsx";
 import {AddToCart} from "../DayEvent/AddToCart.tsx";
 
@@ -17,25 +16,24 @@ interface ViewGroupEventProps {
 
 export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
     const { groupEvents, groupEventsLoading } = useEventGroup(eventIds)
-    const {config} = useConfigState();
     const {visitIntent} = useVisitIntentState();
     const { eventType, eventTypeLoading } = useEventType(visitIntent.eventTypeId)
+    const t = useVenueTranslation();
 
-    if (groupEventsLoading || eventTypeLoading || groupEvents === undefined) return <Spinner/>;
+    if (groupEventsLoading || eventTypeLoading || groupEvents === undefined || eventType === undefined) return <Spinner/>;
 
-    const handler = new GroupEventHandler(visitIntent, eventType);
-    const groupEvent = handler.getGroupEvent(groupEvents);
+    const groupEvent = getGroupEvent(eventType, groupEvents);
 
     return (
         <EventStateProvider eventGroup={groupEvent}>
             <div className="view-group-event">
                 <h5 className="view-group-event__title">
-                    {tr("Let's set your appointment details", config.venue.id)}
+                    {t("Let's set your appointment details")}
                 </h5>
 
                 <div className="view-group-event__row">
                   <span className="view-group-event__label">
-                    {tr("Appointment", config.venue.id)}
+                    {t("Appointment")}
                   </span>
                     <p className="view-group-event__value">
                         {getEventTitle(groupEvent)}
@@ -44,7 +42,7 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
 
                 <div className="view-group-event__row">
                   <span className="view-group-event__label">
-                    {tr("EventType", config.venue.id)}
+                    {t("EventType")}
                   </span>
                     <span className="view-group-event__value">
                         {groupEvent.eventType}
@@ -53,7 +51,7 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
 
                 <div className="view-group-event__row">
                   <span className="view-group-event__label">
-                    {tr("EventHost", config.venue.id)}
+                    {t("EventHost")}
                   </span>
                     <EventHostSelect eventGroup={groupEvent}/>
                 </div>
@@ -61,7 +59,7 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
                 {/*{config.offerShampoo && (
                     <div className="view-group-event__row">
                         <span className="view-group-event__label">
-                          {tr("Shampoo", config.venue.id)}
+                          {t("Shampoo")}
                         </span>
                         <ShampooSelect/>
                     </div>
@@ -69,7 +67,7 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
 
                 <div className="view-group-event__row">
                   <span className="view-group-event__label">
-                    {tr("End Time", config.venue.id)}
+                    {t("End Time")}
                   </span>
                     <EventEndTime />
                 </div>
@@ -77,16 +75,14 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
                 {/*{config.showPrice && (*/}
                 {/*    <div className="view-group-event__row">*/}
                 {/*        <span className="view-group-event__label">*/}
-                {/*          {tr("Price", config.venue.id)}*/}
+                {/*          {t("Price")}*/}
                 {/*        </span>*/}
                 {/*        <EventPrice/>*/}
                 {/*    </div>*/}
                 {/*)}*/}
 
                 <div className="view-group-event__actions">
-                    <AddToCart className="view-group-event__submit">
-                        {tr("Book Now", config.venue.id)}
-                    </AddToCart>
+                    <AddToCart />
                 </div>
             </div>
         </EventStateProvider>

@@ -1,10 +1,16 @@
 // domain/mapKeystoneUser.ts
-import type {KeystoneAuthenticatedUser} from "../types/keystone/types.ts";
-import type {UserIdentity} from "../types/domain/user.type.ts";
+import type {KeystoneAuthenticatedUser} from "../types/infra/keystone/types.ts";
+import type {AuthenticatedUser} from "../types/domain/user.type.ts";
+
+/**
+ * Maps a Keystone user into the widget’s domain user.
+ * Currently a structural pass-through, but acts as a boundary
+ * to prevent Keystone schema leakage.
+ */
 
 export function mapKeystoneUser(
     keystoneUser: KeystoneAuthenticatedUser
-): UserIdentity {
+): AuthenticatedUser {
     return {
         id: keystoneUser.id,
         email: keystoneUser.email,

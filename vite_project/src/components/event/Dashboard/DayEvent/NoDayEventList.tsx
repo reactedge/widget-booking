@@ -1,12 +1,11 @@
-import {useConfigState} from "../../../../state/Config/useConfigState.ts";
-import {tr} from "../../../../lib/translate.ts";
+import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
 
 export const NoDayEventList: React.FC = () => {
-    const {config} = useConfigState()
+    const t = useVenueTranslation();
 
     return (
         <div>
-            <>{tr('Not a working day', config.venue.id)}</>
+            <>{t('Not a working day')}</>
         </div>
     )
 }

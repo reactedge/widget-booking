@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import type {KeystoneAuthenticatedUser} from "../../types/keystone/types.ts";
 import {graphqlRequest} from "../../lib/graphql.ts";
 import {getError} from "../../lib/error.ts";
+import type {KeystoneAuthenticatedUser} from "../../types/infra/keystone";
 
 const QUERY = `
   query {

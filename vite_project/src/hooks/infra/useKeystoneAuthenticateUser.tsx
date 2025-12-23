@@ -1,8 +1,7 @@
 // domain/useLoginUser.ts
-import { useAuthenticateUser } from "../infra/authenticateUser";
 import {useCallback, useState} from "react";
-import type {KeystoneAuthenticationParams} from "../../types/keystone/types.ts";
 import {graphqlRequest} from "../../lib/graphql.ts";
+import type {KeystoneAuthenticationParams} from "../../types/infra/keystone";
 
 const MUTATION = `
   mutation AuthenticateUserWithPassword($email: String!, $password: String!) {

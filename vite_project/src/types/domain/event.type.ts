@@ -1,7 +1,7 @@
 // domain/types/Event.ts
 
 import type {EventType} from "./types.ts";
-import type {OrderItemEventRef} from "../keystone/types.ts";
+import type {OrderItemEventRef} from "../infra/keystone";
 
 export interface IntentEvent {
     id: string;

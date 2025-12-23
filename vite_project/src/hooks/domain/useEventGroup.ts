@@ -1,4 +1,5 @@
 // domain/hooks/useEvents.ts
+
 import type {IntentEvent} from "../../types/domain/event.type.ts";
 import {useKeystoneEventGroup} from "../infra/useKeystoneEventGroup.tsx";
 import {mapKeystoneGroupEvent} from "../../lib/group-event.ts";
