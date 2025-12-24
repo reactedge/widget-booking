@@ -10,6 +10,11 @@
     padding: 1rem 1.25rem;
 }
 
+.booking-header {
+    position: relative;
+    padding-bottom: 72px;
+}
+
 .week-event-day {
     display: flex;
     flex-direction: column;

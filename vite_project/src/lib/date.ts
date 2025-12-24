@@ -1,4 +1,4 @@
-import type {DaysType, WeeksType} from "@/types/domain/bookingsystem.type.ts";
+import type {DaysType, WeeksType} from "../types/domain/bookingsystem.type.ts";
 
 export const getDays = (): DaysType[] => {
     const current = new Date()
@@ -16,6 +16,7 @@ export const getDays = (): DaysType[] => {
 
     return week;
 }
+
 
 const getWeekLabel = (index: number) => {
     switch (index) {

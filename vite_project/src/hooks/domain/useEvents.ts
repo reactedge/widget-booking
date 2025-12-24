@@ -13,7 +13,7 @@ interface UseEventsResult {
     refetch: (filter: KeystoneEventFilter) => void;
 }
 
-export function useEvents(params: FilterParams | undefined): UseEventsResult {
+export function useEvents(params: FilterParams | undefined, versionNumber: number): UseEventsResult {
     const filter = useFilter(params);
 
     const {
@@ -21,7 +21,7 @@ export function useEvents(params: FilterParams | undefined): UseEventsResult {
         loading,
         error,
         refetch,
-    } = useKeystoneEvents(filter);
+    } = useKeystoneEvents(filter, versionNumber);
 
     const events = keystoneEvents ? keystoneEvents.map(mapKeystoneEvent)
         : undefined;

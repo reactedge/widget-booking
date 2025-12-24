@@ -6,10 +6,12 @@ import {NoEvent} from "./NoEvent.tsx";
 import {WeekEvents} from "./WeekEvents.tsx";
 import {useConfigState} from "../../../state/Config/useConfigState.ts";
 import {useMemo} from "react";
+import {useDashboardState} from "../../../state/Dashboard/useDashboardState.ts";
 
 export function GetWeekEvents() {
     const { visitIntent } = useVisitIntentState();
     const { config, getEventHostIds } = useConfigState();
+    const { dashboardState } = useDashboardState();
 
     const ready =
         visitIntent.eventTypeId !== null &&
@@ -31,7 +33,8 @@ export function GetWeekEvents() {
                 venue: config?.venue?.id,
                 eventHostIds: hostsIds,
             }
-            : undefined
+            : undefined,
+        dashboardState.versionNumber
     );
 
     if (!ready || eventsLoading) {

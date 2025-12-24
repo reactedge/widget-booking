@@ -4,6 +4,7 @@ import {AVAILABLE, IN_CART_EVENT} from "../../../../types/domain/event.type.ts";
 import {getTime} from "../../../../lib/date.ts";
 import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
 import {groupEventStatus, groupEventStatusLabel} from "../../../../domain/event/getGroupEventStatus.ts";
+import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
 
 interface EventProps {
     eventGroup: DayGroupEvent;
@@ -12,6 +13,7 @@ interface EventProps {
 
 export const SetEventDetail: React.FC<EventProps> = ({eventGroup, onView}) => {
     const {resetActiveEvent} = useEventState();
+    const {resetLastBookedEventId} = useDashboardState()
     const t = useVenueTranslation();
 
     const status = groupEventStatus(eventGroup);
@@ -19,6 +21,7 @@ export const SetEventDetail: React.FC<EventProps> = ({eventGroup, onView}) => {
     const viewDetail = (e: React.FormEvent) => {
         e.preventDefault();
         resetActiveEvent();
+        resetLastBookedEventId();
         onView(eventGroup.eventIds);
     };
 

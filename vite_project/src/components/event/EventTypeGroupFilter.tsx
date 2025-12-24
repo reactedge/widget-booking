@@ -1,11 +1,11 @@
-import {useEventTypeGroups} from "../../hooks/domain/useEventTypeGroups.tsx";
+import {useConfigState} from "../../state/Config/useConfigState.ts";
 import {useVisitIntentState} from "../../state/Intent/useVisitIntentState.ts";
 
 export function EventTypeGroupFilter() {
     const { visitIntent, setEventTypeGroup } = useVisitIntentState();
-    const { groups, eventTypeGrouploading } = useEventTypeGroups();
+    const { config } = useConfigState();
 
-    if (eventTypeGrouploading) return null;
+    if (config.eventTypeGroups === undefined || config.eventTypeGroups.length === 1) return null;
 
     return (
         <div className="booking-filter booking-filter--group">
@@ -14,7 +14,7 @@ export function EventTypeGroupFilter() {
             </div>
 
             <div className="booking-options">
-                {groups.map((group) => {
+                {config.eventTypeGroups.map((group) => {
                     const isActive = visitIntent.eventTypeGroupId === group.id;
 
                     return (

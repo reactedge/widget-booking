@@ -1,5 +1,5 @@
 import {formatEventTypeDescription} from "../../../domain/formatters/getEventTypeDescription.ts";
-import {formatShortDate, getDate, getWeekRangeInfo} from "../../../lib/date.ts";
+import {formatShortDate, getWeekRangeInfo} from "../../../lib/date.ts";
 import {useEventType} from "../../../hooks/domain/useEventType.tsx";
 import {Spinner} from "../../global/Spinner.tsx";
 

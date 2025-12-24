@@ -1,5 +1,6 @@
 import { useVisitIntentState } from "../../state/Intent/useVisitIntentState.ts";
-import {ResponsiveEventDashboard} from "./ResponsiveEventDashboard.tsx";
+import {GetWeekEvents} from "./Dashboard/GetWeekEvents.tsx";
+import {DashboardStateProvider} from "../../state/Dashboard/DashboardStateProvider.tsx";
 
 export function EventDashboard(){
     const { visitIntent } = useVisitIntentState();
@@ -8,5 +9,7 @@ export function EventDashboard(){
         return null;
     }
 
-    return <ResponsiveEventDashboard />;
+    return <DashboardStateProvider>
+        <GetWeekEvents />
+    </DashboardStateProvider>
 };

@@ -29,7 +29,7 @@ const QUERY = `
     }
 `;
 
-export function useKeystoneEvents(filter: EventFilterState) {
+export function useKeystoneEvents(filter: EventFilterState, versionNumber: number) {
     const [data, setData] = useState<KeystoneEvent[]>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
@@ -53,7 +53,7 @@ export function useKeystoneEvents(filter: EventFilterState) {
 
     useEffect(() => {
         load(filter);
-    }, [filter]);
+    }, [filter, versionNumber]);
 
     return { keystoneEvents: data, loading, error, refetch: load };
 }

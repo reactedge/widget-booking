@@ -6,6 +6,7 @@ import {useUserState} from "../../../../state/User/useUserState.ts";
 import {useEventState} from "../../../../state/Event/useEventState.ts";
 import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
 import {useAddToCart} from "../../../../hooks/domain/useAddToCart.tsx";
+import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
 
 export const AddToCart: React.FC = () => {
     const { user } = useUserState();
@@ -13,6 +14,7 @@ export const AddToCart: React.FC = () => {
     const { visitIntent } = useVisitIntentState();
     const { addToCart, loadingAddToCart, errorAddToCart } = useAddToCart();
     const [showAuth, setShowAuth] = useState(false);
+    const { increaseVersionNumber, setLastBookedEventId } = useDashboardState();
 
     const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,10 +35,16 @@ export const AddToCart: React.FC = () => {
                 eventTypeId: visitIntent.eventTypeId,
                 shampoo: eventState.shampoo ? 1 : 0,
             });
+            refreshDashboard(eventState.activeEventId)
         } catch (err) {
             console.error(err);
         }
     };
+
+    const refreshDashboard = () => {
+        increaseVersionNumber()
+        setLastBookedEventId(eventState.activeEventId)
+    }
 
     const activeEventId = eventState.activeEventId;
 
@@ -67,7 +75,7 @@ export const AddToCart: React.FC = () => {
             </button>
             {showAuth && !user && (
                 <div className="drawer-auth">
-                    <SignInOrRegister />
+                    <SignInOrRegister onSuccess={refreshDashboard}/>
                 </div>
             )}
         </div>

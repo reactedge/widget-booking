@@ -32,6 +32,8 @@ export function WeekEvents({ events }: WeekEventProps) {
             {getDays().map((day: DaysType) => {
                 const dayEventList = getDayEventsForDay(day, events, user);
 
+                if (dayEventList.length ===0) return null;
+
                 return (
                     <div key={day.day} className="week-event-day">
                         <h4 className="week-event-day-title">{day.dayLabel}</h4>

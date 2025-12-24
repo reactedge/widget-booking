@@ -1,6 +1,6 @@
-import type {PreferenceProps} from "../types/domain/preference.types.ts";
 import {Spinner} from "./global/Spinner.tsx";
 import {useConfigState} from "../state/Config/useConfigState.ts";
+import type {PreferenceProps} from "../types/domain/preference.type.ts";
 
 export function EventTypeGroupPreference({
      value,
