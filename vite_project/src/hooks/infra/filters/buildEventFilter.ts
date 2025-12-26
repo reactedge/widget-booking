@@ -21,9 +21,9 @@ export function buildEventFilter(params: BuildEventFilterParams) {
     }
 
     const weekStartDate = new Date(params.weekStart);
-    const endWeek = getDayTimeEnd(
-        new Date(weekStartDate.setDate(weekStartDate.getDate() + 7))
-    );
+    const weekEndDate = new Date(weekStartDate);
+    weekEndDate.setDate(weekEndDate.getDate() + 6);
+    const endWeek = getDayTimeEnd(weekEndDate);
 
     filter.startTime = { gte: params.weekStart };
     filter.endTime = { lte: endWeek };

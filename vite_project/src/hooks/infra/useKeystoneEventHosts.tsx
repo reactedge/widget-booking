@@ -9,6 +9,7 @@ const QUERY = `
         eventHosts(where: $where) {
             id
             name
+            description
             eventTypes {
                 id
             }

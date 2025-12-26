@@ -4,7 +4,10 @@ import {buildEventFilter} from "../infra/filters/buildEventFilter.ts";
 
 export const useFilter = (params: FilterParams | undefined) => {
     return useMemo(() => {
-        if (!params) {
+        if (!params
+            || params.eventHostIds === undefined
+            || params.venueId === undefined
+        ) {
             return undefined;
         }
 

@@ -9,6 +9,7 @@ const QUERY = `
       venues(where: $where) {
         name
         id
+        code
       }
     }
 `;

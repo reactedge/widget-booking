@@ -2,6 +2,7 @@ export interface VisitIntentInfoState {
     weekIntent: string;
     eventTypeId: string;
     eventTypeGroupId: string;
+    hostId: string;
 }
 
 export interface VisitIntentState {
@@ -9,5 +10,6 @@ export interface VisitIntentState {
     setWeekIntent: (value: string) => void;
     setEventType: (value: string) => void;
     setEventTypeGroup: (value: string) => void;
+    setEventHost: (value: string) => void;
     resetIntent: () => void;
 }

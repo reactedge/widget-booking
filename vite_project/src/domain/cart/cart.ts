@@ -1,7 +1,7 @@
-import type {KeystoneCartItem} from "../../types/infra/keystone";
+import type {UserCartItem} from "../../types/domain/user.type.ts";
 
-export const getEventCartQty = (cart: KeystoneCartItem[], eventIds: string[]): number => {
-    const cartItem = cart?.filter((item: KeystoneCartItem) => eventIds.indexOf(item.event.id)>-1)
+export const getEventCartQty = (cart: UserCartItem[], eventIds: string[]): number => {
+    const cartItem = cart?.filter((item: UserCartItem) => eventIds.indexOf(item.event.id)>-1)
     if (cartItem && cartItem.length > 0) {
         return cartItem[0].quantity
     }
@@ -9,8 +9,8 @@ export const getEventCartQty = (cart: KeystoneCartItem[], eventIds: string[]): n
     return 0
 }
 
-export const isEventInCart = (cart: KeystoneCartItem[], eventId: string): boolean => {
-    const cartItem = cart?.filter((item: KeystoneCartItem) => item.event.id === eventId)
+export const isEventInCart = (cart: UserCartItem[], eventId: string): boolean => {
+    const cartItem = cart?.filter((item: UserCartItem) => item.event.id === eventId)
     if (cartItem && cartItem.length > 0) {
         return true
     }

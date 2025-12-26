@@ -7,11 +7,14 @@ import {WeekEvents} from "./WeekEvents.tsx";
 import {useConfigState} from "../../../state/Config/useConfigState.ts";
 import {useMemo} from "react";
 import {useDashboardState} from "../../../state/Dashboard/useDashboardState.ts";
+import type {Venue} from "../../../types/domain/types.ts";
 
 export function GetWeekEvents() {
     const { visitIntent } = useVisitIntentState();
     const { config, getEventHostIds } = useConfigState();
     const { dashboardState } = useDashboardState();
+
+    const venue = config?.venue as Venue
 
     const ready =
         visitIntent.eventTypeId !== null &&
@@ -30,7 +33,7 @@ export function GetWeekEvents() {
             ? {
                 eventTypeId: visitIntent.eventTypeId,
                 weekStart: visitIntent.weekIntent,
-                venue: config?.venue?.id,
+                venueId: venue.id,
                 eventHostIds: hostsIds,
             }
             : undefined,

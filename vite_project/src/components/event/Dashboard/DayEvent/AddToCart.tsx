@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getEventCartQty} from "../../../../domain/cart/cart.ts";
 import {ErrorState} from "../../../global/ErrorState.tsx";
 import {SignInOrRegister} from "../../../user-authentication/SignInOrRegister.tsx";
@@ -15,17 +15,18 @@ export const AddToCart: React.FC = () => {
     const { addToCart, loadingAddToCart, errorAddToCart } = useAddToCart();
     const [showAuth, setShowAuth] = useState(false);
     const { increaseVersionNumber, setLastBookedEventId } = useDashboardState();
+    const [pendingAdd, setPendingAdd] = useState(false);
 
-    const handleAdd = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const refreshDashboard = () => {
+        increaseVersionNumber()
+        if (eventState.activeEventId) setLastBookedEventId(eventState.activeEventId)
+    }
 
-        if (!eventState.activeEventId) {
+    const handleAdd = async () => {
+        console.log('handle add with user')
+
+        if (eventState.activeEventId === undefined) {
             alert("Select an event host for your appointment");
-            return;
-        }
-
-        if (!user) {
-            setShowAuth(true);
             return;
         }
 
@@ -35,16 +36,41 @@ export const AddToCart: React.FC = () => {
                 eventTypeId: visitIntent.eventTypeId,
                 shampoo: eventState.shampoo ? 1 : 0,
             });
-            refreshDashboard(eventState.activeEventId)
+            refreshDashboard()
+            setPendingAdd(false);
         } catch (err) {
+            setPendingAdd(false);
             console.error(err);
         }
     };
 
-    const refreshDashboard = () => {
-        increaseVersionNumber()
-        setLastBookedEventId(eventState.activeEventId)
-    }
+    const onAddClick = async () => {
+        console.log('handle add click')
+        if (!user) {
+            setPendingAdd(true);
+            setShowAuth(true);
+            return;
+        }
+
+        await handleAdd();
+    };
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const run = async () => {
+            console.log('useEffect with user and pending set')
+            if (!pendingAdd || !user) return;
+            await handleAdd();
+            if (!cancelled) setPendingAdd(false);
+        };
+
+        run();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [user, pendingAdd]);
 
     const activeEventId = eventState.activeEventId;
 
@@ -61,7 +87,7 @@ export const AddToCart: React.FC = () => {
     if (errorAddToCart) return <ErrorState />
 
     return (
-        <div>
+        <>
             {eventAlreadyInCart && (
                 <div className="in-cart">
                     <p>You&apos;re in!</p>
@@ -69,15 +95,13 @@ export const AddToCart: React.FC = () => {
             )}
             <button className="drawer-primary"
                     disabled={!canAttemptAdd}
-                    onClick={handleAdd}
+                    onClick={onAddClick}
             >
                 Book{loadingAddToCart && 'ing'} appointment
             </button>
             {showAuth && !user && (
-                <div className="drawer-auth">
-                    <SignInOrRegister onSuccess={refreshDashboard}/>
-                </div>
+                <SignInOrRegister />
             )}
-        </div>
+        </>
     );
 };

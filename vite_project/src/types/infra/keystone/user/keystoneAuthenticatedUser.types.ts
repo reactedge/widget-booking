@@ -16,6 +16,7 @@ export interface KeystoneAuthenticatedUser {
 }
 
 export interface KeystoneAuthenticationParams {
-    email?: string;
-    password?: string;
+    [key: string]: unknown;
+    email: string;
+    password: string;
 }

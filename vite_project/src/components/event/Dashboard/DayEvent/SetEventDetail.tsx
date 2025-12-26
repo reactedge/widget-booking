@@ -2,7 +2,6 @@ import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {useEventState} from "../../../../state/Event/useEventState.ts";
 import {AVAILABLE, IN_CART_EVENT} from "../../../../types/domain/event.type.ts";
 import {getTime} from "../../../../lib/date.ts";
-import {useVenueTranslation} from "../../../../hooks/ui/useVenueTranslation.ts";
 import {groupEventStatus, groupEventStatusLabel} from "../../../../domain/event/getGroupEventStatus.ts";
 import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
 
@@ -14,7 +13,6 @@ interface EventProps {
 export const SetEventDetail: React.FC<EventProps> = ({eventGroup, onView}) => {
     const {resetActiveEvent} = useEventState();
     const {resetLastBookedEventId} = useDashboardState()
-    const t = useVenueTranslation();
 
     const status = groupEventStatus(eventGroup);
 
@@ -45,11 +43,7 @@ export const SetEventDetail: React.FC<EventProps> = ({eventGroup, onView}) => {
 
             {status === IN_CART_EVENT && (
                 <>
-                    <div className="event-detail-state event-detail-state--in-cart">
-                        <p>{t("In Cart!")}</p>
-                    </div>
                     <div className="event-detail-state event-detail-state--ordered">
-                        <p>Booked!</p>
                         <span className="event-detail-timestamp">Finishing at {getTime(eventGroup.cartEvent?.end || "")}
                         </span>
                     </div>

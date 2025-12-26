@@ -8,6 +8,7 @@ import eventgroup from "./booking-system.eventgroup.css?inline";
 import eventcard from "./booking-system.eventcard.css?inline";
 import eventstatus from "./booking-system.eventstatus.css?inline";
 import signin from "./booking-system.signin.css?inline";
+import theme from "./solar/color.css?inline";
 
 export const bookingSystemStyles = [
     tokens,   // MUST be first
@@ -19,5 +20,6 @@ export const bookingSystemStyles = [
     eventgroup,
     eventcard,
     eventstatus,
-    signin
+    signin,
+    theme
 ];

@@ -3,12 +3,13 @@ import {useState} from "react";
 import {Spinner} from "../global/Spinner.tsx";
 import {useUserState} from "../../state/User/useUserState.ts";
 
-export const Sign: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
+export const Sign: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const {refreshUser} = useUserState()
+    const { refreshUser} = useUserState()
+    const {login, loadingSignin} = useLoginUser();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,16 +24,13 @@ export const Sign: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
                 return;
             }
 
-            refreshUser();
-            onSuccess?.();
+            await refreshUser();
         } catch {
             setErrorMessage('Incorrect email or password');
         } finally {
             setSubmitting(false);
         }
     };
-
-    const {login, loadingSignin} = useLoginUser();
 
     if (loadingSignin) return <Spinner />
 

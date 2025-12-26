@@ -1,6 +1,6 @@
 // domain/hooks/useEvents.ts
 
-import type {IntentEvent, KeystoneEventFilter} from "../../types/domain/event.type.ts";
+import type {EventFilterState, IntentEvent, KeystoneEventFilter} from "../../types/domain/event.type.ts";
 import type {FilterParams} from "../../types/domain/types.ts";
 import {useFilter} from "./useFilter.tsx";
 import {useKeystoneEvents} from "../infra/useKeystoneEvents.tsx";
@@ -14,7 +14,7 @@ interface UseEventsResult {
 }
 
 export function useEvents(params: FilterParams | undefined, versionNumber: number): UseEventsResult {
-    const filter = useFilter(params);
+    const filter = useFilter(params) as EventFilterState
 
     const {
         keystoneEvents,

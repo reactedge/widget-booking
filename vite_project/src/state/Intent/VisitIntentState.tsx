@@ -3,7 +3,7 @@ import type {VisitIntentInfoState, VisitIntentState} from "./type.ts";
 
 export const readVisitIntent = (): VisitIntentInfoState => {
     if (typeof window === "undefined") {
-        return { weekIntent: "", eventTypeId: "", eventTypeGroupId: "" };
+        return { weekIntent: "", eventTypeId: "", eventTypeGroupId: "", hostId: "" };
     }
 
     try {
@@ -12,10 +12,11 @@ export const readVisitIntent = (): VisitIntentInfoState => {
             weekIntent: storedData.weekIntent || "",
             eventTypeId: storedData.eventTypeId || "",
             eventTypeGroupId: storedData.eventTypeGroupId || "",
+            hostId: storedData.hostId || ""
         };
     } catch (error) {
         console.log(error)
-        return { weekIntent: "", eventTypeId: "", eventTypeGroupId: "" };
+        return { weekIntent: "", eventTypeId: "", eventTypeGroupId: "", hostId: "" };
     }
 };
 

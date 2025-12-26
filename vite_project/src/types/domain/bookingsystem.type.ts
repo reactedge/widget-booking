@@ -4,6 +4,7 @@ export type BookingStep =
     | 'Week'
     | 'EventTypeGroup'
     | 'EventType'
+    | 'Host'
     | (string & {})
 
 export interface InitFilterConfig {

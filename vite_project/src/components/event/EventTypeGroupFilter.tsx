@@ -8,12 +8,14 @@ export function EventTypeGroupFilter() {
     if (config.eventTypeGroups === undefined || config.eventTypeGroups.length === 1) return null;
 
     return (
-        <div className="booking-filter booking-filter--group">
-            <div className="booking-filter-label">
-                Appointment type
-            </div>
+        <div className="booking-row booking-options--group">
+            <h3>Appointment type</h3>
 
-            <div className="booking-options">
+            <div
+                className="booking-options booking-options--event-type-group"
+                role="group"
+                aria-label="Preferred event-type-group"
+            >
                 {config.eventTypeGroups.map((group) => {
                     const isActive = visitIntent.eventTypeGroupId === group.id;
 
@@ -25,9 +27,11 @@ export function EventTypeGroupFilter() {
                             aria-pressed={isActive}
                             onClick={() => setEventTypeGroup(group.id)}
                         >
-                            {group.label}
+                            <span className="booking-option-label">
+                                {group.label}
+                            </span>
                         </button>
-                    );
+                );
                 })}
             </div>
         </div>

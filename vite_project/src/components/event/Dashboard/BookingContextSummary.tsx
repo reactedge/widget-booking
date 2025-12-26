@@ -20,7 +20,7 @@ export function BookingContextSummary({
     return (
         <div className="booking-context">
             <div className="booking-context__item">
-                <strong>{eventType.label}</strong>
+                <h3>{eventType.label}</h3>
                 {eventType.description && (
                     <p className="booking-context__description">
                         {formatEventTypeDescription(eventType)}

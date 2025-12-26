@@ -7,12 +7,14 @@ export function WeekFilter({ weekSpan }: { weekSpan: number }) {
     if (!visitIntent.eventTypeId) return null;
 
     return (
-        <div className="booking-filter booking-filter--week">
-            <div className="booking-filter-label">
-                Week
-            </div>
+        <div className="booking-row booking-filter--week">
+            <h3>Week</h3>
 
-            <div className="booking-options booking-options--week">
+            <div
+                className="booking-options booking-options--week"
+                role="group"
+                aria-label="Preferred week"
+            >
                 {getWeeks(weekSpan).map((week) => {
                     const isActive = visitIntent.weekIntent === week.weekStart;
 
@@ -24,7 +26,9 @@ export function WeekFilter({ weekSpan }: { weekSpan: number }) {
                             aria-pressed={isActive}
                             onClick={() => setWeekIntent(week.weekStart)}
                         >
-                            {week.weekLabel}
+                            <span className="booking-option-label">
+                              {week.weekLabel}
+                            </span>
                         </button>
                     );
                 })}

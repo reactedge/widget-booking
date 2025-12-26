@@ -4,6 +4,7 @@ import {useEventTypes} from "../hooks/domain/useEventTypes.tsx";
 import {useVisitIntentState} from "../state/Intent/useVisitIntentState.ts";
 import type {PreferenceProps} from "../types/domain/preference.type.ts";
 import {formatEventTypeDescription} from "../domain/formatters/getEventTypeDescription.ts";
+import {useMediaQuery} from "../hooks/ui/useMediaQuery.tsx";
 
 export function EventTypePreference({
     value,
@@ -11,12 +12,14 @@ export function EventTypePreference({
 }: PreferenceProps) {
     const { visitIntent } = useVisitIntentState();
     const { eventTypes, eventTypesLoading, eventTypesError } = useEventTypes(visitIntent.eventTypeGroupId);
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     if (eventTypesLoading || eventTypes === undefined) return <Spinner />;
     if (eventTypesError) return <ErrorState />;
 
     return (
-        <div className="booking-options booking-options--type">
+        <div className="booking-options booking-options--type"
+             data-layout={isMobile ? 'mobile' : 'desktop'}>
             {eventTypes.map(option => (
                 <button
                     key={option.id}

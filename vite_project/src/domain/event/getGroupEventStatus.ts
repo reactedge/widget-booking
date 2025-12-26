@@ -39,7 +39,7 @@ export const groupEventStatusLabel = (eventGroup: DayGroupEvent): string => {
     }
 
     if (eventGroup?.orderedEventId !== null) {
-        return 'Was booked'
+        return 'Booked'
     }
 
     if (eventGroup.status === WALKIN) {

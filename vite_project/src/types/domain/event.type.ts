@@ -75,8 +75,9 @@ export type EventFilterKey =
 export type EventFilterState = Partial<Record<EventFilterKey, unknown>>;
 
 export interface EventHost {
-    id: string
-    name: string
+    id: string;
+    name: string;
+    description: string;
     eventTypes?: EventType[]
 }
 

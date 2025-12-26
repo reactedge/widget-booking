@@ -25,13 +25,11 @@ const MUTATION = `
 
 interface AuthSuccess {
     __typename: "UserAuthenticationWithPasswordSuccess";
-    item: {
-        id: string;
-        email: string;
-        name: string;
-        role: {
-            isEventHost: boolean;
-        };
+    id: string;
+    email: string;
+    name: string;
+    role: {
+        isEventHost: boolean;
     };
 }
 
@@ -53,10 +51,10 @@ export const useKeystoneAuthenticateUser = () => {
 
             try {
                 const result = await graphqlRequest<{
-                    authenticateUserWithPassword: { data: { authenticateUserWithPassword: AuthenticateUserResult }};
+                    authenticateUserWithPassword: AuthenticateUserResult ;
                 }>(MUTATION, variables);
 
-                return result.authenticateUserWithPassword;
+                return result?.authenticateUserWithPassword;
             } catch (err) {
                 setError(err as Error);
                 throw err;

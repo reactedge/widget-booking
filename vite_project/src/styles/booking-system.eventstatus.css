@@ -2,8 +2,16 @@
     font-size: 0.75rem;
     font-weight: 500;
     text-align: center;
-    width: 100%;
-    color: #666;
+    color: var(--dark-color);
+    transform: rotate(-15deg);
+    border: 1px solid var(--dark-color);
+    border-radius: 3px;
+    background: #ffffff;
+    padding: 1px;
+    position: absolute;
+    width: 40px;
+    right: -5px;
+    top:-1px;
 }
 
 .event-card__status--busy {
@@ -11,14 +19,13 @@
 }
 
 .event-card__status--purchased {
-    color: #444;
+    color: var(--purchased-color);
 }
 
 .day-unavailable {
-    font-size: 0.8rem;
-    color: #888;
+    color: var(--unavailable-color);
     padding: 0.75rem 0;
     text-align: center;
-    border: 1px dashed #eee;
+    border: 1px dashed var(--dark-color);
     border-radius: 6px;
 }

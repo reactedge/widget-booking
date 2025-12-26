@@ -14,7 +14,7 @@ interface ViewGroupEventProps {
     eventIds: string[]
 }
 
-export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
+export const DrawerContent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
     const { groupEvents, groupEventsLoading } = useEventGroup(eventIds)
     const {visitIntent} = useVisitIntentState();
     const { eventType, eventTypeLoading } = useEventType(visitIntent.eventTypeId)
@@ -26,19 +26,20 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
 
     return (
         <EventStateProvider eventGroup={groupEvent}>
-            <div className="drawer-section">
-                <div className="drawer-summary">
-                    <strong>{getEventType(groupEvent)}</strong>
-                    <p>{getEventDateTime(groupEvent)}</p>
+            <div className="drawer-content">
+                <div className="drawer-section">
+                    <div className="drawer-summary">
+                        <strong>{getEventType(groupEvent)}</strong>
+                        <p>{getEventDateTime(groupEvent)}</p>
+                    </div>
                 </div>
-            </div>
 
-            <div className="drawer-section">
-                <label className="drawer-label">{t("Event host")}</label>
-                <EventHostSelect eventGroup={groupEvent}/>
-            </div>
+                <div className="drawer-section">
+                    <label className="drawer-label">{t("Event host")}</label>
+                    <EventHostSelect eventGroup={groupEvent}/>
+                </div>
 
-            {/*{config.offerShampoo && (
+                {/*{config.offerShampoo && (
                     <div className="view-group-event__row">
                         <span className="view-group-event__label">
                           {t("Shampoo")}
@@ -47,24 +48,25 @@ export const ViewGroupEvent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
                     </div>
                 )}*/}
 
-            <div className="drawer-section drawer-outcome">
-                <span className="drawer-label">{t("End at")}</span>
-                <strong><EventEndTime/></strong>
-            </div>
+                <div className="drawer-section drawer-outcome">
+                    <span className="drawer-label">{t("End at")}</span>
+                    <strong><EventEndTime/></strong>
+                </div>
 
-            {/*{config.showPrice && (*/}
-            {/*    <div className="view-group-event__row">*/}
-            {/*        <span className="view-group-event__label">*/}
-            {/*          {t("Price")}*/}
-            {/*        </span>*/}
-            {/*        <EventPrice/>*/}
-            {/*    </div>*/}
-            {/*)}*/}
+                {/*{config.showPrice && (*/}
+                {/*    <div className="view-group-event__row">*/}
+                {/*        <span className="view-group-event__label">*/}
+                {/*          {t("Price")}*/}
+                {/*        </span>*/}
+                {/*        <EventPrice/>*/}
+                {/*    </div>*/}
+                {/*)}*/}
+            </div>
 
             <div className="drawer-actions">
                 <AddToCart/>
             </div>
         </EventStateProvider>
-    )
-        ;
+)
+;
 }

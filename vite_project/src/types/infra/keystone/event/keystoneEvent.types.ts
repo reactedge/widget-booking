@@ -23,6 +23,7 @@ export interface OrderItemEventRef {
 }
 
 export interface KeystoneEventCalculationParams {
+    [key: string]: unknown;
     eventId?: string;
     eventTypeId?: string;
     shampoo?: 0 | 1;

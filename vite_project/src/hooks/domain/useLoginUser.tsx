@@ -21,17 +21,15 @@ export const useLoginUser = () => {
         email: string,
         password: string
     ): Promise<LoginSuccess | LoginFailure> => {
-        const res = await authenticate({ email, password });
-
-        const result = res?.item;
+        const result = await authenticate({ email, password });
 
         if (!result) {
             return { message: "Unknown authentication error" };
         }
 
-        // if (result.__typename === "UserAuthenticationWithPasswordFailure") {
-        //     return { message: result.message };
-        // }
+        if (result.__typename === "UserAuthenticationWithPasswordFailure") {
+            return { message: result.message };
+        }
 
         return result;
     };

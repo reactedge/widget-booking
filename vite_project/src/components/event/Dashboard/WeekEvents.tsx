@@ -6,9 +6,10 @@ import type {DayGroupEvent} from "../../../types/domain/dashboard.type.tsx";
 import {NoDayEventList} from "./DayEvent/NoDayEventList.tsx";
 import {DayEventGroup} from "./DayEvent/DayEventGroup.tsx";
 import {BookingDrawer} from "../../BookingDrawer.tsx";
-import {ViewGroupEvent} from "./WeekEvents/ViewGroupEvent.tsx";
+import {DrawerContent} from "./WeekEvents/DrawerContent.tsx";
 import type {IntentEvent} from "../../../types/domain/event.type.ts";
 import {useUserState} from "../../../state/User/useUserState.ts";
+import {useMediaQuery} from "../../../hooks/ui/useMediaQuery.tsx";
 
 interface WeekEventProps {
     events: IntentEvent[];
@@ -18,6 +19,7 @@ export function WeekEvents({ events }: WeekEventProps) {
     const { user } = useUserState();
     const [activeGroupEventIds, setActiveGroupEventIds] =
         useState<string[] | null>(null);
+    const isMobile = useMediaQuery('(max-width: 768px)');
 
     const handleViewGroup = (eventIds: string[]) => {
         setActiveGroupEventIds(eventIds);
@@ -28,11 +30,12 @@ export function WeekEvents({ events }: WeekEventProps) {
     };
 
     return (
-        <div className="week-event-list">
+        <div className="week-event-list"
+             data-layout={isMobile ? 'mobile' : 'desktop'}>
             {getDays().map((day: DaysType) => {
                 const dayEventList = getDayEventsForDay(day, events, user);
 
-                if (dayEventList.length ===0) return null;
+                //if (dayEventList.length ===0) return null;
 
                 return (
                     <div key={day.day} className="week-event-day">
@@ -57,7 +60,7 @@ export function WeekEvents({ events }: WeekEventProps) {
 
             <BookingDrawer open={!!activeGroupEventIds} onClose={closeDrawer}>
                 {activeGroupEventIds && (
-                    <ViewGroupEvent eventIds={activeGroupEventIds} />
+                    <DrawerContent eventIds={activeGroupEventIds} />
                 )}
             </BookingDrawer>
         </div>

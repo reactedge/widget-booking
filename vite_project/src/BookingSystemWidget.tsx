@@ -39,7 +39,7 @@ export function BookingSystemWidget() {
 
     return (
         <ConfigStateProvider config={config}>
-            <VisitIntentStateProvider eventTypeGroups={config.eventTypeGroups}>
+            <VisitIntentStateProvider eventTypeGroups={config.eventTypeGroups} eventHosts={config.eventHosts}>
                 <UserStateProvider>
                     <BookingSystem />
                 </UserStateProvider>

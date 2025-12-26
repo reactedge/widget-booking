@@ -21,15 +21,17 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
     return (
         <EventStateProvider eventGroup={eventGroup}>
             <div className={`event-card${highlight() ? "--highlighting" : ""}`}>
+                <div className="card-info-hidden">
+                    {eventGroup.startTime}
+                    {eventGroup.name}
+                    {eventGroup.eventType}
+                </div>
                 <div className="event-card__time">
                     {getTime(eventGroup.startTime)}
                 </div>
 
                 <div className="event-card__body">
-                    <div className="event-card__host">
-                        <EventHostView eventGroup={eventGroup}/>
-                    </div>
-
+                    <EventHostView eventGroup={eventGroup}/>
                     <SetEventDetail eventGroup={eventGroup} onView={onView}/>
                 </div>
             </div>

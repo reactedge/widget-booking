@@ -7,6 +7,7 @@ export function getVisitIntentStep(
     if (!visitIntent.eventTypeGroupId) return "EventTypeGroup";
     if (!visitIntent.eventTypeId) return "EventType";
     if (!visitIntent.weekIntent) return "Week";
+    if (!visitIntent.hostId) return "Host";
 
     return "Ready";
 }

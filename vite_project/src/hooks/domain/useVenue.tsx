@@ -9,6 +9,7 @@ export function useVenue() {
 
     const venue = keystoneVenue? {
         id: keystoneVenue.id,
+        code: keystoneVenue.code,
         name: keystoneVenue.name
     }: undefined
 

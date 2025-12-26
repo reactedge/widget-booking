@@ -1,9 +1,11 @@
-export const tr = (text: string, venue: string | undefined) => {
+import type {Venue} from "../types/domain/types.ts";
+
+export const tr = (text: string, venue: Venue | undefined) => {
     if (venue === undefined) {
         return text
     }
 
-    switch (venue) {
+    switch (venue.code) {
         case 'date-mate':
             if (text === 'What eventType type do you need?') text = 'What date type do you fancy?'
             if (text === 'appointment') text = 'date'
@@ -32,6 +34,10 @@ export const tr = (text: string, venue: string | undefined) => {
             if (text === 'EventHost') text = 'Appointment Host'
             if (text === 'Not a working day') text = 'No availability'
             if (text === 'In Cart!') text = 'Invite Sent'
+            break;
+        case 'stocking-filler':
+            if (text === 'Appointment') text = 'Treat'
+            if ((text === 'Week')) text = 'Minute'
             break;
         case 'qichen-restaurant':
             if (text === "Let's set your appointment details") text = "Let's organise your party"
