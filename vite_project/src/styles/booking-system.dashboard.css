@@ -1,6 +1,6 @@
 .event-status {
     font-size: 0.75rem;
-    color: var(--header-color);
+    color: var(--header-color, #111);
 }
 
 .week-event-list {
@@ -19,6 +19,7 @@
 
 .week-event-list[data-layout="mobile"] {
     grid-template-columns: repeat(3, 1fr);
+    position: relative;
 }
 
 .week-event-day-title {
@@ -29,7 +30,7 @@
 .booking-context {
     margin: 0.75rem 0 0.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color, rgba(0,0,0,0.15));
     opacity: 0.6;
     animation: contentFadeIn 900ms ease forwards;
 }
@@ -47,5 +48,5 @@
 
 .booking-context__description {
     margin-top: 0.25rem;
-    color: var(--light-color);
+    color: var(--light-color, #666);
 }

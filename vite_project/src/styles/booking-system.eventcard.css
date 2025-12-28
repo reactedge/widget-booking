@@ -1,23 +1,31 @@
 .event-card, .event-card--highlighting, .event-card--activate {
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color, rgba(0,0,0,0.15));
     border-radius: 6px;
     padding: 0.4rem 0.5rem;
     margin-bottom: 0.4rem;
-    background: var(--card-background);
+    background: var(--card-background, #ffffff);
     transition: background-color 0.6s ease, box-shadow 0.6s ease;
     width: 95px;
+    position: relative;
     display: flex;
     justify-content: space-between;
-    position: relative;
 }
 
+.week-event-list[data-layout="mobile"] .event-slot-content {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    line-height: 1.2;
+}
+
+
 .event-card--highlighting {
-    background-color: var(--highlighting-color);
+    background-color: var(--highlighting-secondarycolor, #6b7280);
     box-shadow: 0 0 0 2px #38b2ac;
 }
 
 .event-card__host {
-    color: var(--light-color);
+    color: var(--light-color, #666);
 }
 
 .event-card__action {

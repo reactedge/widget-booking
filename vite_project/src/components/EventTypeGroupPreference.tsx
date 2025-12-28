@@ -11,6 +11,7 @@ export function EventTypeGroupPreference({
     const isMobile = useMediaQuery('(max-width: 768px)');
 
     if (config.eventTypeGroups === undefined) return <Spinner />;
+    if (config.eventTypeGroups.length === 1) return null;
 
     return (
         <div className="booking-options booking-options--group"

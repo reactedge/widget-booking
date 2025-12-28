@@ -1,67 +1,73 @@
 .booking-filters {
     display: flex;
-    gap: var(--standard-gap);
+    gap: var(--standard-gap, 1rem);
 }
 
 .booking-filters[data-layout="mobile"] {
     flex-direction: column;
+    gap: 0;
 }
 
 .booking-options {
     display: flex;
-    gap: var(--standard-gap);
+    gap: var(--standard-gap, 1rem);
     margin-bottom: 1rem;
 }
 
 .booking-options[data-layout="mobile"] {
     flex-direction: column;
+    margin-bottom: 0;
 }
 
 .booking-options .booking-option {
     display: block;
     text-align: left;
 
-    padding: var(--card-padding);
+    padding: var(--card-padding, 0.75rem);
 
-    border: 1px solid var(--border-color);
-    border-radius: var(--input-border-radius);
-    background: var(--card-background);
+    border: 1px solid var(--border-color, rgba(0,0,0,0.15));
+    border-radius: var(--input-border-radius, 6px);
+    background: var(--card-background, #ffffff);
 
     cursor: pointer;
 }
 
 .booking-options .booking-option-label {
-    font-family: var(--nav-font-family);
-    font-size: var(--nav-font-size);
+    font-family: var(--nav-font-family, 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;');
+    font-size: var(--nav-font-size, 1.1rem);
     margin-bottom: 0.3rem;
     color: var(--title-color);
     display: block;
 }
 
+.booking-options[data-layout="mobile"] .booking-option-label {
+    margin-bottom: 0;
+}
+
 .booking-option-desc {
     display: block;
-    line-height: var(--p-line-height);
-    color: var(--light-color);
+    line-height: var(--p-line-height, 1rem);
+    color: var(--light-color, #666);
     padding-top: 0.5rem;
-    border-top: 1px solid var(--border-color-faint);
+    border-top: 1px solid var(--border-color-faint, rgba(0, 0, 0, 0.08))
 }
 
 .booking-option:hover {
-    border-color: var(--cta-bg);
-    background: var(--highlighting-color);
+    border-color: var(--cta-bg, #f0f6ff);
+    background: var(--highlighting-secondarycolor);
 }
 
 .booking-option.is-selected {
-    background: var(--cta-bg);
-    border-color: var(--cta-bg);
+    background: var(--cta-bg, #f0f6ff);
+    border-color: var(--cta-bg, #f0f6ff);
 }
 
 .booking-option.is-selected .booking-option-label,
 .booking-option.is-selected .booking-option-desc {
-    color: var(--cta-color);
+    color: var(--cta-color, #fff);
 }
 
 .booking-options button.is-active {
-    border-color: var(--primary-color);
+    border-color: var(--primary-color, #111);;
 }
 

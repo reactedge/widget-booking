@@ -1,4 +1,3 @@
-import {EventHostView} from "./EventHostView.tsx";
 import {SetEventDetail} from "./SetEventDetail.tsx";
 import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
@@ -31,7 +30,6 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
                 </div>
 
                 <div className="event-card__body">
-                    <EventHostView eventGroup={eventGroup}/>
                     <SetEventDetail eventGroup={eventGroup} onView={onView}/>
                 </div>
             </div>

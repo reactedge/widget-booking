@@ -5,7 +5,7 @@ export function EventTypeGroupFilter() {
     const { visitIntent, setEventTypeGroup } = useVisitIntentState();
     const { config } = useConfigState();
 
-    if (config.eventTypeGroups === undefined || config.eventTypeGroups.length === 1) return null;
+    if (config.eventTypeGroups === undefined || config.eventTypeGroups.length <= 1) return null;
 
     return (
         <div className="booking-row booking-options--group">

@@ -19,9 +19,10 @@ export function GetWeekEvents() {
     const ready =
         visitIntent.eventTypeId !== null &&
         visitIntent.weekIntent !== null;
+
     const hostsIds = useMemo(
-        () => getEventHostIds(),
-        [getEventHostIds]
+        () => visitIntent.hostId ? [visitIntent.hostId] : getEventHostIds(),
+        [visitIntent.hostId, getEventHostIds]
     );
 
     const {

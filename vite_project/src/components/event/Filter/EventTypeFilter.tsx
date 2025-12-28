@@ -1,5 +1,7 @@
-import {useVisitIntentState} from "../../state/Intent/useVisitIntentState.ts";
-import {useEventTypes} from "../../hooks/domain/useEventTypes.tsx";
+import {useVisitIntentState} from "../../../state/Intent/useVisitIntentState.ts";
+import {useEventTypes} from "../../../hooks/domain/useEventTypes.tsx";
+import {FilterSection} from "../FilterSection.tsx";
+import {EventTypeOptions} from "./EventTypeFilter/EventTypeOptions.tsx";
 
 export function EventTypeFilter() {
     const { visitIntent, setEventType } = useVisitIntentState();
@@ -7,7 +9,27 @@ export function EventTypeFilter() {
 
     if (!visitIntent.eventTypeGroupId || eventTypes === undefined || eventTypesLoading) return null;
 
+    const selectedEventType = eventTypes.find(
+        t => t.id === visitIntent.eventTypeId
+    );
+
+
     return (
+        <FilterSection
+            title="Event type"
+            isResolved={!!visitIntent.eventTypeId}
+            summary={selectedEventType?.label}
+            onEdit={() => setEventType('')}
+        >
+            <EventTypeOptions
+                eventTypes={eventTypes}
+                selectedId={visitIntent.eventTypeId}
+                onSelect={setEventType}
+            />
+        </FilterSection>
+    )
+
+    /*return (
         <div className="booking-row booking-filter--event-type">
             <h3>Event type</h3>
 
@@ -35,5 +57,5 @@ export function EventTypeFilter() {
                 })}
             </div>
         </div>
-    );
+    );*/
 }

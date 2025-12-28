@@ -64,7 +64,6 @@ export const VisitIntentStateProvider: React.FC<VisitIntentStateProviderProps> =
         ) return;
 
         setEventTypeGroup(eventTypeGroups[0].id);
-        setEventHost(eventHosts[0].id);
 
         initialized.current = true;
     }, [eventTypeGroups, setEventTypeGroup]);

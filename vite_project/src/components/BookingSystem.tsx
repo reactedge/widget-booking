@@ -1,12 +1,12 @@
 import {InitFilter} from "./InitFilter.tsx";
 import {useVisitIntentState} from "../state/Intent/useVisitIntentState.ts";
 import {EventTypeGroupFilter} from "./event/EventTypeGroupFilter.tsx";
-import {EventTypeFilter} from "./event/EventTypeFilter.tsx";
-import {WeekFilter} from "./event/WeekFilter.tsx";
+import {EventTypeFilter} from "./event/Filter/EventTypeFilter.tsx";
+import {WeekFilter} from "./event/Filter/WeekFilter.tsx";
 import {EventDashboard} from "./event/EventDashboard.tsx";
 import {BookingContextSummary} from "./event/Dashboard/BookingContextSummary.tsx";
-import {HostFilter} from "./event/HostFilter.tsx";
 import {useMediaQuery} from "../hooks/ui/useMediaQuery.tsx";
+import {HostFilter} from "./event/Filter/HostFilter.tsx";
 
 export function BookingSystem() {
     const { visitIntent} = useVisitIntentState();
@@ -14,7 +14,7 @@ export function BookingSystem() {
 
     return (
         <div className="booking-system">
-            {(visitIntent.weekIntent !== "" && visitIntent.eventTypeId !== "" && visitIntent.hostId !== "") && (<>
+            {(visitIntent.weekIntent !== null && visitIntent.eventTypeId !== null) && (<>
                 <div className="booking-header">
                     <div className="booking-filters"
                          data-layout={isMobile ? 'mobile' : 'desktop'}>
@@ -28,7 +28,7 @@ export function BookingSystem() {
                             <WeekFilter weekSpan={4}/>
                         )}
 
-                        {visitIntent.hostId && (
+                        {((visitIntent.hostId!=="" || visitIntent.hostId===undefined) || (visitIntent.hostId==="")) && (
                             <HostFilter />
                         )}
                     </div>
@@ -39,7 +39,7 @@ export function BookingSystem() {
                 </div>
             </>)
             }
-            {(visitIntent.weekIntent === "" || visitIntent.eventTypeId === "" || visitIntent.hostId === "") && (<>
+            {(visitIntent.weekIntent === null || visitIntent.eventTypeId === null) && (<>
                 <InitFilter/>
             </>)
             }

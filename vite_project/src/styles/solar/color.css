@@ -15,7 +15,8 @@
     --drawer-color: #e5e5e5;
     --dark-color: #333;
     --filter-color: #ddd;
-    --highlighting-color: #e6fffa;
+    --highlighting-color: var(--cta-bg, #f0f6ff);
+    --highlighting-secondarycolor: var(--yellow2);
 
     /* auth */
     --auth-background: #f9f9f9;
