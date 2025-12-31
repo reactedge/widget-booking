@@ -1,25 +1,28 @@
 import {getWeeks} from "../../../../lib/date.ts";
-import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
 
 type WeekOptionsProps = {
-    weekSpan: number
+    weekSpan: number,
+    selectedId: string;
+    onSelect: (weekStart: string) => void;
 };
 
-export function WeekOptions({ weekSpan }: WeekOptionsProps) {
-    const { visitIntent, setWeekIntent } = useVisitIntentState();
-
+export function WeekOptions({
+    weekSpan,
+    selectedId,
+    onSelect
+}: WeekOptionsProps) {
     return (
         <div className="booking-options" role="group" aria-label="Week selection">
             {getWeeks(weekSpan).map((week) => {
-                const isActive = visitIntent.weekIntent === week.weekStart;
+                const isSelected = selectedId === week.weekStart;
 
                 return (
                     <button
                         key={week.weekStart}
                         type="button"
-                        className={`booking-option ${isActive ? "is-active" : ""}`}
-                        aria-pressed={isActive}
-                        onClick={() => setWeekIntent(week.weekStart)}
+                        className={`booking-option ${isSelected ? 'is-selected' : ''}`}
+                        aria-pressed={isSelected}
+                        onClick={() => onSelect(week.weekStart)}
                     >
                             <span className="booking-option-label">
                               {week.weekLabel}

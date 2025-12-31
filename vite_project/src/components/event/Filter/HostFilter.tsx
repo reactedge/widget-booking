@@ -2,10 +2,12 @@ import {useVisitIntentState} from "../../../state/Intent/useVisitIntentState.ts"
 import {useConfigState} from "../../../state/Config/useConfigState.ts";
 import {FilterSection} from "../FilterSection.tsx";
 import {PresenterOptions} from "./HostFilter/PresenterOptions.tsx";
+import {useState} from "react";
 
 export function HostFilter() {
     const { visitIntent, setEventHost } = useVisitIntentState();
     const { config } = useConfigState();
+    const [isEditing, setIsEditing] = useState(false);
 
     if (!config.eventHosts || config.eventHosts.length <= 1) {
         return null;
@@ -29,56 +31,18 @@ export function HostFilter() {
     return (
         <FilterSection
             title="Presenter"
-            isResolved={hasPresenter}
+            isResolved={hasPresenter && !isEditing}
             summary={summary}
-            onEdit={() => setEventHost('')}
+            onEdit={() => setIsEditing(true)}
         >
-            <PresenterOptions
+            {isEditing && (<PresenterOptions
                 hosts={config.eventHosts}
                 selectedId={visitIntent.hostId}
-                onSelect={setEventHost}
-            />
+                onSelect={(id) => {
+                    setEventHost(id);
+                    setIsEditing(false);
+                }}
+            />)}
         </FilterSection>
     );
-
-    /*return (
-        <div className="booking-row booking-filter--host">
-            <h3>Presenter</h3>
-
-            <div
-                className="booking-options booking-options--host"
-                role="group"
-                aria-label="Preferred host"
-            >
-                <button
-                    key=""
-                    type="button"
-                    className="booking-option"
-                    aria-pressed="false"
-                    onClick={() => setEventHost('')}
-                >
-                    <span className="booking-option-label">
-                        Any
-                    </span>
-                </button>
-                {config.eventHosts.map((host) => {
-                    const isActive = visitIntent.hostId === host.id;
-
-                    return (
-                        <button
-                            key={host.id}
-                            type="button"
-                            className={`booking-option ${isActive ? "is-active" : ""}`}
-                            aria-pressed={isActive}
-                            onClick={() => setEventHost(host.id)}
-                        >
-                            <span className="booking-option-label">
-                                {host.name}
-                            </span>
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
-    );*/
 }

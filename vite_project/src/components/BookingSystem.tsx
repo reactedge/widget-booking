@@ -14,7 +14,7 @@ export function BookingSystem() {
 
     return (
         <div className="booking-system">
-            {(visitIntent.weekIntent !== null && visitIntent.eventTypeId !== null) && (<>
+            {(visitIntent.weekIntent !== '' && visitIntent.eventTypeId !== '') && (<>
                 <div className="booking-header">
                     <div className="booking-filters"
                          data-layout={isMobile ? 'mobile' : 'desktop'}>
@@ -39,7 +39,7 @@ export function BookingSystem() {
                 </div>
             </>)
             }
-            {(visitIntent.weekIntent === null || visitIntent.eventTypeId === null) && (<>
+            {(visitIntent.weekIntent === '' || visitIntent.eventTypeId === '') && (<>
                 <InitFilter/>
             </>)
             }

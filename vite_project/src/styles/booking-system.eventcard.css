@@ -28,17 +28,18 @@
 
 .event-card__host {
     color: var(--light-color, #666);
+    font-size: 0.9rem;
 }
 
 .event-card__action {
     border: none;
     background: transparent;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: var(--text-font-family, 16px);
     opacity: 0.75;
     position: absolute;
-    right: 10px;
-    top: 30%;
+    right: -1px;
+    top: 4px;
 }
 
 .event-card__action:hover {

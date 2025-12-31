@@ -1,7 +1,15 @@
 .booking-system {
-    font-size: var(--text-font-size, 14px);
+    font-size: var(--p-size, 14px);
     line-height: 1.4;
     position: relative;
+}
+
+.booking-system button,
+.booking-system input,
+.booking-system select,
+.booking-system textarea,
+.booking-system span {
+    font: inherit;
 }
 
 .booking-header,
@@ -21,10 +29,22 @@
     gap: 0.4rem;
 }
 
-h1, h2, h3,
+h1, h2,
 .booking-title {
     color: var(--title-color, #111);
-    font-size: var(--h3-size, 18px);
+}
+
+h1 {
+    font-size: var(--h1-size, 24px);
+}
+
+h2 {
+    font-size: var(--h2-size, 20px);
+}
+
+h3 {
+    font-size: var(--h3-size, 16px);
+    color: var(--grey, #111);
 }
 
 .booking-context strong,

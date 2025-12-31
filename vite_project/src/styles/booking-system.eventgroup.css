@@ -10,7 +10,7 @@
 }
 
 .day-event-group__action button {
-    font-size: 0.75rem;
+    font-size: var(--text-font-family, 18px);
     padding: 0.2rem 0.4rem;
 }
 

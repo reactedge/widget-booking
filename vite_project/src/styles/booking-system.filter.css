@@ -16,10 +16,6 @@
     align-items: center;
 }
 
-.filter-group h3 {
-    font-size: 1rem;
-}
-
 .filter-summary {
     display: flex;
     align-items: center;
@@ -81,19 +77,18 @@
 }
 
 .booking-option:hover {
-    border-color: var(--cta-bg, #f0f6ff);
+    border-color: var(--cta-bg, #ccc);
     background: var(--highlighting-secondarycolor);
 }
 
 .booking-option.is-selected {
-    font-size: 40px;
     background: var(--cta-bg, #f0f6ff);
-    border-color: var(--cta-bg, #f0f6ff);
+    border-color: var(--cta-bg, #111);
 }
 
 .booking-option.is-selected .booking-option-label,
 .booking-option.is-selected .booking-option-desc {
-    color: var(--cta-color, #fff);
+    color: var(--cta-color, #111);
 }
 
 .booking-options button.is-active {

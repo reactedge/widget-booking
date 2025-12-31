@@ -23,8 +23,6 @@ export const AddToCart: React.FC = () => {
     }
 
     const handleAdd = async () => {
-        console.log('handle add with user')
-
         if (eventState.activeEventId === undefined) {
             alert("Select an event host for your appointment");
             return;
@@ -45,7 +43,6 @@ export const AddToCart: React.FC = () => {
     };
 
     const onAddClick = async () => {
-        console.log('handle add click')
         if (!user) {
             setPendingAdd(true);
             setShowAuth(true);

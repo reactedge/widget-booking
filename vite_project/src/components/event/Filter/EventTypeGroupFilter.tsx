@@ -7,7 +7,6 @@ import {useState} from "react";
 export function EventTypeGroupFilter() {
     const { visitIntent, setEventTypeGroup } = useVisitIntentState();
     const { config } = useConfigState();
-    const selectedId = visitIntent.eventTypeGroupId;
     const [isEditing, setIsEditing] = useState(false);
 
     if (config.eventTypeGroups === undefined) return null;
@@ -21,14 +20,14 @@ export function EventTypeGroupFilter() {
     return (
         <FilterSection
             title="Appointment type"
-            isResolved={!!selectedId && !isEditing}
+            isResolved={!!visitIntent.eventTypeGroupId && !isEditing}
             summary={selectedEventTypeGroup?.label}
             onEdit={() => setIsEditing(true)}
         >
             {isEditing && (
             <EventTypeGroupOptions
                 eventTypeGroups={config.eventTypeGroups}
-                selectedId={selectedId}
+                selectedId={visitIntent.eventTypeGroupId}
                 onSelect={(id) => {
                     setEventTypeGroup(id);
                     setIsEditing(false);

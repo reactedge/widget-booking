@@ -2,9 +2,11 @@ import {useVisitIntentState} from "../../../state/Intent/useVisitIntentState.ts"
 import {getWeeks} from "../../../lib/date.ts";
 import {FilterSection} from "../FilterSection.tsx";
 import {WeekOptions} from "./WeekFilter/WeekOptions.tsx";
+import {useState} from "react";
 
 export function WeekFilter({ weekSpan }: { weekSpan: number }) {
     const { visitIntent, setWeekIntent } = useVisitIntentState();
+    const [isEditing, setIsEditing] = useState(false);
 
     function formatWeekLabel(intent: string | null, weekSpan: number): string {
         if (!intent) return "";
@@ -21,41 +23,18 @@ export function WeekFilter({ weekSpan }: { weekSpan: number }) {
     return (
         <FilterSection
             title="Week"
-            isResolved={!!visitIntent.weekIntent}
+            isResolved={!!visitIntent.weekIntent && !isEditing}
             summary={formatWeekLabel(visitIntent.weekIntent, weekSpan)}
-            onEdit={() => setWeekIntent('')}
+            onEdit={() => setIsEditing(true)}
         >
-            <WeekOptions weekSpan={weekSpan} />
+            {isEditing && (<WeekOptions
+                weekSpan={weekSpan}
+                selectedId={visitIntent.hostId}
+                onSelect={(id) => {
+                    setWeekIntent(id);
+                    setIsEditing(false);
+                }}
+            />)}
         </FilterSection>
     )
-
-    /*return (
-        <div className="booking-row booking-filter--week">
-            <h3>Week</h3>
-
-            <div
-                className="booking-options booking-options--week"
-                role="group"
-                aria-label="Preferred week"
-            >
-                {getWeeks(weekSpan).map((week) => {
-                    const isActive = visitIntent.weekIntent === week.weekStart;
-
-                    return (
-                        <button
-                            key={week.weekStart}
-                            type="button"
-                            className={`booking-option ${isActive ? "is-active" : ""}`}
-                            aria-pressed={isActive}
-                            onClick={() => setWeekIntent(week.weekStart)}
-                        >
-                            <span className="booking-option-label">
-                              {week.weekLabel}
-                            </span>
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
-    );*/
 }
