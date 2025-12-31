@@ -35,6 +35,11 @@ export const tr = (text: string, venue: Venue | undefined) => {
             if (text === 'Not a working day') text = 'No availability'
             if (text === 'In Cart!') text = 'Invite Sent'
             break;
+        case 'southern-solar':
+            if (text === 'Appointment type') text = 'What can we help you with?';
+            if (text === 'Event type') text = 'Choose your appointment';
+            if (text === 'Presenter') text = 'Your solar specialist';
+            break;
         case 'stocking-filler':
             if (text === 'Appointment') text = 'Treat'
             if ((text === 'Week')) text = 'Minute'

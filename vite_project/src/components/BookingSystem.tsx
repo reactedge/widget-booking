@@ -1,6 +1,6 @@
 import {InitFilter} from "./InitFilter.tsx";
 import {useVisitIntentState} from "../state/Intent/useVisitIntentState.ts";
-import {EventTypeGroupFilter} from "./event/EventTypeGroupFilter.tsx";
+import {EventTypeGroupFilter} from "./event/Filter/EventTypeGroupFilter.tsx";
 import {EventTypeFilter} from "./event/Filter/EventTypeFilter.tsx";
 import {WeekFilter} from "./event/Filter/WeekFilter.tsx";
 import {EventDashboard} from "./event/EventDashboard.tsx";

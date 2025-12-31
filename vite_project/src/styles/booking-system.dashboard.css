@@ -18,7 +18,7 @@
 }
 
 .week-event-list[data-layout="mobile"] {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     position: relative;
 }
 

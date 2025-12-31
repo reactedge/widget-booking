@@ -59,7 +59,6 @@ export const AddToCart: React.FC = () => {
         let cancelled = false;
 
         const run = async () => {
-            console.log('useEffect with user and pending set')
             if (!pendingAdd || !user) return;
             await handleAdd();
             if (!cancelled) setPendingAdd(false);

@@ -48,3 +48,11 @@ export const groupEventStatusLabel = (eventGroup: DayGroupEvent): string => {
 
     return 'Available'
 }
+
+export function getDayGroupKey(group: DayGroupEvent): string {
+    return [
+        group.day,           // e.g. "monday"
+        group.startTime,     // e.g. "10:00"
+        ...group.eventIds,   // stable IDs
+    ].join('|');
+}

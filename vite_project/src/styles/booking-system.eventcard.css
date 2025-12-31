@@ -5,10 +5,12 @@
     margin-bottom: 0.4rem;
     background: var(--card-background, #ffffff);
     transition: background-color 0.6s ease, box-shadow 0.6s ease;
-    width: 95px;
     position: relative;
-    display: flex;
     justify-content: space-between;
+}
+
+.week-event-list[data-layout="mobile"] {
+    padding: 0;
 }
 
 .week-event-list[data-layout="mobile"] .event-slot-content {
@@ -34,6 +36,9 @@
     cursor: pointer;
     font-size: 0.9rem;
     opacity: 0.75;
+    position: absolute;
+    right: 10px;
+    top: 30%;
 }
 
 .event-card__action:hover {

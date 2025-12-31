@@ -3,13 +3,15 @@ import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
 import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
 import {getTime} from "../../../../lib/date.ts";
 import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
+import {EventHostView} from "./EventHostView.tsx";
 
 interface ListingProps {
     eventGroup: DayGroupEvent;
     onView: (eventIds: string[]) => void;
+    children: React.ReactNode;
 }
 
-export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) => {
+export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView, children }) => {
     const { dashboardState } = useDashboardState();
 
     const highlight = () => {
@@ -29,9 +31,13 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
                     {getTime(eventGroup.startTime)}
                 </div>
 
-                <div className="event-card__body">
-                    <SetEventDetail eventGroup={eventGroup} onView={onView}/>
+                <div className="event-card__host">
+                    <EventHostView eventGroup={eventGroup}/>
                 </div>
+
+                <SetEventDetail eventGroup={eventGroup} onView={onView}/>
+
+                {children}
             </div>
         </EventStateProvider>
     );

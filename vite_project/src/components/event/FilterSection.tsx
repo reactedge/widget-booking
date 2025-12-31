@@ -1,3 +1,5 @@
+import {useVenueTranslation} from "../../hooks/ui/useVenueTranslation.ts";
+
 type FilterSectionProps = {
     title: string;
     isResolved: boolean;
@@ -13,10 +15,12 @@ export function FilterSection({
       onEdit,
       children,
   }: FilterSectionProps) {
+    const t = useVenueTranslation();
+
     if (isResolved) {
         return (
             <div className="filter-summary">
-                <strong>{title}:</strong> {summary}
+                <strong>{t(title)}:</strong> {summary}
                 <button
                     type="button"
                     className="filter-edit"
@@ -31,7 +35,7 @@ export function FilterSection({
 
     return (
         <section className="filter-group">
-            <h3>{title}</h3>
+            <strong>{t(title)}</strong>
             {children}
         </section>
     );

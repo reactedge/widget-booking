@@ -1,5 +1,6 @@
 .booking-filters {
     display: flex;
+    flex-direction: column;
     gap: var(--standard-gap, 1rem);
 }
 
@@ -8,10 +9,38 @@
     gap: 0;
 }
 
+.filter-group {
+    display: flex;
+    gap: var(--standard-gap, 1rem);
+    justify-items: center;
+    align-items: center;
+}
+
+.filter-group h3 {
+    font-size: 1rem;
+}
+
+.filter-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.filter-edit {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.filter-edit:hover {
+    opacity: 1;
+}
+
 .booking-options {
     display: flex;
     gap: var(--standard-gap, 1rem);
-    margin-bottom: 1rem;
 }
 
 .booking-options[data-layout="mobile"] {
@@ -33,8 +62,7 @@
 }
 
 .booking-options .booking-option-label {
-    font-family: var(--nav-font-family, 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;');
-    font-size: var(--nav-font-size, 1.1rem);
+    font-family: var(--nav-font-family);
     margin-bottom: 0.3rem;
     color: var(--title-color);
     display: block;
@@ -58,6 +86,7 @@
 }
 
 .booking-option.is-selected {
+    font-size: 40px;
     background: var(--cta-bg, #f0f6ff);
     border-color: var(--cta-bg, #f0f6ff);
 }
