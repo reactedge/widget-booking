@@ -28,3 +28,11 @@ export interface KeystoneEventCalculationParams {
     eventTypeId?: string;
     shampoo?: 0 | 1;
 }
+
+export interface KeystoneCartEventParams {
+    [key: string]: unknown;
+    eventId?: string;
+    eventTypeId?: string;
+    shampoo?: 0 | 1;
+    turnstileToken: string;
+}

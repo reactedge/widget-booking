@@ -39,7 +39,7 @@
     display: flex;
     gap: 0.5rem;
     align-items: baseline;
-    font-size: var(--text-font-family, 14px);
+    font-size: var(--text-font-size, 14px);
 }
 
 .booking-context__main strong {

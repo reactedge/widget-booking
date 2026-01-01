@@ -38,19 +38,17 @@ export function WeekEvents({ events }: WeekEventProps) {
                                     const isOpen = openGroupKey === groupKey;
 
                                     return (
-                                        <>
-                                            <DayEventGroup
-                                                key={groupKey}
-                                                eventGroup={eventGroup}
-                                                onView={() => setOpenGroupKey(groupKey)}
-                                            >
-                                            {isOpen && (
-                                                <DrawerInline onClose={() => setOpenGroupKey(null)}>
-                                                    <DrawerContent eventIds={eventGroup.eventIds} />
-                                                </DrawerInline>
-                                            )}
-                                            </DayEventGroup>
-                                        </>
+                                        <DayEventGroup
+                                            key={groupKey}
+                                            eventGroup={eventGroup}
+                                            onView={() => setOpenGroupKey(groupKey)}
+                                        >
+                                        {isOpen && (
+                                            <DrawerInline onClose={() => setOpenGroupKey(null)}>
+                                                <DrawerContent eventIds={eventGroup.eventIds} />
+                                            </DrawerInline>
+                                        )}
+                                        </DayEventGroup>
                                     );
                                 })}
                             </div>

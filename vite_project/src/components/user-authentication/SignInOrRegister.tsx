@@ -11,7 +11,6 @@ export const SignInOrRegister: React.FC = () => {
 
     return (
         <div className="drawer-auth">
-            <h4>Sign in to continue</h4>
             <Sign />
             <div className="drawer-auth-switch">
                 New here? <button>Sign up</button>

@@ -34,7 +34,7 @@ export function BookingSystemWidget() {
     const config: ConfigInfoState = {
         venue,
         eventHosts,
-        eventTypeGroups: groups,
+        eventTypeGroups: groups
     };
 
     return (

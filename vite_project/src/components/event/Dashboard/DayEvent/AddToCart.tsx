@@ -1,21 +1,33 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {getEventCartQty} from "../../../../domain/cart/cart.ts";
 import {ErrorState} from "../../../global/ErrorState.tsx";
-import {SignInOrRegister} from "../../../user-authentication/SignInOrRegister.tsx";
 import {useUserState} from "../../../../state/User/useUserState.ts";
 import {useEventState} from "../../../../state/Event/useEventState.ts";
 import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
 import {useAddToCart} from "../../../../hooks/domain/useAddToCart.tsx";
 import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
+import {getCloudflareSiteKey} from "../../../../security/turnstileService.ts";
+import {Turnstile} from "../../../../security/Turnstile.tsx";
 
-export const AddToCart: React.FC = () => {
+interface AddToCartProps {
+    onRequireAuth: () => void
+}
+
+export function AddToCart({onRequireAuth}: AddToCartProps) {
     const { user } = useUserState();
     const { eventState } = useEventState();
     const { visitIntent } = useVisitIntentState();
     const { addToCart, loadingAddToCart, errorAddToCart } = useAddToCart();
-    const [showAuth, setShowAuth] = useState(false);
     const { increaseVersionNumber, setLastBookedEventId } = useDashboardState();
-    const [pendingAdd, setPendingAdd] = useState(false);
+    const turnstileEnabled = Boolean(getCloudflareSiteKey());
+    const [verifiedAt, setVerifiedAt] = useState<number | null>(null);
+    const [awaitingSecurity, setAwaitingSecurity] = useState(false);
+    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
+    const isHumanVerified =
+        turnstileToken &&
+        verifiedAt &&
+        Date.now() - verifiedAt < 1000 * 90; // 90s safety window
 
     const refreshDashboard = () => {
         increaseVersionNumber()
@@ -23,8 +35,15 @@ export const AddToCart: React.FC = () => {
     }
 
     const handleAdd = async () => {
-        if (eventState.activeEventId === undefined) {
+        if (!eventState.activeEventId) {
             alert("Select an event host for your appointment");
+            return;
+        }
+
+        if (!isHumanVerified) {
+            window.dispatchEvent(
+                new CustomEvent("booking:security-required")
+            );
             return;
         }
 
@@ -33,19 +52,21 @@ export const AddToCart: React.FC = () => {
                 eventId: eventState.activeEventId,
                 eventTypeId: visitIntent.eventTypeId,
                 shampoo: eventState.shampoo ? 1 : 0,
+                turnstileToken,
             });
-            refreshDashboard()
-            setPendingAdd(false);
+
+            refreshDashboard();
+            setAwaitingSecurity(false);
         } catch (err) {
-            setPendingAdd(false);
             console.error(err);
+            setAwaitingSecurity(false);
         }
     };
 
     const onAddClick = async () => {
         if (!user) {
-            setPendingAdd(true);
-            setShowAuth(true);
+            setAwaitingSecurity(true);
+            onRequireAuth();
             return;
         }
 
@@ -53,20 +74,30 @@ export const AddToCart: React.FC = () => {
     };
 
     useEffect(() => {
-        let cancelled = false;
-
-        const run = async () => {
-            if (!pendingAdd || !user) return;
-            await handleAdd();
-            if (!cancelled) setPendingAdd(false);
+        const onSuccess = (e: CustomEvent) => {
+            setTurnstileToken(e.detail.token);
+            setVerifiedAt(Date.now());
         };
 
-        run();
+        const onExpired = () => {
+            setTurnstileToken(null);
+            setVerifiedAt(null);
+        };
+
+        window.addEventListener("booking:security-success", onSuccess as EventListener);
+        window.addEventListener("booking:security-expired", onExpired);
 
         return () => {
-            cancelled = true;
+            window.removeEventListener("booking:security-success", onSuccess as EventListener);
+            window.removeEventListener("booking:security-expired", onExpired);
         };
-    }, [user, pendingAdd]);
+    }, []);
+
+    useEffect(() => {
+        if (awaitingSecurity && turnstileToken && user) {
+            handleAdd();
+        }
+    }, [awaitingSecurity, turnstileToken, user]);
 
     const activeEventId = eventState.activeEventId;
 
@@ -93,10 +124,13 @@ export const AddToCart: React.FC = () => {
                     disabled={!canAttemptAdd}
                     onClick={onAddClick}
             >
-                Book{loadingAddToCart && 'ing'} appointment
+                Book{loadingAddToCart && 'ing'} appointment+-
             </button>
-            {showAuth && !user && (
-                <SignInOrRegister />
+            {turnstileEnabled && (
+                <Turnstile
+                    siteKey={getCloudflareSiteKey()}
+                    containerId="booking-turnstile"
+                />
             )}
         </>
     );

@@ -19,6 +19,9 @@ export interface InitFilterConfig {
 export interface WidgetConfig {
     venueId: string;
     eventHostIds: EventHostIds;
+    turnstile?: {
+        siteKey: string;
+    };
 }
 
 
