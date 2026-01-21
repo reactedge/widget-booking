@@ -1,0 +1,57 @@
+name: Build & publish widget
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: vite_project
+        run: npm install
+
+      - name: Build widget
+        working-directory: vite_project
+        run: npm run build
+
+      - name: Verify artifact exists
+        run: |
+          VERSION=$(node -p "require('./vite_project/package.json').version")
+          test -f "www/widget-booking@${VERSION}.iife.js"
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.WIDGET_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          if [ -z "${{ secrets.WIDGET_SSH_HOST }}" ]; then
+            echo "ERROR: WIDGET_SSH_HOST not set (environment secrets not visible)"
+            exit 1
+          fi
+
+          ssh-keyscan -H "${{ secrets.WIDGET_SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Publish artifact
+        run: |
+          VERSION=$(node -p "require('./vite_project/package.json').version")
+          ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
+            "mkdir -p /var/www/widgets/booking"
+          rsync -av \
+            --chown=www-data:www-data \
+            www/widget-booking@${VERSION}.iife.js* \
+            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/booking/
