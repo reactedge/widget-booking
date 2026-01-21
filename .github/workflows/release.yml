@@ -26,7 +26,7 @@ jobs:
 
       - name: Build widget
         working-directory: vite_project
-        run: npm run build
+        run: npm run build --mode=prod
 
       - name: Verify artifact exists
         run: |
