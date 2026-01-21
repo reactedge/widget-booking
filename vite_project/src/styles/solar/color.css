@@ -12,7 +12,7 @@
     --border-color-faint: rgba(0, 0, 0, 0.05);
 
     /* surfaces */
-    --drawer-color: #e5e5e5;
+    --drawer-color: #888;
     --dark-color: #333;
     --filter-color: #ddd;
     --highlighting-color: var(--cta-bg, #f0f6ff);

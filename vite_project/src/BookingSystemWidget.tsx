@@ -8,6 +8,7 @@ import {useEventHosts} from "./hooks/domain/useEventHosts.tsx";
 import {ConfigStateProvider} from "./state/Config/ConfigStateProvider.tsx";
 import type {ConfigInfoState} from "./state/Config/type.ts";
 import {UserStateProvider} from "./state/User/UserStateProvider.tsx";
+import {activity} from "../activity";
 
 export function BookingSystemWidget() {
     const { venue, venueError: venueError } = useVenue();
@@ -28,8 +29,11 @@ export function BookingSystemWidget() {
     }
 
     if (!venue || !eventHosts || !groups) {
+        activity('config-load', 'Config Data not loaded',{venue, eventHosts, groups});
         return <Spinner />;
     }
+
+    activity('config-load', 'Config Data',{venue, eventHosts, groups});
 
     const config: ConfigInfoState = {
         venue,

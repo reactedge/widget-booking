@@ -15,7 +15,8 @@ export function BookingContextSummary({
     const {eventType, eventTypeLoading} = useEventType(eventTypeId);
     const { weekNumber, startDate, endDate } = getWeekRangeInfo(weekStart);
 
-    if (eventTypeLoading || eventType === undefined) return <Spinner />
+    if (eventTypeLoading) return <Spinner />
+    if (eventType === undefined) return null
 
     return (
         <div className="booking-context">

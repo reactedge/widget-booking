@@ -29,7 +29,7 @@ export function WeekFilter({ weekSpan }: { weekSpan: number }) {
         >
             {isEditing && (<WeekOptions
                 weekSpan={weekSpan}
-                selectedId={visitIntent.hostId}
+                selectedId={visitIntent.weekIntent}
                 onSelect={(id) => {
                     setWeekIntent(id);
                     setIsEditing(false);

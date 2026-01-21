@@ -40,6 +40,11 @@ export const tr = (text: string, venue: Venue | undefined) => {
             if (text === 'Event type') text = 'Choose your appointment';
             if (text === 'Presenter') text = 'Your solar specialist';
             break;
+        case 'green-edge':
+            if (text === 'Appointment type') text = 'What type of care does your garden needs?';
+            if (text === 'Event type') text = 'Choose your appointment';
+            if (text === 'Presenter') text = 'Your gardener specialist';
+            break;
         case 'stocking-filler':
             if (text === 'Appointment') text = 'Treat'
             if ((text === 'Week')) text = 'Minute'

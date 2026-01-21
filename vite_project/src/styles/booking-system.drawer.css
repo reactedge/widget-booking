@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--dark-color, #111);;
+    border-bottom: 1px solid var(--dark-color, #111);
 }
 
 .drawer-header h3 {
@@ -67,21 +67,19 @@
 .drawer-inline {
     position: absolute;
     background: #ffffff;
-    width: min(250%, 90vw);
+    width: 400px;
     top: 0;
     left: -20px;
     right: 0;
+    border-radius: 5px;
 
     margin-top: 0.25rem;
-    z-index: 2;
+    z-index: 20;
 
     border: 1px solid var(--drawer-color, #1a1a1a);
 }
 
-.drawer--top {
-
-}
-
-.drawer--left {
-
+.drawer-auth-form input {
+    width: 100%;
+    box-sizing: border-box;
 }

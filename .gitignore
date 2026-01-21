@@ -5,3 +5,4 @@ www
 .env
 widget.local.crt
 widget.local.key
+test-results

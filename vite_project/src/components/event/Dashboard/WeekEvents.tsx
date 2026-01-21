@@ -7,8 +7,8 @@ import {DrawerContent} from "./WeekEvents/DrawerContent.tsx";
 import type {IntentEvent} from "../../../types/domain/event.type.ts";
 import {useUserState} from "../../../state/User/useUserState.ts";
 import {useMediaQuery} from "../../../hooks/ui/useMediaQuery.tsx";
-import {DrawerInline} from "../../DrawerInline.tsx";
-import {getDayGroupKey} from "../../../domain/event/getGroupEventStatus.ts";
+import {BookingDrawer} from "../../BookingDrawer.tsx";
+import type {DayGroupEvent} from "../../../types/domain/dashboard.type.tsx";
 
 interface WeekEventProps {
     events: IntentEvent[];
@@ -16,8 +16,9 @@ interface WeekEventProps {
 
 export function WeekEvents({ events }: WeekEventProps) {
     const { user } = useUserState();
-    const [openGroupKey, setOpenGroupKey] = useState<string | null>(null);
     const isMobile = useMediaQuery('(max-width: 768px)');
+    const [viewedEventIds, setViewedEventIds] = useState<string[] | null>(null);
+    const [isOpen, setIsOpen] = useState<boolean | null>(null);
 
     return (
         <div
@@ -33,24 +34,18 @@ export function WeekEvents({ events }: WeekEventProps) {
 
                         {dayEventList.length > 0 ? (
                             <div className="week-event-day-groups">
-                                {dayEventList.map((eventGroup) => {
-                                    const groupKey = getDayGroupKey(eventGroup);
-                                    const isOpen = openGroupKey === groupKey;
-
-                                    return (
+                                {dayEventList.map(
+                                    (eventGroup: DayGroupEvent, index: number) => (
                                         <DayEventGroup
-                                            key={groupKey}
+                                            key={index}
                                             eventGroup={eventGroup}
-                                            onView={() => setOpenGroupKey(groupKey)}
-                                        >
-                                        {isOpen && (
-                                            <DrawerInline onClose={() => setOpenGroupKey(null)}>
-                                                <DrawerContent eventIds={eventGroup.eventIds} />
-                                            </DrawerInline>
-                                        )}
-                                        </DayEventGroup>
-                                    );
-                                })}
+                                            onView={(eventIds) => {
+                                                setViewedEventIds(eventIds);
+                                                setIsOpen(true);
+                                            }}
+                                        />
+                                    )
+                                )}
                             </div>
                         ) : (
                             <NoDayEventList/>
@@ -58,6 +53,21 @@ export function WeekEvents({ events }: WeekEventProps) {
                     </div>
                 );
             })}
+            {isOpen && (
+                <div className="drawer-inline">
+                    <BookingDrawer
+                        open={!!viewedEventIds}
+                        onClose={() => {
+                            setViewedEventIds(null);
+                            setIsOpen(false);
+                        }}
+                    >
+                        {viewedEventIds && (
+                            <DrawerContent eventIds={viewedEventIds}/>
+                        )}
+                    </BookingDrawer>
+                </div>
+            )}
         </div>
     );
 }

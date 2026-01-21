@@ -24,10 +24,12 @@ export function EventTypeOptions({
                         aria-pressed={isSelected}
                         onClick={() => onSelect(type.id)}
                     >
-                        {type.label}
+                        <span className="booking-option-label">
+                            {type.label}
+                        </span>
                     </button>
-                );
+            );
             })}
-        </div>
+            </div>
     );
 }

@@ -8,10 +8,9 @@ import {EventHostView} from "./EventHostView.tsx";
 interface ListingProps {
     eventGroup: DayGroupEvent;
     onView: (eventIds: string[]) => void;
-    children: React.ReactNode;
 }
 
-export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView, children }) => {
+export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) => {
     const { dashboardState } = useDashboardState();
 
     const highlight = () => {
@@ -36,8 +35,6 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView, chil
                 </div>
 
                 <SetEventDetail eventGroup={eventGroup} onView={onView}/>
-
-                {children}
             </div>
         </EventStateProvider>
     );

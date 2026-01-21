@@ -24,11 +24,13 @@ export function PresenterOptions({
                         aria-pressed={isSelected}
                         onClick={() => onSelect(host.id)}
                     >
-                        {host.name}
+                        <span className="booking-option-label">
+                            {host.name}
+                        </span>
                     </button>
-                );
+            );
             })}
-        </div>
+            </div>
     );
 }
 

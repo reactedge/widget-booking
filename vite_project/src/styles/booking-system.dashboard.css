@@ -9,6 +9,7 @@
     gap: 0.75rem;
     opacity: 0.6;
     animation: contentFadeIn 900ms ease forwards;
+    position: relative;
 }
 
 @keyframes contentFadeIn {
