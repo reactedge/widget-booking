@@ -1,53 +1,22 @@
-import {BookingSystem} from "./components/BookingSystem.tsx";
-import {useEventTypeGroups} from "./hooks/domain/useEventTypeGroups.tsx";
-import {Spinner} from "./components/global/Spinner.tsx";
-import {ErrorState} from "./components/global/ErrorState.tsx";
-import {VisitIntentStateProvider} from "./state/Intent/VisitIntentStateProvider.tsx";
-import {useVenue} from "./hooks/domain/useVenue.tsx";
-import {useEventHosts} from "./hooks/domain/useEventHosts.tsx";
-import {ConfigStateProvider} from "./state/Config/ConfigStateProvider.tsx";
-import type {ConfigInfoState} from "./state/Config/type.ts";
-import {UserStateProvider} from "./state/User/UserStateProvider.tsx";
-import {activity} from "../activity";
+import {BookingSystemWrapper} from "./components/BookingSystemWrapper.tsx";
+import {useWidgetConfig} from "./hooks/useWidgetConfig.ts";
+import {SystemStateProvider} from "./state/System/SystemStateProvider.tsx";
 
-export function BookingSystemWidget() {
-    const { venue, venueError: venueError } = useVenue();
-    const venueId = venue?.id;
+type Props = {
+    host: HTMLElement;
+};
 
-    const {
-        eventHosts,
-        hostsError,
-    } = useEventHosts(venueId);
+export function BookingSystemWidget({ host }: Props) {
+    const config = useWidgetConfig(host);
 
-    const {
-        groups,
-        eventTypeGroupError
-    } = useEventTypeGroups(venueId);
-
-    if (venueError || hostsError || eventTypeGroupError) {
-        return <ErrorState />;
+    if (!config) {
+        console.warn('[ContactUs] Widget is not correctly configured');
+        return null;
     }
-
-    if (!venue || !eventHosts || !groups) {
-        activity('config-load', 'Config Data not loaded',{venue, eventHosts, groups});
-        return <Spinner />;
-    }
-
-    activity('config-load', 'Config Data',{venue, eventHosts, groups});
-
-    const config: ConfigInfoState = {
-        venue,
-        eventHosts,
-        eventTypeGroups: groups
-    };
 
     return (
-        <ConfigStateProvider config={config}>
-            <VisitIntentStateProvider eventTypeGroups={config.eventTypeGroups} eventHosts={config.eventHosts}>
-                <UserStateProvider>
-                    <BookingSystem />
-                </UserStateProvider>
-            </VisitIntentStateProvider>
-        </ConfigStateProvider>
+        <SystemStateProvider config={config}>
+            <BookingSystemWrapper venueId={config.venueId} />
+        </SystemStateProvider>
     );
 }

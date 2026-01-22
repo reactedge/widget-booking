@@ -1,8 +1,8 @@
 // infra/keystone/useKeystoneEventTypeGroups.ts
 import { useEffect, useState } from "react";
-import {graphqlRequest} from "../../lib/graphql.ts";
 import {getError} from "../../lib/error.ts";
 import type {KeystoneVenue} from "../../types/infra/keystone";
+import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const QUERY = `
   query Venues($where: VenueWhereInput!) {
@@ -18,6 +18,7 @@ export function useKeystoneVenue(venueCode: string) {
     const [data, setData] = useState<KeystoneVenue>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+    const { graphqlClient } = useSystemState()
 
     const load = async () => {
         if (!venueCode) return;
@@ -26,7 +27,7 @@ export function useKeystoneVenue(venueCode: string) {
         setError(null);
 
         try {
-            const result = await graphqlRequest<{
+            const result = await graphqlClient<{
                 venues: KeystoneVenue[];
             }>(QUERY, {
                 where: { code: { equals: venueCode } },

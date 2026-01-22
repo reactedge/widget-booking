@@ -1,6 +1,6 @@
 import {useCallback, useState} from "react";
-import {graphqlRequest} from "../../lib/graphql.ts";
 import type {KeystoneCartEventParams} from "../../types/infra/keystone";
+import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const MUTATION = `
     mutation AddToCart($eventId: ID!, $eventTypeId: ID!, $shampoo: Int, $turnstileToken: String!) {
@@ -11,6 +11,7 @@ const MUTATION = `
 export const useKeystoneAddToCart = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+    const { graphqlClient } = useSystemState()
 
     const addToCart = useCallback(
         async (variables: KeystoneCartEventParams) => {
@@ -18,7 +19,7 @@ export const useKeystoneAddToCart = () => {
             setError(null);
 
             try {
-                const result = await graphqlRequest<{
+                const result = await graphqlClient<{
                     addToCart: string;
                 }>(MUTATION, variables);
 

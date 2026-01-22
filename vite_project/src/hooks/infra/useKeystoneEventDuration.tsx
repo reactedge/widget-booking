@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
-import {graphqlRequest} from "../../lib/graphql.ts";
 import {getError} from "../../lib/error.ts";
 import type {KeystoneEventCalculationParams} from "../../types/infra/keystone";
+import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const QUERY = `
     query CalculateEventDuration($eventTypeId: ID!, $eventId: ID!, $shampoo: Int) {
@@ -18,6 +18,7 @@ export const useKeystoneEventDuration = ({
     const [data, setData] = useState<string | undefined>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+    const { graphqlClient } = useSystemState()
 
     const load = useCallback(async () => {
         if (!ready) return;
@@ -26,7 +27,7 @@ export const useKeystoneEventDuration = ({
         setError(null);
 
         try {
-            const result = await graphqlRequest<{
+            const result = await graphqlClient<{
                 calculateEventDuration: string;
             }>(QUERY, {
                 eventId,

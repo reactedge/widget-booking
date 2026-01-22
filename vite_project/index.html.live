@@ -12,13 +12,11 @@
     {
         "widgets": {
             "booking": {
-                "api": "https://booking-api.local/api/graphql/"
+                "api": "https://booking-api.reactedge.net/api/graphql/"
             }
         },
-        "integrations": {
-            "cloudflare": {
-                "siteKey": "0x4AAAAAACIE8OqQC3iwDaZh"
-            }
+        "security": {
+            "cloudflareKey": "0x4AAAAAACIE8OqQC3iwDaZh"
         }
     }
 </script>

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {graphqlRequest} from "../../lib/graphql.ts";
 import {getError} from "../../lib/error.ts";
 import type {KeystoneAuthenticatedUser} from "../../types/infra/keystone";
+import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const QUERY = `
   query {
@@ -53,13 +53,14 @@ export function useKeystoneAuthenticatedUser() {
     const [data, setData] = useState<KeystoneAuthenticatedUser>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+    const { graphqlClient } = useSystemState()
 
     const load = async () => {
         setLoading(true);
         setError(null);
 
         try {
-            const result = await graphqlRequest<{
+            const result = await graphqlClient<{
                 authenticatedItem: KeystoneAuthenticatedUser;
             }>(QUERY);
 

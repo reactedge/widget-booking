@@ -1,7 +1,7 @@
 // domain/useLoginUser.ts
 import {useCallback, useState} from "react";
-import {graphqlRequest} from "../../lib/graphql.ts";
 import type {KeystoneAuthenticationParams} from "../../types/infra/keystone";
+import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const MUTATION = `
   mutation AuthenticateUserWithPassword($email: String!, $password: String!) {
@@ -43,6 +43,7 @@ type AuthenticateUserResult = AuthSuccess | AuthFailure;
 export const useKeystoneAuthenticateUser = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
+    const { graphqlClient } = useSystemState()
 
     const authenticate = useCallback(
         async (variables: KeystoneAuthenticationParams) => {
@@ -50,7 +51,7 @@ export const useKeystoneAuthenticateUser = () => {
             setError(null);
 
             try {
-                const result = await graphqlRequest<{
+                const result = await graphqlClient<{
                     authenticateUserWithPassword: AuthenticateUserResult ;
                 }>(MUTATION, variables);
 

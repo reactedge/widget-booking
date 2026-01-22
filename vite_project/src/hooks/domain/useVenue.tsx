@@ -1,11 +1,11 @@
 // domain/hooks/useEventTypeGroups.ts
 import {useKeystoneVenue} from "../infra/useKeystoneVenue.tsx";
+import {activity} from "../../../activity";
 
-const VENUE_IDENTIFIER = import.meta.env.VITE_VENUE_CODE;
-
-export function useVenue() {
+export function useVenue(venueId: string) {
+    activity('venue', 'Venue loaded', {venueId});
     const { keystoneVenue, loading, error, refetch } =
-        useKeystoneVenue(VENUE_IDENTIFIER);
+        useKeystoneVenue(venueId);
 
     const venue = keystoneVenue? {
         id: keystoneVenue.id,

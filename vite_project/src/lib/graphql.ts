@@ -1,32 +1,49 @@
 // infra/graphqlClient.ts
 import {activity} from "../../activity";
 
-const GRAPHQL_ENDPOINT = import.meta.env.VITE_KEYSTONE_GRAPHQL_ENDPOINT;
-
-export async function graphqlRequest<T>(
+export type GraphqlClient = <T>(
     query: string,
     variables?: Record<string, unknown>
-): Promise<T> {
-    const res = await fetch(GRAPHQL_ENDPOINT, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query, variables }),
-    });
+) => Promise<T>;
 
-    if (!res.ok) {
-        activity('graphql', 'GraphQL error',{api_endpoint: GRAPHQL_ENDPOINT, query, variables }, 'error');
-        throw new Error(`Network error: ${res.status}`);
-    }
+export function createGraphqlClient(apiEndpoint: string) {
+    console.log('useKeystoneVenue 4', apiEndpoint)
+    return async function graphqlRequest<T>(
+        query: string,
+        variables?: Record<string, unknown>
+    ): Promise<T> {
+        console.log('useKeystoneVenue 4', apiEndpoint)
+        const res = await fetch(apiEndpoint, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query, variables }),
+        });
 
-    const json = await res.json();
+        if (!res.ok) {
+            activity(
+                "graphql",
+                "GraphQL error",
+                { api_endpoint: apiEndpoint, query, variables },
+                "error"
+            );
+            throw new Error(`Network error: ${res.status}`);
+        }
 
-    if (json.errors) {
-        activity('graphql', 'GraphQL json parsing',{res }, 'error');
-        throw new Error(json.errors.map((e: any) => e.message).join(", "));
-    }
+        const json = await res.json();
 
-    return json.data;
+        if (json.errors) {
+            activity(
+                "graphql",
+                "GraphQL json parsing",
+                { res: json },
+                "error"
+            );
+            throw new Error(json.errors.map((e: any) => e.message).join(", "));
+        }
+
+        return json.data;
+    };
 }

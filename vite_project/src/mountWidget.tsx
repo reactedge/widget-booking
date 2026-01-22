@@ -19,5 +19,5 @@ export function mountWidget(hostElement: HTMLElement) {
 
     // Create React root inside shadow
     const root = createRoot(shadow);
-    root.render(<BookingSystemWidget />);
+    root.render(<BookingSystemWidget host={hostElement} />);
 }
