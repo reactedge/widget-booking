@@ -24,7 +24,7 @@ export function activity(
     if (!isActivityEnabled()) return;
 
     const payload = {
-        widget: 'contact',
+        widget: 'booking',
         phase,
         message,
         data,

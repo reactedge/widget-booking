@@ -41,12 +41,3 @@ export function ensureTurnstileLoaded(): Promise<void> {
 
     return loadingPromise;
 }
-
-
-export function getCloudflareSiteKey() {
-    return import.meta.env.VITE_CLOUDFLARE_SITE_KEY;
-}
-
-export function isTurnstileEnabled() {
-    return Boolean(getCloudflareSiteKey());
-}

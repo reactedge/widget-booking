@@ -8,6 +8,7 @@ import {
     WALKIN
 } from "../../types/domain/event.type.ts";
 import {isPastEvent} from "./isPastEvent.ts";
+import type {GroupEventInfoState} from "../../state/GroupEvent/type.ts";
 
 export const groupEventStatus = (eventGroup: DayGroupEvent): EventStatus => {
     if (isPastEvent(eventGroup)) {
@@ -55,4 +56,19 @@ export function getDayGroupKey(group: DayGroupEvent): string {
         group.startTime,     // e.g. "10:00"
         ...group.eventIds,   // stable IDs
     ].join('|');
+}
+
+export function groupEventHash(eventIds: string[]): string {
+    return eventIds.slice().sort().join("|");
+}
+
+export function isGroupEventActive(
+    groupEventState: GroupEventInfoState,
+    eventGroup: DayGroupEvent
+): boolean {
+    if (!groupEventState.activeGroupEventHash) return false;
+    return (
+        groupEventState.activeGroupEventHash ===
+        groupEventHash(eventGroup.eventIds)
+    );
 }

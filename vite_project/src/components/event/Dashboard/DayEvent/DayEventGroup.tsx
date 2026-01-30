@@ -4,6 +4,10 @@ import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx
 import {getTime} from "../../../../lib/date.ts";
 import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
 import {EventHostView} from "./EventHostView.tsx";
+import {useGroupEventState} from "../../../../state/GroupEvent/useGroupEventState.ts";
+import {isGroupEventActive} from "../../../../domain/event/getGroupEventStatus.ts";
+import {DrawerContent} from "../WeekEvents/DrawerContent.tsx";
+import {BookingDrawer} from "../../../BookingDrawer.tsx";
 
 interface ListingProps {
     eventGroup: DayGroupEvent;
@@ -12,6 +16,7 @@ interface ListingProps {
 
 export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) => {
     const { dashboardState } = useDashboardState();
+    const { groupEventState, resetActiveGroupEvent } = useGroupEventState();
 
     const highlight = () => {
         if (dashboardState.lastBookedEventId === null) return false;
@@ -35,6 +40,17 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
                 </div>
 
                 <SetEventDetail eventGroup={eventGroup} onView={onView}/>
+                {isGroupEventActive(groupEventState, eventGroup) && (
+                    <BookingDrawer open={!!eventGroup.eventIds}
+                            onClose={() => {
+                                resetActiveGroupEvent();
+                            }}
+                        >
+                        {eventGroup.eventIds && (
+                            <DrawerContent eventIds={eventGroup.eventIds}/>
+                        )}
+                    </BookingDrawer>
+                )}
             </div>
         </EventStateProvider>
     );

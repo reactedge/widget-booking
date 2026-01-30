@@ -13,7 +13,8 @@ export const EventEndTime: React.FC = () => {
         eventState.activeEventId
     )
 
-    if (loadingDuration || duration === undefined) return <Spinner />
+    if (loadingDuration) return <Spinner />
+    if (duration === undefined) return null;
     if (errorDuration) return  <ErrorState />
 
     return (

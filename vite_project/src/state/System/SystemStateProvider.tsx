@@ -20,10 +20,16 @@ export const SystemStateProvider: React.FC<SystemStateProviderProps> = ({ childr
         [config.api]
     );
 
+    const isTurnstileEnabled = () => {
+        return Boolean(config.cloudflareKey);
+    }
+
     return (
         <LocalStateProvider
             value={{
-                graphqlClient
+                cloudflareKey: config.cloudflareKey || '',
+                graphqlClient,
+                isTurnstileEnabled
             }}
         >
             {children}

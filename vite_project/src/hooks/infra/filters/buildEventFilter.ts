@@ -1,6 +1,6 @@
 import type {EventHostIds} from "../../../types/domain/types.ts";
 import {AVAILABLE, type EventFilterState} from "../../../types/domain/event.type.ts";
-import {getDayTimeEnd} from "../../../lib/date.ts";
+import {getDayTimeEnd, maxDate} from "../../../lib/date.ts";
 
 interface BuildEventFilterParams {
     weekStart?: string;
@@ -25,7 +25,9 @@ export function buildEventFilter(params: BuildEventFilterParams) {
     weekEndDate.setDate(weekEndDate.getDate() + 6);
     const endWeek = getDayTimeEnd(weekEndDate);
 
-    filter.startTime = { gte: params.weekStart };
+    const effectiveStart = maxDate(weekStartDate, new Date());
+
+    filter.startTime = { gte: effectiveStart };
     filter.endTime = { lte: endWeek };
 
     if (params.eventTypeId

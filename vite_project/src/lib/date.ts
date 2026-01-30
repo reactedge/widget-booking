@@ -17,6 +17,9 @@ export const getDays = (): DaysType[] => {
     return week;
 }
 
+export function maxDate(a: Date, b: Date): Date {
+    return a > b ? a : b;
+}
 
 const getWeekLabel = (index: number) => {
     switch (index) {

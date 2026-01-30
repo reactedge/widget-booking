@@ -8,6 +8,8 @@ import {useConfigState} from "../../../state/Config/useConfigState.ts";
 import {useMemo} from "react";
 import {useDashboardState} from "../../../state/Dashboard/useDashboardState.ts";
 import type {Venue} from "../../../types/domain/types.ts";
+import {activity} from "../../../../activity";
+import {GroupEventStateProvider} from "../../../state/GroupEvent/GroupEventStateProvider.tsx";
 
 export function GetWeekEvents() {
     const { visitIntent } = useVisitIntentState();
@@ -49,9 +51,13 @@ export function GetWeekEvents() {
         return <ErrorState />;
     }
 
+    activity('event-load', 'Week Event Data',{weekEventsNumber: events?.length});
+
     if (!events || events.length === 0) {
         return <NoEvent />;
     }
 
-    return <WeekEvents events={events} />;
+    return <GroupEventStateProvider>
+            <WeekEvents events={events} />
+        </GroupEventStateProvider>;
 }

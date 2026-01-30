@@ -6,8 +6,9 @@ import {useEventState} from "../../../../state/Event/useEventState.ts";
 import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.ts";
 import {useAddToCart} from "../../../../hooks/domain/useAddToCart.tsx";
 import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
-import {getCloudflareSiteKey} from "../../../../security/turnstileService.ts";
 import {Turnstile} from "../../../../security/Turnstile.tsx";
+import {useSystemState} from "../../../../state/System/useSystemState.ts";
+import {activity} from "../../../../../activity";
 
 interface AddToCartProps {
     onRequireAuth: () => void
@@ -19,7 +20,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
     const { visitIntent } = useVisitIntentState();
     const { addToCart, loadingAddToCart, errorAddToCart } = useAddToCart();
     const { increaseVersionNumber, setLastBookedEventId } = useDashboardState();
-    const turnstileEnabled = Boolean(getCloudflareSiteKey());
+    const { cloudflareKey, isTurnstileEnabled } = useSystemState()
     const [verifiedAt, setVerifiedAt] = useState<number | null>(null);
     const [awaitingSecurity, setAwaitingSecurity] = useState(false);
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -28,6 +29,13 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
         turnstileToken &&
         verifiedAt &&
         Date.now() - verifiedAt < 1000 * 90; // 90s safety window
+
+    activity('add-to-cart', 'Add To Cart Data',{
+        cloudflareKey,
+        turnstileToken,
+        turnstileEnabled: isTurnstileEnabled(),
+        isHumanVerified
+    });
 
     const refreshDashboard = () => {
         increaseVersionNumber()
@@ -126,9 +134,9 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
             >
                 Book{loadingAddToCart && 'ing'} appointment+-
             </button>
-            {turnstileEnabled && (
+            {isTurnstileEnabled() && (
                 <Turnstile
-                    siteKey={getCloudflareSiteKey()}
+                    siteKey={cloudflareKey}
                     containerId="booking-turnstile"
                 />
             )}

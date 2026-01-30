@@ -7,12 +7,10 @@ export type GraphqlClient = <T>(
 ) => Promise<T>;
 
 export function createGraphqlClient(apiEndpoint: string) {
-    console.log('useKeystoneVenue 4', apiEndpoint)
     return async function graphqlRequest<T>(
         query: string,
         variables?: Record<string, unknown>
     ): Promise<T> {
-        console.log('useKeystoneVenue 4', apiEndpoint)
         const res = await fetch(apiEndpoint, {
             method: "POST",
             credentials: "include",

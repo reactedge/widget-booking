@@ -4,8 +4,8 @@
 }
 
 .week-event-list {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: flex;
+    align-items: flex-start;
     gap: 0.75rem;
     opacity: 0.6;
     animation: contentFadeIn 900ms ease forwards;
@@ -23,9 +23,19 @@
     position: relative;
 }
 
+.week-event-day {
+    display: flex;
+    flex-direction: column;
+    width: 100%;        /* or flex-basis, see below */
+}
+
 .week-event-day-title {
     font-weight: 600;
     margin-bottom: 0.5rem;
+}
+
+.week-event-day--empty {
+    width: 300px;
 }
 
 .booking-context {

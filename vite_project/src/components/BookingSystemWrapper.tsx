@@ -28,11 +28,12 @@ export function BookingSystemWrapper({venueId}: Props) {
     } = useEventTypeGroups(venue?.id);
 
     if (venueError || hostsError || eventTypeGroupError) {
+        activity('bootstrap', 'Keystone data cannot be returned', null, 'error');
         return <ErrorState />;
     }
 
     if (!venue || !eventHosts || !groups) {
-        activity('config-load', 'Config Data not loaded',{venue, eventHosts, groups});
+        activity('config-load', 'Keystone Data not loaded',{venue, eventHosts, groups});
         return <Spinner />;
     }
 

@@ -1,14 +1,12 @@
-import {useState} from "react";
 import {getDays} from "../../../lib/date.ts";
 import {getDayEventsForDay} from "../../../domain/booking";
 import {NoDayEventList} from "./DayEvent/NoDayEventList.tsx";
 import {DayEventGroup} from "./DayEvent/DayEventGroup.tsx";
-import {DrawerContent} from "./WeekEvents/DrawerContent.tsx";
 import type {IntentEvent} from "../../../types/domain/event.type.ts";
 import {useUserState} from "../../../state/User/useUserState.ts";
 import {useMediaQuery} from "../../../hooks/ui/useMediaQuery.tsx";
-import {BookingDrawer} from "../../BookingDrawer.tsx";
 import type {DayGroupEvent} from "../../../types/domain/dashboard.type.tsx";
+import {useGroupEventState} from "../../../state/GroupEvent/useGroupEventState.ts";
 
 interface WeekEventProps {
     events: IntentEvent[];
@@ -17,8 +15,7 @@ interface WeekEventProps {
 export function WeekEvents({ events }: WeekEventProps) {
     const { user } = useUserState();
     const isMobile = useMediaQuery('(max-width: 768px)');
-    const [viewedEventIds, setViewedEventIds] = useState<string[] | null>(null);
-    const [isOpen, setIsOpen] = useState<boolean | null>(null);
+    const { toggleActiveGroupEvent } = useGroupEventState();
 
     return (
         <div
@@ -29,7 +26,9 @@ export function WeekEvents({ events }: WeekEventProps) {
                 const dayEventList = getDayEventsForDay(day, events, user);
 
                 return (
-                    <div key={day.day} className="week-event-day">
+                    <div key={day.day} className={`week-event-day ${
+                                dayEventList.length === 0 ? 'week-event-day--empty' : ''
+                            }`}>
                         <h4 className="week-event-day-title">{day.dayLabel}</h4>
 
                         {dayEventList.length > 0 ? (
@@ -40,8 +39,7 @@ export function WeekEvents({ events }: WeekEventProps) {
                                             key={index}
                                             eventGroup={eventGroup}
                                             onView={(eventIds) => {
-                                                setViewedEventIds(eventIds);
-                                                setIsOpen(true);
+                                                toggleActiveGroupEvent(eventIds);
                                             }}
                                         />
                                     )
@@ -53,21 +51,6 @@ export function WeekEvents({ events }: WeekEventProps) {
                     </div>
                 );
             })}
-            {isOpen && (
-                <div className="drawer-inline">
-                    <BookingDrawer
-                        open={!!viewedEventIds}
-                        onClose={() => {
-                            setViewedEventIds(null);
-                            setIsOpen(false);
-                        }}
-                    >
-                        {viewedEventIds && (
-                            <DrawerContent eventIds={viewedEventIds}/>
-                        )}
-                    </BookingDrawer>
-                </div>
-            )}
         </div>
     );
 }

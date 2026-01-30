@@ -6,6 +6,7 @@ import {useConfigState} from "../state/Config/useConfigState.ts";
 import {getVisitIntentStep} from "../domain/intent/getVisitIntentStep.ts";
 import type {Venue} from "../types/domain/types.ts";
 import {HostPreference} from "./HostPreference.tsx";
+import {activity} from "../../activity";
 
 export function InitFilter() {
     const { config } = useConfigState();
@@ -19,6 +20,8 @@ export function InitFilter() {
         host: undefined
     }
     const venue = config?.venue as Venue
+
+    activity('init-filter', 'Init Filter',{visitIntentStep, selections});
 
     return (
         <div className="booking-init">
