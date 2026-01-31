@@ -10,15 +10,17 @@
 
 <script type="application/json" id="reactedge-config">
     {
-        "widgets": {
-            "booking": {
-                "api": "https://booking-api.reactedge.net/api/graphql/"
-            }
-        },
-        "security": {
-            "cloudflareKey": "0x4AAAAAACIE8OqQC3iwDaZh"
-        }
-    }
+       "widgets": {
+           "booking": {
+               "api": "__BOOKING_API__"
+           }
+       },
+       "integrations": {
+           "cloudflare": {
+               "siteKey": "__TURNSTILE_SITE_KEY__"
+           }
+       }
+   }
 </script>
 
 </body>

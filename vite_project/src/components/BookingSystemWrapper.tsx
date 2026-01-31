@@ -6,7 +6,6 @@ import {activity} from "../../activity";
 import {Spinner} from "./global/Spinner.tsx";
 import type {ConfigInfoState} from "../state/Config/type.ts";
 import {VisitIntentStateProvider} from "../state/Intent/VisitIntentStateProvider.tsx";
-import {UserStateProvider} from "../state/User/UserStateProvider.tsx";
 import {BookingSystem} from "./BookingSystem.tsx";
 import {ConfigStateProvider} from "../state/Config/ConfigStateProvider.tsx";
 
@@ -48,9 +47,7 @@ export function BookingSystemWrapper({venueId}: Props) {
     return (
         <ConfigStateProvider config={config}>
             <VisitIntentStateProvider eventTypeGroups={config.eventTypeGroups} eventHosts={config.eventHosts}>
-                <UserStateProvider>
-                    <BookingSystem />
-                </UserStateProvider>
+                <BookingSystem />
             </VisitIntentStateProvider>
         </ConfigStateProvider>
     );

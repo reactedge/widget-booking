@@ -34,5 +34,6 @@ export interface KeystoneCartEventParams {
     eventId?: string;
     eventTypeId?: string;
     shampoo?: 0 | 1;
+    userId: string;
     turnstileToken: string;
 }

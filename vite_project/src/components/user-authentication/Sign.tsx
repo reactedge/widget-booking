@@ -1,7 +1,7 @@
 import {useLoginUser} from "../../hooks/domain/useLoginUser.tsx";
 import {useState} from "react";
-import {Spinner} from "../global/Spinner.tsx";
 import {useUserState} from "../../state/User/useUserState.ts";
+import {loginWithCredentials} from "../../domain/user/authentication.ts";
 
 export const Sign: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -9,7 +9,6 @@ export const Sign: React.FC = () => {
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { refreshUser} = useUserState()
-    const {login, loadingSignin} = useLoginUser();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,13 +16,7 @@ export const Sign: React.FC = () => {
 
         try {
             setSubmitting(true);
-            const res = await login(email, password);
-
-            if ('message' in res) {
-                setErrorMessage(res.message);
-                return;
-            }
-
+            await loginWithCredentials(email, password);
             await refreshUser();
         } catch {
             setErrorMessage('Incorrect email or password');
@@ -31,8 +24,6 @@ export const Sign: React.FC = () => {
             setSubmitting(false);
         }
     };
-
-    if (loadingSignin) return <Spinner />
 
     return (
         <form className="drawer-auth-form" onSubmit={handleSubmit}>

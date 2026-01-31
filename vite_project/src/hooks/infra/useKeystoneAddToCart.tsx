@@ -3,8 +3,8 @@ import type {KeystoneCartEventParams} from "../../types/infra/keystone";
 import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const MUTATION = `
-    mutation AddToCart($eventId: ID!, $eventTypeId: ID!, $shampoo: Int, $turnstileToken: String!) {
-      addToCart(eventId: $eventId, eventTypeId: $eventTypeId, shampoo: $shampoo, turnstileToken: $turnstileToken)
+    mutation AddToCart($eventId: ID!, $eventTypeId: ID!, $shampoo: Int, $userId: ID!, $turnstileToken: String!) {
+      addToCart(eventId: $eventId, eventTypeId: $eventTypeId, shampoo: $shampoo, userId: $userId, turnstileToken: $turnstileToken)
     }
 `;
 
