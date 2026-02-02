@@ -1,36 +1,43 @@
 import {type ReactNode, useEffect} from "react";
 import {LocalUserStateContext} from "./UserState.tsx";
 import {useImmer} from "use-immer";
-import type { UserState} from "./type.ts";
+import type {UserConfig, UserInfoState} from "./type.ts";
 import type {AuthenticatedUser} from "../../types/domain/user.type.ts";
 import {fetchUserFromBridge} from "../../domain/user/authentication.ts";
 
 const LocalStateProvider = LocalUserStateContext.Provider;
 
-
-
 interface UserStateProviderProps {
     children: ReactNode;
+    config: UserConfig
 }
 
-export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children}) => {
-    const [state, setState] = useImmer<UserState>({
-        user: undefined,
-        loading: true,
-        error: null
-    });
+const intialState: UserInfoState = {
+    user: undefined,
+    loading: false,
+    error: null
+}
 
-    const startLoading = (draft: UserState) => {
+export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children, config}) => {
+    const [state, setState] = useImmer<UserInfoState>(intialState);
+
+    if (!config?.auth?.startsWith('https://')) {
+        throw new Error(
+            'UserStateProvider: authBaseUrl must be a valid https URL'
+        );
+    }
+
+    const startLoading = (draft: UserInfoState) => {
         draft.loading = true;
         draft.error = null;
     };
 
-    const setSuccess = (draft: UserState, user: AuthenticatedUser | undefined) => {
+    const setSuccess = (draft: UserInfoState, user: AuthenticatedUser | undefined) => {
         draft.user = user;
         draft.loading = false;
     };
 
-    const setFailure = (draft: UserState, err: Error) => {
+    const setFailure = (draft: UserInfoState, err: Error) => {
         draft.user = undefined;
         draft.loading = false;
         draft.error = err;
@@ -40,7 +47,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children})
         try {
             setState(startLoading);
 
-            const user = await fetchUserFromBridge();
+            const user = await fetchUserFromBridge(config);
 
             setState(draft => setSuccess(draft, user));
         } catch (err) {
@@ -49,13 +56,15 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children})
     };
 
     useEffect(() => {
+        if (!config?.auth) return;
+
         let alive = true;
 
         const safeRefresh = async () => {
             try {
                 setState(startLoading);
 
-                const user = await fetchUserFromBridge();
+                const user = await fetchUserFromBridge(config);
                 if (!alive) return;
 
                 setState(draft => setSuccess(draft, user));
@@ -79,6 +88,7 @@ export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children})
                 user: state.user,
                 loading: state.loading,
                 error: state.error,
+                config,
                 refreshUser: refresh,
             }}
         >

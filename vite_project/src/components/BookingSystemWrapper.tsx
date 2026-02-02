@@ -27,7 +27,7 @@ export function BookingSystemWrapper({venueId}: Props) {
     } = useEventTypeGroups(venue?.id);
 
     if (venueError || hostsError || eventTypeGroupError) {
-        activity('bootstrap', 'Keystone data cannot be returned', null, 'error');
+        activity('bootstrap', 'Keystone data cannot be returned', {venue, hostsError, eventTypeGroupError}, 'error');
         return <ErrorState />;
     }
 

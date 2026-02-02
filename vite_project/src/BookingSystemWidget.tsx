@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function BookingSystemWidget({ host }: Props) {
-    const { booking } = useWidgetConfig(host);
+    const { booking, user } = useWidgetConfig(host);
 
     if (!booking) {
         activity('bootstrap', '[ContactUs] Widget is not correctly configured', null, 'warn');
@@ -18,7 +18,7 @@ export function BookingSystemWidget({ host }: Props) {
 
     return (
         <SystemStateProvider config={booking}>
-            <UserStateProvider>
+            <UserStateProvider config={user}>
                 <BookingSystemWrapper venueId={booking.venueId} />
             </UserStateProvider>
         </SystemStateProvider>

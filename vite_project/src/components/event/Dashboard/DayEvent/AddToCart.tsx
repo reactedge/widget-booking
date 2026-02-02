@@ -60,7 +60,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
                 eventId: eventState.activeEventId,
                 eventTypeId: visitIntent.eventTypeId,
                 shampoo: eventState.shampoo ? 1 : 0,
-                userId: user?.id,
+                userId: user?.id || '',
                 turnstileToken,
             });
 

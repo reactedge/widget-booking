@@ -9,6 +9,7 @@ interface BookingSystemConfig {
     widgets: {
         booking?: {
             api: string;
+            auth: string;
         };
     };
     integrations?: {
@@ -38,6 +39,10 @@ export function readBookingSystemConfig(): BookingSystemConfig {
 
     if (!config.widgets?.booking?.api) {
         throw new Error('BookingWidget: booking.api missing in global config');
+    }
+
+    if (!config.widgets?.booking?.auth) {
+        throw new Error('BookingWidget: booking.auth missing in global config');
     }
 
     return config;

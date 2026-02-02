@@ -1,4 +1,3 @@
-import {useLoginUser} from "../../hooks/domain/useLoginUser.tsx";
 import {useState} from "react";
 import {useUserState} from "../../state/User/useUserState.ts";
 import {loginWithCredentials} from "../../domain/user/authentication.ts";
@@ -8,7 +7,7 @@ export const Sign: React.FC = () => {
     const [password, setPassword] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const { refreshUser} = useUserState()
+    const { refreshUser, config} = useUserState()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -16,7 +15,7 @@ export const Sign: React.FC = () => {
 
         try {
             setSubmitting(true);
-            await loginWithCredentials(email, password);
+            await loginWithCredentials(email, password, config);
             await refreshUser();
         } catch {
             setErrorMessage('Incorrect email or password');
