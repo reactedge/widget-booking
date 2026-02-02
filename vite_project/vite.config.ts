@@ -9,10 +9,9 @@ export default defineConfig(({ mode }) => {
 
   const authBridgeTarget = env.VITE_AUTH_BRIDGE_TARGET;
 
-  if (!authBridgeTarget) {
+  if (mode === 'development' && !authBridgeTarget) {
     throw new Error(
-        'VITE_AUTH_BRIDGE_TARGET is not set. ' +
-        'Check your .env files.'
+        'VITE_AUTH_BRIDGE_TARGET is required in development mode'
     );
   }
 
