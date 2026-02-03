@@ -1,14 +1,9 @@
 import {type ReactNode, useCallback, useEffect, useRef} from "react";
 import { useImmer } from "use-immer";
-import {LocalEventStateContext} from "./EventState.tsx";
+import {LocalEventStateContext, readActiveEvent} from "./EventState.tsx";
 import type {EventInfoState} from "./type.ts";
 
 const LocalStateProvider = LocalEventStateContext.Provider;
-
-const intialState: EventInfoState = {
-    activeEventId: '',
-    shampoo: false,
-}
 
 interface EventStateProviderProps {
     children: ReactNode;
@@ -16,39 +11,60 @@ interface EventStateProviderProps {
 }
 
 export const EventStateProvider: React.FC<EventStateProviderProps> = ({ children, eventGroup }) => {
-    const [state, setState] = useImmer<EventInfoState>(intialState);
+    const [state, setState] = useImmer<{ eventState: EventInfoState }>({
+        eventState: readActiveEvent(),
+    });
     const initialised = useRef(false)
 
-    const toggleActiveEvent = useCallback((id: string) => {
-        setState(draft => { draft.activeEventId = id });
-    }, [setState]);
+    // ✅ Keep state in sync with `localStorage` (Fixes Next.js navigation reset issue)
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("eventState", JSON.stringify(state.eventState));
+        }
+    }, [state.eventState]);
+
+    const updateState = useCallback(
+        <K extends keyof EventInfoState>(
+            key: K,
+            value: EventInfoState[K]
+        ) => {
+            setState(draft => {
+                draft.eventState[key] = value;
+            });
+        },
+        []
+    );
+
+    const toggleActiveEvent = useCallback((value: string) => {
+        updateState("activeEventId", value);
+    }, [updateState]);
 
     const resetActiveEvent = useCallback(() => {
-        setState(draft => { draft.activeEventId = undefined });
-    },[setState]);
+        updateState("activeEventId", undefined);
+    }, [updateState]);
 
     const toggleShampooEvent = useCallback(() => {
-        setState(draft => { draft.shampoo = !draft.shampoo });
-    },[setState]);
+        setState(draft => {
+            draft.eventState['shampoo'] = !draft.eventState['shampoo'];
+        });
+    }, [updateState]);
 
     // 🔥 Initialize activeEventId if only one eventHost exists
     useEffect(() => {
         if (initialised.current) return;
 
-        if (eventGroup?.eventHosts?.length === 1 && !state.activeEventId) {
-            setState(draft => {
-                draft.activeEventId = eventGroup.eventHosts[0].eventId;
-            });
+        if (eventGroup?.eventHosts?.length === 1 && !state.eventState.activeEventId) {
+            toggleActiveEvent(eventGroup.eventHosts[0].eventId)
             initialised.current = true
         }
-    }, [eventGroup?.eventHosts, setState, state.activeEventId]); // Dependencies ensure it runs only when needed
+    }, [eventGroup?.eventHosts, setState, state.eventState.activeEventId]); // Dependencies ensure it runs only when needed
 
     return <LocalStateProvider
         value={{
             resetActiveEvent,
             toggleActiveEvent,
             toggleShampooEvent,
-            eventState: state
+            eventState: state.eventState
         }}
     >{children}</LocalStateProvider>
 }

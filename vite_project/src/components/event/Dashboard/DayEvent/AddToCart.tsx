@@ -9,6 +9,7 @@ import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.t
 import {Turnstile} from "../../../../security/Turnstile.tsx";
 import {useSystemState} from "../../../../state/System/useSystemState.ts";
 import {activity} from "../../../../../activity";
+import {UserState} from "../../../user-authentication/UserState.tsx";
 
 interface AddToCartProps {
     onRequireAuth: () => void
@@ -141,6 +142,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
                     containerId="booking-turnstile"
                 />
             )}
+            <UserState />
         </>
     );
 };

@@ -34,3 +34,24 @@ export async function loginWithCredentials(email: string, password: string, conf
         throw new Error('Login failed');
     }
 }
+
+export async function logout(config: UserConfig) {
+    const res = await fetch(`${config.auth}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    activity('logout', 'Logout', res);
+
+    if (!res.ok) {
+        throw new Error('Logout failed');
+    }
+}
+
+export async function loginWithGoogle(config: UserConfig) {
+    const returnTo = encodeURIComponent(window.location.href);
+
+    activity('login', 'Google Login');
+    window.location.href = `${config.auth}/auth/google?returnTo=${returnTo}`;
+}

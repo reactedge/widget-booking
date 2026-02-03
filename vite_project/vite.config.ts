@@ -5,7 +5,7 @@ import pkg from './package.json';
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ['widget-booking.local'],
+    allowedHosts: ['widget-booking.southerndemo.com'],
   },
   define: {
     'process.env': {},

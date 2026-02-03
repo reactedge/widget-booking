@@ -1,4 +1,24 @@
 import {createContext} from "react";
-import type {EventState} from "./type.ts";
+import type {EventState, GroupEventInfoState} from "./type.ts";
+
+const intialState: GroupEventInfoState = {
+    activeGroupEventHash: ''
+}
+
+export const readActiveGroupEvent = (): GroupEventInfoState => {
+    if (typeof window === "undefined") {
+        return intialState;
+    }
+
+    try {
+        const storedData = JSON.parse(localStorage.getItem("eventGroupState") || "{}");
+        return {
+            activeGroupEventHash: storedData.activeGroupEventHash || ""
+        };
+    } catch (error) {
+        console.log(error)
+        return intialState;
+    }
+};
 
 export const LocalGroupEventStateContext = createContext<EventState | undefined>(undefined);

@@ -1,38 +1,53 @@
-import {type ReactNode, useCallback} from "react";
+import {type ReactNode, useCallback, useEffect} from "react";
 import { useImmer } from "use-immer";
-import {LocalGroupEventStateContext} from "./GroupEventState.tsx";
+import {LocalGroupEventStateContext, readActiveGroupEvent} from "./GroupEventState.tsx";
 import type {GroupEventInfoState} from "./type.ts";
 import {groupEventHash} from "../../domain/event/getGroupEventStatus.ts";
 
 const LocalStateProvider = LocalGroupEventStateContext.Provider;
-
-const intialState: GroupEventInfoState = {
-    activeGroupEventHash: ''
-}
 
 interface GroupEventStateProviderProps {
     children: ReactNode;
 }
 
 export const GroupEventStateProvider: React.FC<GroupEventStateProviderProps> = ({ children }) => {
-    const [state, setState] = useImmer<GroupEventInfoState>(intialState);
+    const [state, setState] = useImmer<{ eventGroupState: GroupEventInfoState }>({
+        eventGroupState: readActiveGroupEvent(),
+    });
+
+    // ✅ Keep state in sync with `localStorage` (Fixes Next.js navigation reset issue)
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("eventGroupState", JSON.stringify(state.eventGroupState));
+        }
+    }, [state.eventGroupState]);
+
+    const updateGroupState = useCallback(
+        <K extends keyof GroupEventInfoState>(
+            key: K,
+            value: GroupEventInfoState[K]
+        ) => {
+            setState(draft => {
+                draft.eventGroupState[key] = value;
+            });
+        },
+        []
+    );
 
     const toggleActiveGroupEvent = useCallback((eventIds: string[]) => {
         const hash = groupEventHash(eventIds);
-        setState(draft => {
-            draft.activeGroupEventHash = hash;
-        });
-    }, [setState]);
+        updateGroupState("activeGroupEventHash", hash);
+    }, [updateGroupState]);
 
     const resetActiveGroupEvent = useCallback(() => {
-        setState(draft => { draft.activeGroupEventHash = undefined });
-    },[setState]);
+        updateGroupState("activeGroupEventHash", undefined);
+    }, [setState]);
 
     return <LocalStateProvider
         value={{
             resetActiveGroupEvent,
             toggleActiveGroupEvent,
-            groupEventState: state
+            groupEventState: state.eventGroupState
         }}
     >{children}</LocalStateProvider>
 }

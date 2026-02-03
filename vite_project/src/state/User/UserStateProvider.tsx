@@ -21,12 +21,6 @@ const intialState: UserInfoState = {
 export const UserStateProvider: React.FC<UserStateProviderProps> = ({ children, config}) => {
     const [state, setState] = useImmer<UserInfoState>(intialState);
 
-    if (!config?.auth?.startsWith('https://')) {
-        throw new Error(
-            'UserStateProvider: authBaseUrl must be a valid https URL'
-        );
-    }
-
     const startLoading = (draft: UserInfoState) => {
         draft.loading = true;
         draft.error = null;
