@@ -26,6 +26,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
     const [awaitingSecurity, setAwaitingSecurity] = useState(false);
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
+    const turnstileEnabled = isTurnstileEnabled();
 
     const isHumanVerified =
         turnstileToken &&
@@ -120,9 +121,15 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
     const canAttemptAdd =
         !!activeEventId &&
         !eventAlreadyInCart &&
-        !loadingAddToCart;
+        !loadingAddToCart &&
+        (!turnstileEnabled || Boolean(token));
 
     if (errorAddToCart) return <ErrorState />
+
+    activity('form-ready', 'Can submit',{
+        turnstileEnabled,
+        token
+    });
 
     return (
         <>
