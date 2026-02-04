@@ -7,6 +7,8 @@ import {useUserState} from "../../../state/User/useUserState.ts";
 import {useMediaQuery} from "../../../hooks/ui/useMediaQuery.tsx";
 import type {DayGroupEvent} from "../../../types/domain/dashboard.type.tsx";
 import {useGroupEventState} from "../../../state/GroupEvent/useGroupEventState.ts";
+import {useEventState} from "../../../state/Event/useEventState.ts";
+import {useEffect, useRef} from "react";
 
 interface WeekEventProps {
     events: IntentEvent[];
@@ -16,6 +18,18 @@ export function WeekEvents({ events }: WeekEventProps) {
     const { user } = useUserState();
     const isMobile = useMediaQuery('(max-width: 768px)');
     const { toggleActiveGroupEvent } = useGroupEventState();
+    const { showBooking } = useEventState()
+
+    const prevUserRef = useRef<typeof user>(null);
+
+    useEffect(() => {
+        // Auth boundary: unauthenticated → authenticated
+        if (!prevUserRef.current && user) {
+            showBooking();
+        }
+
+        prevUserRef.current = user;
+    }, [user, showBooking]);
 
     return (
         <div
@@ -40,6 +54,7 @@ export function WeekEvents({ events }: WeekEventProps) {
                                             eventGroup={eventGroup}
                                             onView={(eventIds) => {
                                                 toggleActiveGroupEvent(eventIds);
+                                                showBooking()
                                             }}
                                         />
                                     )

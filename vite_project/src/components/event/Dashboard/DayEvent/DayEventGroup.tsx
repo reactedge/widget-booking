@@ -1,6 +1,5 @@
 import {SetEventDetail} from "./SetEventDetail.tsx";
 import type {DayGroupEvent} from "../../../../types/domain/dashboard.type.tsx";
-import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
 import {getTime} from "../../../../lib/date.ts";
 import {useDashboardState} from "../../../../state/Dashboard/useDashboardState.ts";
 import {EventHostView} from "./EventHostView.tsx";
@@ -24,7 +23,6 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
     }
 
     return (
-        <EventStateProvider eventGroup={eventGroup}>
             <div className={`event-card${highlight() ? "--highlighting" : ""}`}>
                 <div className="card-info-hidden">
                     {eventGroup.startTime}
@@ -47,13 +45,10 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
                             }}
                         >
                         {eventGroup.eventIds && (
-                            <EventStateProvider eventGroup={eventGroup}>
-                                <DrawerContent eventIds={eventGroup.eventIds}/>
-                            </EventStateProvider>
+                            <DrawerContent eventIds={eventGroup.eventIds}/>
                         )}
                     </BookingDrawer>
                 )}
             </div>
-        </EventStateProvider>
     );
 };

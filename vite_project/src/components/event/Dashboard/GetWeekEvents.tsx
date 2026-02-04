@@ -10,6 +10,7 @@ import {useDashboardState} from "../../../state/Dashboard/useDashboardState.ts";
 import type {Venue} from "../../../types/domain/types.ts";
 import {activity} from "../../../../activity";
 import {GroupEventStateProvider} from "../../../state/GroupEvent/GroupEventStateProvider.tsx";
+import {EventStateProvider} from "../../../state/Event/EventStateProvider.tsx";
 
 export function GetWeekEvents() {
     const { visitIntent } = useVisitIntentState();
@@ -58,6 +59,8 @@ export function GetWeekEvents() {
     }
 
     return <GroupEventStateProvider>
-            <WeekEvents events={events} />
+            <EventStateProvider>
+                <WeekEvents events={events} />
+            </EventStateProvider>
         </GroupEventStateProvider>;
 }

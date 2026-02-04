@@ -9,8 +9,8 @@ export const SignWithGoogle: React.FC = () => {
     };
 
     return (
-        <form className="drawer-auth-form" >
+        <div className="drawer-auth-form" >
             <button onClick={handleLogin}>Continue with Google</button>
-        </form>
+        </div>
     )
 };

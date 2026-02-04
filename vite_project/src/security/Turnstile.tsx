@@ -1,13 +1,15 @@
 import { useEffect, useRef } from "react";
-import { ensureTurnstileLoaded } from "./turnstileService.ts";
+import {ensureTurnstileLoaded} from "./turnstileService.ts";
 import {activity} from "../../activity";
+
 
 type TurnstileProps = {
     siteKey: string;
-    containerId: string;
+    onToken: (token: string | null) => void;
+    containerId: string; // 👈 REQUIRED
 };
 
-export function Turnstile({ siteKey, containerId }: TurnstileProps) {
+export function Turnstile({ siteKey, onToken, containerId }: TurnstileProps) {
     const widgetId = useRef<string | null>(null);
 
     useEffect(() => {
@@ -17,29 +19,19 @@ export function Turnstile({ siteKey, containerId }: TurnstileProps) {
             if (cancelled || !window.turnstile) return;
 
             const container = document.getElementById(containerId);
+
             if (!container) {
-                activity('turnstile', `[turnstile] container #${containerId} not found`, null, 'error');
+                activity('turnstile-load', `[turnstile] container #${containerId} not found`,{
+                    containerId,
+                    siteKey
+                });
                 return;
             }
 
-            activity('turnstile', '[turnstile] container rendering', null, 'info');
-
             widgetId.current = window.turnstile.render(container, {
                 sitekey: siteKey,
-                callback: (token: string) => {
-                    activity('turnstile', '[turnstile] event sent', {"eventName": "booking:security-success"}, 'info');
-                    window.dispatchEvent(
-                        new CustomEvent("booking:security-success", {
-                            detail: { token }
-                        })
-                    );
-                },
-                "expired-callback": () => {
-                    activity('turnstile', '[turnstile] event sent', {"eventName": "booking:security-expired"}, 'info');
-                    window.dispatchEvent(
-                        new CustomEvent("booking:security-expired")
-                    );
-                }
+                callback: onToken,
+                "expired-callback": () => onToken(null),
             });
         });
 

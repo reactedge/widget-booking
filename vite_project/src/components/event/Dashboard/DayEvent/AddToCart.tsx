@@ -25,6 +25,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
     const [verifiedAt, setVerifiedAt] = useState<number | null>(null);
     const [awaitingSecurity, setAwaitingSecurity] = useState(false);
     const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string | null>(null);
 
     const isHumanVerified =
         turnstileToken &&
@@ -140,6 +141,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
                 <Turnstile
                     siteKey={cloudflareKey}
                     containerId="booking-turnstile"
+                    onToken={setToken}
                 />
             )}
             <UserState />

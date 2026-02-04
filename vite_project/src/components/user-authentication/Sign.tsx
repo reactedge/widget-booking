@@ -25,7 +25,7 @@ export const Sign: React.FC = () => {
     };
 
     return (
-        <form className="drawer-auth-form" onSubmit={handleSubmit}>
+        <form className="widget-form" onSubmit={handleSubmit}>
             <h3>Sign in to confirm your appointment</h3>
 
             {errorMessage && <p className="form-error">{errorMessage}</p>}

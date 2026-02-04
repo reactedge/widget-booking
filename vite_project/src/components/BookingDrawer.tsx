@@ -21,8 +21,7 @@ export const BookingDrawer: React.FC<BookingDrawerProps> = ({
                     <h3>Set your appointment</h3>
                     <button className="drawer-close"
                             aria-label="Close"
-                            onClick={onClose
-                    }>×</button>
+                            onClick={onClose}>×</button>
                 </div>
                 {children}
             </div>

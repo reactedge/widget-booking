@@ -40,7 +40,6 @@ export const DrawerContent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
                     <SignUp onSuccess={showBooking} onCancel={showSignIn} />
                 }
             </div>
-
             {eventState.drawerContent === 'booking' && (<div className="drawer-actions">
                 <AddToCart onRequireAuth={() => {
                     showSignIn()}

@@ -1,6 +1,9 @@
 import {useState} from "react";
 import {useRegisterUser} from "../../hooks/domain/useRegisterUser.tsx";
 import {Spinner} from "../global/Spinner.tsx";
+import {useSystemState} from "../../state/System/useSystemState.ts";
+import {activity} from "../../../activity";
+import {Turnstile} from "../../security/Turnstile.tsx";
 
 interface SignUpProps {
     onSuccess?: () => void;
@@ -14,10 +17,17 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
         password: '',
         confirmPassword: '',
     });
+    const [token, setToken] = useState<string | null>(null);
     const { register, loadingRegister } = useRegisterUser();
+    const { cloudflareKey, isTurnstileEnabled } = useSystemState()
 
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+
+    const turnstileEnabled = isTurnstileEnabled();
+    const canSubmit =
+        status !== "loading" &&
+        (!turnstileEnabled || Boolean(token));
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setValues(v => ({ ...v, [e.target.name]: e.target.value }));
@@ -55,73 +65,91 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
         }
     }
 
+    if (!turnstileEnabled) {
+        activity('form-ready', 'Turnstile Disabled',{
+            cloudflareKey
+        }, 'warn');
+    }
+
     if (loadingRegister) return <Spinner />
 
     return (
-        <form className="widget-form" onSubmit={handleSubmit}>
-            <h2>Sign Up</h2>
+        <>
+            <form className="widget-form" onSubmit={handleSubmit}>
+                <h2>Sign Up</h2>
 
-            {error && <p className="form-error">{error}</p>}
+                {error && <p className="form-error">{error}</p>}
 
-            <fieldset disabled={loading}>
-                <label>
-                    Name
-                    <input
-                        name="name"
-                        required
-                        value={values.name}
-                        onChange={handleChange}
-                        autoComplete="name"
-                    />
-                </label>
+                <fieldset disabled={loading}>
+                    <label>
+                        Name
+                        <input
+                            name="name"
+                            required
+                            value={values.name}
+                            onChange={handleChange}
+                            autoComplete="name"
+                        />
+                    </label>
 
-                <label>
-                    Email
-                    <input
-                        name="email"
-                        type="email"
-                        required
-                        value={values.email}
-                        onChange={handleChange}
-                        autoComplete="email"
-                    />
-                </label>
+                    <label>
+                        Email
+                        <input
+                            name="email"
+                            type="email"
+                            required
+                            value={values.email}
+                            onChange={handleChange}
+                            autoComplete="email"
+                        />
+                    </label>
 
-                <label>
-                    Password
-                    <input
-                        name="password"
-                        type="password"
-                        required
-                        minLength={6}
-                        value={values.password}
-                        onChange={handleChange}
-                        autoComplete="new-password"
-                    />
-                </label>
+                    <label>
+                        Password
+                        <input
+                            name="password"
+                            type="password"
+                            required
+                            minLength={6}
+                            value={values.password}
+                            onChange={handleChange}
+                            autoComplete="new-password"
+                        />
+                    </label>
 
-                <label>
-                    Confirm Password
-                    <input
-                        name="confirmPassword"
-                        type="password"
-                        required
-                        value={values.confirmPassword}
-                        onChange={handleChange}
-                        autoComplete="new-password"
-                    />
-                </label>
+                    <label>
+                        Confirm Password
+                        <input
+                            name="confirmPassword"
+                            type="password"
+                            required
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                            autoComplete="new-password"
+                        />
+                    </label>
 
-                <button type="submit">
-                    {loading ? 'Signing up…' : 'Sign Up'}
-                </button>
-
-                {onCancel && (
-                    <button type="button" onClick={onCancel}>
-                        Already have an account? Sign in
+                    <button type="submit"
+                            disabled={!canSubmit}
+                    >
+                        {loading ? 'Signing up…' : 'Sign Up'}
                     </button>
-                )}
-            </fieldset>
-        </form>
+
+                    {onCancel && (
+                        <button type="button" onClick={onCancel}>
+                            Already have an account? Sign in
+                        </button>
+                    )}
+                </fieldset>
+            </form>
+        {/* 2. The security gate */}
+        {turnstileEnabled && (
+            <Turnstile
+                siteKey={cloudflareKey}
+                containerId="booking-turnstile"
+                onToken={setToken}
+            />
+        )}
+        </>
     );
 };
