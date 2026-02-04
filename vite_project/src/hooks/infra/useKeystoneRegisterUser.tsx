@@ -1,7 +1,11 @@
 import {useCallback, useState} from "react";
 import {useSystemState} from "../../state/System/useSystemState.ts";
-import type { KeystoneRegisterUserParams} from "../../types/infra/keystone/user/KeystoneUsers.types.ts";
+import type {
+    KeystoneRegisterUserParams,
+    RegisterUserParams
+} from "../../types/infra/keystone/user/KeystoneUsers.types.ts";
 import {useConfigState} from "../../state/Config/useConfigState.ts";
+import {asVariables} from "../../lib/graphql.ts";
 
 const MUTATION = `
     mutation RegisterUser($data: UserCreateInput!) {
@@ -18,7 +22,7 @@ export const useKeystoneRegisterUser = () => {
     const { config } = useConfigState();
 
     const registerUser = useCallback(
-        async (variables: KeystoneRegisterUserParams) => {
+        async (variables: RegisterUserParams) => {
             setLoading(true);
             setError(null);
 
@@ -29,7 +33,7 @@ export const useKeystoneRegisterUser = () => {
             const enrichedVariables: KeystoneRegisterUserParams = {
                 ...variables,
                 data: {
-                    ...variables.data,
+                    ...variables,
                     venue: {
                         connect: {
                             id: config.venue.id,
@@ -41,7 +45,7 @@ export const useKeystoneRegisterUser = () => {
             try {
                 const result = await graphqlClient<{
                     createUser: { id: string; }
-                }>(MUTATION, enrichedVariables);
+                }>(MUTATION, asVariables(enrichedVariables));
 
                 return result.createUser.id;
             } catch (err) {

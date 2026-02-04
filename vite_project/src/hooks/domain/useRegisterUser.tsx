@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { useKeystoneCheckUser } from '../infra/useKeystoneCheckUser';
 import { useKeystoneRegisterUser } from '../infra/useKeystoneRegisterUser';
 import {registerSchema} from "../../domain/user/schemas/registerSchema.ts";
-import {useConfigState} from "../../state/Config/useConfigState.ts";
 
 export type RegisterResult =
     | { ok: true }
@@ -11,7 +10,6 @@ export type RegisterResult =
 export const useRegisterUser = () => {
     const { checkUserByEmail } = useKeystoneCheckUser();
     const { registerUser } = useKeystoneRegisterUser();
-    const { config } = useConfigState()
 
     const [loading, setLoading] = useState(false);
 
@@ -30,10 +28,9 @@ export const useRegisterUser = () => {
             });
 
             if (!validation.success) {
-                return {
-                    ok: false,
-                    error: validation.error.errors[0].message,
-                };
+                const message =
+                    validation.error.issues[0]?.message ?? 'Invalid input';
+                return { ok: false, error: message };
             }
 
             setLoading(true);
@@ -47,9 +44,7 @@ export const useRegisterUser = () => {
                 }
 
                 // 2. Create user
-                await registerUser({
-                    data: { name, email, password },
-                });
+                await registerUser({ name, email, password });
 
                 return { ok: true };
             } catch (err) {

@@ -4,8 +4,7 @@ import {useUserState} from "../../state/User/useUserState.ts";
 export const SignWithGoogle: React.FC = () => {
     const { config } = useUserState();
 
-    const handleLogin = async (e) => {
-        e.preventDefault()
+    const handleLogin = async () => {
         await loginWithGoogle(config);
     };
 

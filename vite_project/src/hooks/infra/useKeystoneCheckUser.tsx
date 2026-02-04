@@ -1,6 +1,7 @@
 import {useCallback, useState} from "react";
 import {useSystemState} from "../../state/System/useSystemState.ts";
 import type { KeystoneCheckUserParams} from "../../types/infra/keystone/user/KeystoneUsers.types.ts";
+import {asVariables} from "../../lib/graphql.ts";
 
 const QUERY = `
   query CheckUser($email: String!) {
@@ -15,26 +16,23 @@ export const useKeystoneCheckUser = () => {
     const [error, setError] = useState<Error | null>(null);
     const { graphqlClient } = useSystemState()
 
-    const checkUserByEmail = useCallback(
-        async (variables: KeystoneCheckUserParams) => {
-            setLoading(true);
-            setError(null);
+    const checkUserByEmail = useCallback(async (variables: KeystoneCheckUserParams) => {
+        setLoading(true);
+        setError(null);
 
-            try {
-                const result = await graphqlClient<{
-                    users: string[];
-                }>(QUERY, variables);
+        try {
+            const result = await graphqlClient<{
+                users: { id: string }[]
+            }>(QUERY, asVariables(variables));
 
-                return result.users;
-            } catch (err) {
-                setError(err as Error);
-                throw err;
-            } finally {
-                setLoading(false);
-            }
-        },
-        []
-    );
+            return result.users;
+        } catch (err) {
+            setError(err as Error);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     return {
         checkUserByEmail,

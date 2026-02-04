@@ -45,3 +45,7 @@ export function createGraphqlClient(apiEndpoint: string) {
         return json.data;
     };
 }
+
+export function asVariables<T extends object>(vars: T): Record<string, unknown> {
+    return vars as unknown as Record<string, unknown>;
+}
