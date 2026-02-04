@@ -1,5 +1,5 @@
 import {createContext} from "react";
-import type {EventState, GroupEventInfoState} from "./type.ts";
+import type {GroupEventState, GroupEventInfoState} from "./type.ts";
 
 const intialState: GroupEventInfoState = {
     activeGroupEventHash: ''
@@ -21,4 +21,4 @@ export const readActiveGroupEvent = (): GroupEventInfoState => {
     }
 };
 
-export const LocalGroupEventStateContext = createContext<EventState | undefined>(undefined);
+export const LocalGroupEventStateContext = createContext<GroupEventState | undefined>(undefined);

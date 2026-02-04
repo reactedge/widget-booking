@@ -4,6 +4,7 @@ import type {EventInfoState, EventState} from "./type.ts";
 export const intialState: EventInfoState = {
     activeEventId: '',
     shampoo: false,
+    drawerContent: 'booking'
 }
 
 export const readActiveEvent = (): EventInfoState => {
@@ -15,7 +16,8 @@ export const readActiveEvent = (): EventInfoState => {
         const storedData = JSON.parse(localStorage.getItem("eventState") || "{}");
         return {
             activeEventId: storedData.activeEventId || "",
-            shampoo: storedData.shampoo || false
+            shampoo: storedData.shampoo || false,
+            drawerContent: storedData.drawerContent || 'booking'
         };
     } catch (error) {
         console.log(error)

@@ -3,12 +3,11 @@ import {useVisitIntentState} from "../../../../state/Intent/useVisitIntentState.
 import {useEventType} from "../../../../hooks/domain/useEventType.tsx";
 import {Spinner} from "../../../global/Spinner.tsx";
 import {getGroupEvent} from "../../../../domain/booking/getGroupEvent.ts";
-import {EventStateProvider} from "../../../../state/Event/EventStateProvider.tsx";
 import {AddToCart} from "../DayEvent/AddToCart.tsx";
-import {useState} from "react";
-import {useUserState} from "../../../../state/User/useUserState.ts";
 import {SignInOrRegister} from "../../../user-authentication/SignInOrRegister.tsx";
 import {EventBookingForm} from "../DayEvent/EventBookingForm.tsx";
+import {useEventState} from "../../../../state/Event/useEventState.ts";
+import {SignUp} from "../../../user-authentication/SignUp.tsx";
 
 interface ViewGroupEventProps {
     eventIds: string[]
@@ -18,34 +17,35 @@ export const DrawerContent: React.FC<ViewGroupEventProps> = ({ eventIds }) => {
     const { groupEvents, groupEventsLoading } = useEventGroup(eventIds)
     const {visitIntent} = useVisitIntentState();
     const { eventType, eventTypeLoading } = useEventType(visitIntent.eventTypeId)
-    const [showAuth, setShowAuth] = useState(false);
-    const { user } = useUserState();
+    const { eventState, showSignIn, showBooking } = useEventState()
 
     if (groupEventsLoading || eventTypeLoading || groupEvents === undefined || eventType === undefined) return <Spinner/>;
 
     const groupEvent = getGroupEvent(eventType, groupEvents);
 
-    const isReadyToPurchase = () => {
-        return !showAuth || user
-    }
-
     return (
-        <EventStateProvider eventGroup={groupEvent}>
+        <>
             <div className="drawer-content">
+                {eventState.drawerContent === 'signin' && (
+                    <div className="drawer-section">
+                        <SignInOrRegister />
+                    </div>
+                )}
 
-                {!isReadyToPurchase() && (<div className="drawer-section">
-                    <SignInOrRegister/>
-                </div>)}
+                {eventState.drawerContent === 'booking' &&
+                    <EventBookingForm groupEvent={groupEvent} />
+                }
 
-                {isReadyToPurchase() && <EventBookingForm groupEvent={groupEvent} />}
+                {eventState.drawerContent === 'signup' &&
+                    <SignUp onSuccess={showBooking} onCancel={showSignIn} />
+                }
             </div>
 
-            {isReadyToPurchase() && (<div className="drawer-actions">
+            {eventState.drawerContent === 'booking' && (<div className="drawer-actions">
                 <AddToCart onRequireAuth={() => {
-                    setShowAuth(true)}
+                    showSignIn()}
                 }/>
             </div>)}
-        </EventStateProvider>
-    )
-        ;
+        </>
+    );
 }

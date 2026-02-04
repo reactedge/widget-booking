@@ -8,6 +8,7 @@ import eventgroup from "./booking-system.eventgroup.css?inline";
 import eventcard from "./booking-system.eventcard.css?inline";
 import eventstatus from "./booking-system.eventstatus.css?inline";
 import signin from "./booking-system.signin.css?inline";
+import signup from "./booking-system.signup.css?inline";
 import theme from "./solar/color.css?inline";
 
 export const bookingSystemStyles = [
@@ -21,5 +22,6 @@ export const bookingSystemStyles = [
     eventcard,
     eventstatus,
     signin,
+    signup,
     theme
 ];

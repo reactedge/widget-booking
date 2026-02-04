@@ -47,7 +47,9 @@ export const DayEventGroup: React.FC<ListingProps> = ({ eventGroup, onView }) =>
                             }}
                         >
                         {eventGroup.eventIds && (
-                            <DrawerContent eventIds={eventGroup.eventIds}/>
+                            <EventStateProvider eventGroup={eventGroup}>
+                                <DrawerContent eventIds={eventGroup.eventIds}/>
+                            </EventStateProvider>
                         )}
                     </BookingDrawer>
                 )}

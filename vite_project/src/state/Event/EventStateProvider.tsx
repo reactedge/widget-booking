@@ -35,6 +35,18 @@ export const EventStateProvider: React.FC<EventStateProviderProps> = ({ children
         []
     );
 
+    const showBooking = () => {
+        updateState('drawerContent', 'booking');
+    };
+
+    const showSignIn = () => {
+        updateState('drawerContent', 'signin');
+    };
+
+    const showSignUp = () => {
+        updateState('drawerContent', 'signup');
+    };
+
     const toggleActiveEvent = useCallback((value: string) => {
         updateState("activeEventId", value);
     }, [updateState]);
@@ -61,6 +73,9 @@ export const EventStateProvider: React.FC<EventStateProviderProps> = ({ children
 
     return <LocalStateProvider
         value={{
+            showBooking,
+            showSignIn,
+            showSignUp,
             resetActiveEvent,
             toggleActiveEvent,
             toggleShampooEvent,
