@@ -1,9 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useRegisterUser} from "../../hooks/domain/useRegisterUser.tsx";
 import {Spinner} from "../global/Spinner.tsx";
 import {useSystemState} from "../../state/System/useSystemState.ts";
 import {activity} from "../../../activity";
 import {Turnstile} from "../../security/Turnstile.tsx";
+import {useHumanVerification} from "../../hooks/domain/useHumanVerification.tsx";
 
 interface SignUpProps {
     onSuccess?: () => void;
@@ -17,17 +18,25 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
         password: '',
         confirmPassword: '',
     });
-    const [token, setToken] = useState<string | null>(null);
     const { register, loadingRegister } = useRegisterUser();
     const { cloudflareKey, isTurnstileEnabled } = useSystemState()
+    const [awaitingSecurity, setAwaitingSecurity] = useState(false);
 
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+
+    const { token, onToken, isHumanVerified, requireVerification } = useHumanVerification();
 
     const turnstileEnabled = isTurnstileEnabled();
     const canSubmit =
         status !== "loading" &&
         (!turnstileEnabled || Boolean(token));
+
+    useEffect(() => {
+        if (awaitingSecurity && token) {
+            handleSubmit();
+        }
+    }, [awaitingSecurity, token]);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setValues(v => ({ ...v, [e.target.name]: e.target.value }));
@@ -36,6 +45,12 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setError(null);
+        setAwaitingSecurity(true);
+
+        if (!isHumanVerified) {
+            requireVerification()
+            return;
+        }
 
         if (values.password !== values.confirmPassword) {
             setError('Passwords do not match');
@@ -62,6 +77,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
             setError('Signup failed');
         } finally {
             setLoading(false);
+            setAwaitingSecurity(false);
         }
     }
 
@@ -147,7 +163,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
             <Turnstile
                 siteKey={cloudflareKey}
                 containerId="booking-turnstile"
-                onToken={setToken}
+                onToken={onToken}
             />
         )}
         </>

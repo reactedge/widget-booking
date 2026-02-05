@@ -10,6 +10,7 @@ import {Turnstile} from "../../../../security/Turnstile.tsx";
 import {useSystemState} from "../../../../state/System/useSystemState.ts";
 import {activity} from "../../../../../activity";
 import {UserState} from "../../../user-authentication/UserState.tsx";
+import {useHumanVerification} from "../../../../hooks/domain/useHumanVerification.tsx";
 
 interface AddToCartProps {
     onRequireAuth: () => void
@@ -21,24 +22,10 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
     const { visitIntent } = useVisitIntentState();
     const { addToCart, loadingAddToCart, errorAddToCart } = useAddToCart();
     const { increaseVersionNumber, setLastBookedEventId } = useDashboardState();
-    const { cloudflareKey, isTurnstileEnabled } = useSystemState()
-    const [verifiedAt, setVerifiedAt] = useState<number | null>(null);
     const [awaitingSecurity, setAwaitingSecurity] = useState(false);
-    const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const { cloudflareKey, isTurnstileEnabled } = useSystemState();
     const turnstileEnabled = isTurnstileEnabled();
-
-    const isHumanVerified =
-        turnstileToken &&
-        verifiedAt &&
-        Date.now() - verifiedAt < 1000 * 90; // 90s safety window
-
-    activity('add-to-cart', 'Add To Cart Data',{
-        cloudflareKey,
-        turnstileToken,
-        turnstileEnabled: isTurnstileEnabled(),
-        isHumanVerified
-    });
+    const { token, onToken, isHumanVerified, requireVerification } = useHumanVerification();
 
     const refreshDashboard = () => {
         increaseVersionNumber()
@@ -52,9 +39,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
         }
 
         if (!isHumanVerified) {
-            window.dispatchEvent(
-                new CustomEvent("booking:security-required")
-            );
+            requireVerification()
             return;
         }
 
@@ -64,7 +49,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
                 eventTypeId: visitIntent.eventTypeId,
                 shampoo: eventState.shampoo ? 1 : 0,
                 userId: user?.id || '',
-                turnstileToken,
+                turnstileToken: token as string,
             });
 
             refreshDashboard();
@@ -86,30 +71,10 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
     };
 
     useEffect(() => {
-        const onSuccess = (e: CustomEvent) => {
-            setTurnstileToken(e.detail.token);
-            setVerifiedAt(Date.now());
-        };
-
-        const onExpired = () => {
-            setTurnstileToken(null);
-            setVerifiedAt(null);
-        };
-
-        window.addEventListener("booking:security-success", onSuccess as EventListener);
-        window.addEventListener("booking:security-expired", onExpired);
-
-        return () => {
-            window.removeEventListener("booking:security-success", onSuccess as EventListener);
-            window.removeEventListener("booking:security-expired", onExpired);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (awaitingSecurity && turnstileToken && user) {
+        if (awaitingSecurity && token && user) {
             handleAdd();
         }
-    }, [awaitingSecurity, turnstileToken, user]);
+    }, [awaitingSecurity, token, user]);
 
     const activeEventId = eventState.activeEventId;
 
@@ -148,7 +113,7 @@ export function AddToCart({onRequireAuth}: AddToCartProps) {
                 <Turnstile
                     siteKey={cloudflareKey}
                     containerId="booking-turnstile"
-                    onToken={setToken}
+                    onToken={onToken}
                 />
             )}
             <UserState />
