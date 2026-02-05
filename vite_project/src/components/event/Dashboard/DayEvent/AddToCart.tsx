@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import {getEventCartQty} from "../../../../domain/cart/cart.ts";
 import {ErrorState} from "../../../global/ErrorState.tsx";
 import {useUserState} from "../../../../state/User/useUserState.ts";

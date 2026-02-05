@@ -17,7 +17,7 @@ export const readActiveEvent = (): EventInfoState => {
         return {
             activeEventId: storedData.activeEventId || "",
             shampoo: storedData.shampoo || false,
-            drawerContent: 'booking' 
+            drawerContent: 'booking'
         };
     } catch (error) {
         console.log(error)
