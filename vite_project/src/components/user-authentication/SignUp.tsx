@@ -34,7 +34,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
 
     useEffect(() => {
         if (awaitingSecurity && token) {
-            handleSubmit();
+            submitSignUp()
         }
     }, [awaitingSecurity, token]);
 
@@ -44,6 +44,10 @@ export const SignUp: React.FC<SignUpProps> = ({ onSuccess, onCancel }) => {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        await submitSignUp()
+    }
+
+    async function submitSignUp() {
         setError(null);
         setAwaitingSecurity(true);
 
