@@ -55,3 +55,17 @@ export async function loginWithGoogle(config: UserConfig) {
     activity('login', 'Google Login');
     window.location.href = `${config.auth}/auth/google?returnTo=${returnTo}`;
 }
+
+export async function verifyUser(config: UserConfig, token: string) {
+    const res = await fetch(`${config.auth}/security/verify-human`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+    });
+
+    activity('verifyUser', 'Verify User', res);
+
+    if (!res.ok) {
+        throw new Error('Logout failed');
+    }
+}

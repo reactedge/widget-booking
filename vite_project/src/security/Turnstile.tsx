@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import {ensureTurnstileLoaded} from "./turnstileService.ts";
 import {activity} from "../../activity";
-
+import {ensureTurnstileLoaded} from "./turnstileService.ts";
+import {verifyUser} from "../domain/user/authentication.ts";
+import {useUserState} from "../state/User/useUserState.ts";
 
 type TurnstileProps = {
     siteKey: string;
@@ -11,6 +12,7 @@ type TurnstileProps = {
 
 export function Turnstile({ siteKey, onToken, containerId }: TurnstileProps) {
     const widgetId = useRef<string | null>(null);
+    const { config } = useUserState()
 
     useEffect(() => {
         let cancelled = false;
@@ -30,7 +32,10 @@ export function Turnstile({ siteKey, onToken, containerId }: TurnstileProps) {
 
             widgetId.current = window.turnstile.render(container, {
                 sitekey: siteKey,
-                callback: onToken,
+                callback: (token: string) => {
+                    verifyUser(config, token)
+                    onToken(token)
+                },
                 "expired-callback": () => onToken(null),
             });
         });

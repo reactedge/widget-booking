@@ -41,3 +41,4 @@ export function ensureTurnstileLoaded(): Promise<void> {
 
     return loadingPromise;
 }
+

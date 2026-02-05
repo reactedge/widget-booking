@@ -59,16 +59,6 @@ export const EventStateProvider: React.FC<EventStateProviderProps> = ({ children
         });
     }, [updateState]);
 
-    // 🔥 Initialize activeEventId if only one eventHost exists
-    // useEffect(() => {
-    //     if (initialised.current) return;
-    //
-    //     if (eventGroup?.eventHosts?.length === 1 && !state.eventState.activeEventId) {
-    //         toggleActiveEvent(eventGroup.eventHosts[0].eventId)
-    //         initialised.current = true
-    //     }
-    // }, [eventGroup?.eventHosts, setState, state.eventState.activeEventId]); // Dependencies ensure it runs only when needed
-
     return <LocalStateProvider
         value={{
             showBooking,

@@ -17,10 +17,10 @@ export function BookingSystemWidget({ host }: Props) {
     }
 
     return (
-        <SystemStateProvider config={booking}>
-            <UserStateProvider config={user}>
-                <BookingSystemWrapper venueId={booking.venueId} />
-            </UserStateProvider>
-        </SystemStateProvider>
+            <SystemStateProvider config={booking}>
+                <UserStateProvider config={user}>
+                    <BookingSystemWrapper venueId={booking.venueId} />
+                </UserStateProvider>
+            </SystemStateProvider>
     );
 }

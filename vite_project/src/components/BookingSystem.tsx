@@ -7,10 +7,17 @@ import {EventDashboard} from "./event/EventDashboard.tsx";
 import {BookingContextSummary} from "./event/Dashboard/BookingContextSummary.tsx";
 import {useMediaQuery} from "../hooks/ui/useMediaQuery.tsx";
 import {HostFilter} from "./event/Filter/HostFilter.tsx";
+import {Spinner} from "./global/Spinner.tsx";
 
-export function BookingSystem() {
+interface Props {
+    canStartBooking: boolean
+}
+
+export function BookingSystem({canStartBooking}: Props) {
     const { visitIntent} = useVisitIntentState();
     const isMobile = useMediaQuery('(max-width: 768px)');
+
+    if (!canStartBooking) return <Spinner />
 
     return (
         <div className="booking-system">

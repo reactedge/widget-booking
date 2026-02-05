@@ -28,13 +28,11 @@ export function useHumanVerification() {
 
     useEffect(() => {
         const onSuccess = (e: CustomEvent) => {
-            setToken(e.detail.token);
-            setVerifiedAt(Date.now());
+            onToken(e.detail.token);
         };
 
         const onExpired = () => {
-            setToken(null);
-            setVerifiedAt(null);
+            onToken(null);
         };
 
         window.addEventListener("booking:security-success", onSuccess as EventListener);
