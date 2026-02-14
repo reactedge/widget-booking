@@ -1,27 +1,32 @@
 import {useMemo} from "react";
 import {
-    type BookingWidgetConfig, readBookingHostConfig, readBookingSystemConfig,
+    type BookingWidgetConfig, readBookingConfig, readBookingIntegrationConfig,
 } from "../BookingSystemConfig.tsx";
 import type {UserConfig} from "../state/User/type.ts";
+import {activity} from "../../activity";
 
 export function useWidgetConfig(host: HTMLElement): {
     booking: BookingWidgetConfig;
     user: UserConfig
 } {
     return useMemo(() => {
-        const system = readBookingSystemConfig();
-        const hostConfig = readBookingHostConfig(host);
+        const hostConfig = readBookingConfig(host);
+        const integrationConfig = readBookingIntegrationConfig()
 
-        return Object.freeze({
+        const config = {
             booking: {
-                api: system.widgets.booking!.api,
-                venueId: hostConfig.venueId,
-                cloudflareKey: system.integrations?.cloudflare?.siteKey,
+                api: hostConfig.integrations.api!.graphql,
+                venueId: hostConfig.runtime.venue,
+                cloudflareKey: integrationConfig.integrations?.cloudflare?.siteKey,
             },
             user: {
-                auth: system.widgets.booking!.auth,
+                auth: hostConfig.integrations.api!.auth,
             }
-        });
+        }
+
+        activity('bootstrap', '[Booking] Widget config', config);
+
+        return Object.freeze(config);
     }, [host]);
 }
 
