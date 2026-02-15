@@ -40,3 +40,30 @@ npm install -g pm2
 
 
 
+these are my steps:
+- start keystone on port 3000
+- start oauth on port 3002
+- start bride on port 3003
+- widget lives on port 5173 locally
+  --> keystone needs to be allowing the frontend to consume the APIs and the secret key needs to be present in both Keystone .env file and OAuth server too
+  --> NODE_TLS_REJECT_UNAUTHORIZED should be set to 1 in production and 0 otherwise to allow self-signed certificates
+  --> FRONTEND_HOST is the frontend url: localhost:5173 on local dev
+  Keystone .env customisations
+  FRONTEND_HOST=http://localhost:5173
+  FRONTEND_PORT=5173
+  KEYSTONE_SERVICE_TOKEN
+  it is important security wise to validate keystone cannot be accessed from anywhere else but the frontend
+  widget booking api : https://booking-api.local/api/graphql (if network tab does not show any graphql call, then the keystone url is either wrong or is setup by not allowing the frontend to access it)
+- auth bridge need to be with the same site url: eg: mybooking.local, auth.mybooking.local
+
+sed -i 's/local/southerndemo.com/g' auth-bridge.southerndemo.conf
+
+Access to fetch at 'https://auth-bridge.southerndemo.com/auth/login' from origin 'https://southerndemo.com' has been blocked by CORS policy: 
+Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+cd /var/www/oauth-express
+pm2 start npm --name auth-bridge -- run start:prod
+
+# auth-bridge
+cd /var/www/auth-bridge
+pm2 start npm --name oauth-express -- run start:prod

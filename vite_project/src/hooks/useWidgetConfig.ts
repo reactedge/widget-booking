@@ -24,7 +24,7 @@ export function useWidgetConfig(host: HTMLElement): {
             }
         }
 
-        activity('bootstrap', '[Booking] Widget config', config);
+        activity('bootstrap', 'Widget config', config);
 
         return Object.freeze(config);
     }, [host]);

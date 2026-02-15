@@ -8,11 +8,13 @@ type Props = {
     host: HTMLElement;
 };
 
+export const WIDGET_ID = 'Booking';
+
 export function BookingSystemWidget({ host }: Props) {
     const { booking, user } = useWidgetConfig(host);
 
     if (!booking) {
-        activity('bootstrap', '[ContactUs] Widget is not correctly configured', null, 'warn');
+        activity('bootstrap', 'Widget is not correctly configured', null, 'warn');
         return null;
     }
 
