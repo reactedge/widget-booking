@@ -89,3 +89,8 @@ Planned work includes:
 | **auth-bridge.local**          | Hit login/refresh endpoint → DevTools → Application → Cookies → verify cookie appears                                        | Most fragile component. Must set cookie with `Secure; SameSite=None; Domain=.southerndemo.com; Path=/`. Must return `Access-Control-Allow-Origin: https://southerndemo.com` **and** `Allow-Credentials: true`. Any mismatch silently breaks auth. |
 | **southerndemo.com**           | Load page → Network tab shows widget JS `200`, no CSP/CORS errors                                                            | Host page. Must be HTTPS. Must not block third-party scripts or credentials. CSP must allow widget domain and auth-bridge. Cookies should be visible under this domain after auth.                                                                |
 | **widget.bookingsystem.co.uk** | Widget loads, then triggers calls to auth-bridge and booking-api with `credentials: include`                                 | Execution layer only. Should not read cookies manually. Should rely on browser cookie attachment. Any auth failure here usually originates upstream (cookies or CORS).                                                                            |
+
+To run the test suite:
+```bash
+npx playwright test --config=tests/playwright.dev.config.ts
+```

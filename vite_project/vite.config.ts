@@ -4,11 +4,11 @@ import pkg from './package.json';
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    allowedHosts: ['widget-booking.southerndemo.com'],
-  },
   define: {
     'process.env': {},
+  },
+  server: {
+    allowedHosts: ['widget-booking.southerndemo.com'],
   },
   build: {
     outDir: "../www",
