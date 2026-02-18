@@ -8,7 +8,7 @@ type Props = {
     host: HTMLElement;
 };
 
-export const WIDGET_ID = 'Booking';
+
 
 export function BookingSystemWidget({ host }: Props) {
     const { booking, user } = useWidgetConfig(host);

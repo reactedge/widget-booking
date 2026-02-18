@@ -1,5 +1,5 @@
 import { isActivityEnabled } from './activity.guard';
-import {WIDGET_ID} from "../src/BookingSystemWidget.tsx";
+import {WIDGET_ID} from "../src/mountWidget.tsx";
 
 type Level = 'info' | 'warn' | 'error';
 
