@@ -19,7 +19,7 @@ export function activity(
         ts: Date.now(),
     };
 
-    const prefix = `${phase}`;
+    const prefix = `[${WIDGET_ID}] ${phase}`;
 
     if (level === 'error') {
         console.error(prefix, payload);
