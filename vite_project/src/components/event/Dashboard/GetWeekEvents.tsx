@@ -8,7 +8,7 @@ import {useConfigState} from "../../../state/Config/useConfigState.ts";
 import {useMemo} from "react";
 import {useDashboardState} from "../../../state/Dashboard/useDashboardState.ts";
 import type {Venue} from "../../../types/domain/types.ts";
-import {activity} from "../../../../activity";
+import {activity} from "../../../activity";
 import {GroupEventStateProvider} from "../../../state/GroupEvent/GroupEventStateProvider.tsx";
 import {EventStateProvider} from "../../../state/Event/EventStateProvider.tsx";
 

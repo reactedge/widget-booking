@@ -6,7 +6,7 @@ import {useConfigState} from "../state/Config/useConfigState.ts";
 import {getVisitIntentStep} from "../domain/intent/getVisitIntentStep.ts";
 import type {Venue} from "../types/domain/types.ts";
 import {HostPreference} from "./HostPreference.tsx";
-import {activity} from "../../activity";
+import {activity} from "../activity";
 
 export function InitFilter() {
     const { config } = useConfigState();

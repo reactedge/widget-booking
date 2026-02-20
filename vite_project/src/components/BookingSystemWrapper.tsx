@@ -2,7 +2,7 @@ import {useVenue} from "../hooks/domain/useVenue.tsx";
 import {useEventHosts} from "../hooks/domain/useEventHosts.tsx";
 import {useEventTypeGroups} from "../hooks/domain/useEventTypeGroups.tsx";
 import {ErrorState} from "./global/ErrorState.tsx";
-import {activity} from "../../activity";
+import {activity} from "../activity";
 import {Spinner} from "./global/Spinner.tsx";
 import type {ConfigInfoState} from "../state/Config/type.ts";
 import {VisitIntentStateProvider} from "../state/Intent/VisitIntentStateProvider.tsx";

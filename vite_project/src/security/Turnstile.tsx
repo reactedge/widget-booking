@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import {activity} from "../../activity";
+import {activity} from "../activity";
 import {ensureTurnstileLoaded} from "./turnstileService.ts";
 import {verifyUser} from "../domain/user/authentication.ts";
 import {useUserState} from "../state/User/useUserState.ts";

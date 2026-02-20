@@ -1,6 +1,6 @@
 // domain/hooks/useEventTypeGroups.ts
 import {useKeystoneVenue} from "../infra/useKeystoneVenue.tsx";
-import {activity} from "../../../activity";
+import {activity} from "../../activity";
 
 export function useVenue(venueId: string) {
     activity('venue', 'Venue loaded', {venueId});

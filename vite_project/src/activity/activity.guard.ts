@@ -1,4 +1,4 @@
-import {WIDGET_ID} from "../src/mountWidget.tsx";
+import {WIDGET_ID} from "../mountWidget.tsx";
 
 const debugTargets = getDebugTargets();
 

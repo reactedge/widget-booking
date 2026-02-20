@@ -1,5 +1,5 @@
 // infra/graphqlClient.ts
-import {activity} from "../../activity";
+import {activity} from "../activity";
 
 export type GraphqlClient = <T>(
     query: string,

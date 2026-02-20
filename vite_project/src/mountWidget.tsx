@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import {BookingSystemWidget} from "./BookingSystemWidget.tsx";
-import {activity} from "../activity";
+import {activity} from "./activity";
 import {getMountedHost} from "./lib/hostReader.ts";
 
 export const WIDGET_ID = 'booking';

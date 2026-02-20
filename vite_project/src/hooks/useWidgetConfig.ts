@@ -3,7 +3,7 @@ import {
     type BookingWidgetConfig, readBookingConfig, readBookingIntegrationConfig,
 } from "../BookingSystemConfig.tsx";
 import type {UserConfig} from "../state/User/type.ts";
-import {activity} from "../../activity";
+import {activity} from "../activity";
 
 export function useWidgetConfig(host: HTMLElement): {
     booking: BookingWidgetConfig;

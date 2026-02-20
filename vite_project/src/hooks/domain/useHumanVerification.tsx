@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from "react";
-import {activity} from "../../../activity";
+import {activity} from "../../activity";
 import {useSystemState} from "../../state/System/useSystemState.ts";
 
 const WINDOW_MS = 1000 * 90;
