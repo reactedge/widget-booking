@@ -1,33 +1,54 @@
-import {useMemo} from "react";
-import {
-    type BookingWidgetConfig, readBookingConfig, readBookingIntegrationConfig,
-} from "../BookingSystemConfig.tsx";
-import type {UserConfig} from "../state/User/type.ts";
+import {useEffect, useState} from "react";
 import {activity} from "../activity";
+import {readWidgetConfig, type ResolvedBookingConfig} from "../BookingSystemConfig.tsx";
 
-export function useWidgetConfig(host: HTMLElement): {
-    booking: BookingWidgetConfig;
-    user: UserConfig
+export function useWidgetConfig(
+    host: HTMLElement
+): {
+    config: ResolvedBookingConfig | null;
+    error: Error | null;
+    loading: boolean;
 } {
-    return useMemo(() => {
-        const hostConfig = readBookingConfig(host);
-        const integrationConfig = readBookingIntegrationConfig()
 
-        const config = {
-            booking: {
-                api: hostConfig.integrations.api!.graphql,
-                venueId: hostConfig.runtime.venue,
-                cloudflareKey: integrationConfig.integrations?.cloudflare?.siteKey,
-            },
-            user: {
-                auth: hostConfig.integrations.api!.auth,
+    const [config, setConfig] = useState<ResolvedBookingConfig | null>(null);
+    const [error, setError] = useState<Error | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        async function bootstrap() {
+            try {
+                setLoading(true);
+                const resolved = await readWidgetConfig(host);
+
+                if (!cancelled) {
+                    setConfig(resolved);
+                    setError(null);
+                }
+            } catch (err) {
+                activity('bootstrap', 'Config error', {
+                    error: (err as Error).message
+                });
+
+                if (!cancelled) {
+                    setError(err as Error);
+                    setConfig(null);
+                }
+            } finally {
+                if (!cancelled) setLoading(false);
             }
         }
 
-        activity('bootstrap', 'Widget config', config);
+        bootstrap();
 
-        return Object.freeze(config);
+        return () => {
+            cancelled = true;
+        };
+
     }, [host]);
+
+    return { config, error, loading };
 }
 
 
